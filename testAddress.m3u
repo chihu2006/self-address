@@ -30,9 +30,10 @@ https://live.catvod.com/catvod_com.php?id=viusix_twn
 #EXTVLCOPT:http-user-agent=catvod.com
 https://live.catvod.com/catvod_com.php?id=cctv1|User-Agent:catvod.com
 #EXTINF:-1 tvg-id="cctv2" tvg-name="CCTV-2 财经" group-title="央视频道",CCTV-2 财经
+#EXTVLCOPT:http-user-agent=YourUserAgentString
 https://live.catvod.com/catvod_com.php?id=cctv2
 #EXTINF:-1 tvg-id="cctv3" tvg-name="CCTV-3 综艺 HD" group-title="央视频道",CCTV-3 综艺 HD
-https://live.catvod.com/catvod_com.php?id=cctv3
+https://live.catvod.com/catvod_com.php?id=cctv3|User-Agent:catvod.com
 #EXTINF:-1 tvg-id="cctv4" tvg-name="CCTV-4 中文国际" group-title="央视频道",CCTV-4 中文国际
 https://live.catvod.com/catvod_com.php?id=cctv4
 #EXTINF:-1 tvg-id="Cctv4" tvg-name="CCTV4 新闻台" group-title="央视频道",CCTV4 新闻台
