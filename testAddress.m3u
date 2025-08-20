@@ -27,6 +27,7 @@ https://live.catvod.com/catvod_com.php?id=phoenixinfo_hd
 https://live.catvod.com/catvod_com.php?id=viusix_twn
 
 #EXTINF:-1 tvg-id="cctv1" tvg-name="CCTV-1 综合 HD" group-title="央视频道",CCTV-1 综合 HD
+#EXTVLCOPT:http-user-agent=catvod.com
 https://live.catvod.com/catvod_com.php?id=cctv1|User-Agent:catvod.com
 #EXTINF:-1 tvg-id="cctv2" tvg-name="CCTV-2 财经" group-title="央视频道",CCTV-2 财经
 https://live.catvod.com/catvod_com.php?id=cctv2
