@@ -13,18 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repo
+      # 1. Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Setup Node.js
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # Cache node_modules to speed up Playwright installs
-      - name: Cache node_modules
+      # 3. Cache node_modules and Playwright browsers
+      - name: Cache node_modules and Playwright browsers
         uses: actions/cache@v3
         with:
           path: |
@@ -33,14 +33,14 @@ jobs:
             ~/.cache/ms-playwright
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
-      # Install Playwright and Chromium if needed
+      # 4. Install Playwright and Chromium
       - name: Install Playwright
         run: |
           npm init -y
           npm install playwright
           npx playwright install chromium
 
-      # Create fetch script
+      # 5. Create fetch script
       - name: Create fetch script
         run: |
           cat > fetch-m3u.js <<'EOF'
@@ -60,11 +60,11 @@ jobs:
           })();
           EOF
 
-      # Run fetch script
+      # 6. Run fetch script
       - name: Run fetch script
         run: node fetch-m3u.js
 
-      # Commit and push changes
+      # 7. Commit and push changes if file updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
