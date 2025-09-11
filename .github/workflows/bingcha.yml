@@ -1,23 +1,74 @@
-- name: Fetch bingcha.m3u
-  run: |
-    node <<'JS'
-    const { chromium } = require('playwright');
-    const fs = require('fs');
+name: Fetch BINGCHA M3U via Playwright
 
-    (async () => {
-      const browser = await chromium.launch({
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
-      });
-      const page = await browser.newPage();
+on:
+  schedule:
+    - cron: "0 0 * * *"  # daily at midnight UTC
+  workflow_dispatch:
 
-      // Go to URL (Cloudflare JS challenge may run)
-      await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', { waitUntil: 'networkidle' });
+permissions:
+  contents: write
 
-      // Get the page content
-      const bodyText = await page.evaluate(() => document.body.innerText);
+jobs:
+  fetch-m3u:
+    runs-on: ubuntu-latest
 
-      fs.writeFileSync('bingcha.m3u', bodyText);
-      await browser.close();
-    })();
-    JS
+    steps:
+      # Checkout repo
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Cache node_modules to speed up Playwright installs
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      # Install Playwright and Chromium if needed
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install playwright
+          npx playwright install chromium
+
+      # Create fetch script
+      - name: Create fetch script
+        run: |
+          cat > fetch-m3u.js <<'EOF'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+
+          (async () => {
+            const browser = await chromium.launch({
+              headless: true,
+              args: ['--no-sandbox', '--disable-setuid-sandbox']
+            });
+            const page = await browser.newPage();
+            await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', { waitUntil: 'networkidle' });
+            const bodyText = await page.evaluate(() => document.body.innerText);
+            fs.writeFileSync('bingcha.m3u', bodyText);
+            await browser.close();
+          })();
+          EOF
+
+      # Run fetch script
+      - name: Run fetch script
+        run: node fetch-m3u.js
+
+      # Commit and push changes
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bingcha.m3u
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u"
+          git push origin HEAD:main
