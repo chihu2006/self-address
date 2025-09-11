@@ -9,8 +9,14 @@ jobs:
   fetch-and-commit:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Pull latest changes
+        run: git pull --rebase origin main
+
       - name: Checkout repo
         uses: actions/checkout@v4
+          with:
+          fetch-depth: 0
 
       - name: Download M3U file
         run: |
