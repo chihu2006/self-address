@@ -1,7 +1,7 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
-const proxifly = const proxifly = new(require('proxifly'))({
+const proxifly = new(require('proxifly'))({
   // Not required, but having one removes limits (get your key at https://proxifly.dev).
   apiKey: '8Erh9PqTFMH8xmpHoABsJXTkvutHM62D6WanPXWcUy9E'
 });
