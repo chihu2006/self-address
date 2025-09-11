@@ -1,4 +1,4 @@
-name: Fetch BINGCHA M3U via Playwright
+name: Fetch BINGCHA M3U via Proxy
 
 on:
   schedule:
@@ -13,23 +13,67 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Install dependencies
+      # 3. Create Node.js script
+      - name: Create fetch-m3u script
         run: |
-          npm install playwright
-          npx playwright install chromium
+          cat > fetch-m3u.js << 'EOF'
+          const fs = require('fs');
+          const https = require('https');
+          const HttpsProxyAgent = require('https-proxy-agent');
 
+          const PROXY = 'http://222.252.194.29:8080';
+          const URL = 'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true';
+          const OUTPUT = 'bingcha.m3u';
+          const MAX_RETRIES = 5;
+
+          function fetchM3U(attempt = 1) {
+            console.log(`Attempt ${attempt}: Fetching M3U via proxy ${PROXY}...`);
+            const agent = new HttpsProxyAgent(PROXY);
+
+            const file = fs.createWriteStream(OUTPUT);
+            const req = https.get(URL, { agent, headers: { 'User-Agent': 'curl/8.13.0' } }, (res) => {
+              res.pipe(file);
+              file.on('finish', () => {
+                file.close();
+                console.log('M3U fetch completed successfully!');
+              });
+            });
+
+            req.on('error', (err) => {
+              fs.unlinkSync(OUTPUT, { force: true });
+              console.error(`Attempt ${attempt} failed:`, err.message);
+              if (attempt < MAX_RETRIES) {
+                setTimeout(() => fetchM3U(attempt + 1), 5000);
+              } else {
+                console.error('All attempts failed. Could not fetch M3U.');
+                process.exit(1);
+              }
+            });
+          }
+
+          fetchM3U();
+          EOF
+
+      # 4. Install proxy agent
+      - name: Install dependencies
+        run: npm install https-proxy-agent
+
+      # 5. Run fetch script
       - name: Run fetch script
         run: node fetch-m3u.js
 
-      - name: Commit & push if bingcha.m3u updated
+      # 6. Commit & push if bingcha.m3u updated
+      - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
