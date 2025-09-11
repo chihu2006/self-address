@@ -1,17 +1,22 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
-const Proxifly = require('proxifly');
-const proxifly = new Proxifly({apiKey: '8Erh9PqTFMH8xmpHoABsJXTkvutHM62D6WanPXWcUy9E'});
+const proxifly = new (require('proxifly'))({
+  // Not required, but having one removes limits (get your key at https://proxifly.dev).
+  apiKey: '8Erh9PqTFMH8xmpHoABsJXTkvutHM62D6WanPXWcUy9E'
+});
 
 const MAX_RETRIES = 50; // Max proxies to try
 
 // Proxifly options
-const options = {
-  countries: ['US', 'RU'],
-  protocol: ['http', 'socks4'],
-  quantity: 20,
-  https: true,
+var options = {
+  protocol: 'http', // http | socks4 | socks5
+  anonymity: 'elite', // transparent | anonymous | elite
+  country: 'US', // https://www.nationsonline.org/oneworld/country_code_list.htm
+  https: true, // true | false
+  speed: 10000, // 0 - 60000
+  format: 'json', // json | text
+  quantity: 1, // 1 - 20
 };
 
 (async () => {
