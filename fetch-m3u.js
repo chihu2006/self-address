@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 (async () => {
-  const PROXY = 'http://222.252.194.29:8080'; // fixed proxy
+  const PROXY = 'http://222.252.194.29:8080';
   const URL = 'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true';
   const OUTPUT = path.join(process.cwd(), 'bingcha.m3u');
 
@@ -23,20 +23,16 @@ const path = require('path');
 
     const page = await context.newPage();
 
-    // Listen for download events
-    page.on('download', async (download) => {
-      await download.saveAs(OUTPUT);
-      console.log('M3U file downloaded successfully at', OUTPUT);
-    });
+    console.log('Navigating to M3U URL and waiting for download...');
+    const [download] = await Promise.all([
+      page.waitForEvent('download'), // wait for the download event
+      page.goto(URL, { waitUntil: 'domcontentloaded', timeout: 120000 }) // trigger download
+    ]);
 
-    console.log('Navigating to M3U URL...');
-    await page.goto(URL, { waitUntil: 'load', timeout: 120000 });
-
-    // Wait a few seconds to ensure download fires
-    await page.waitForTimeout(5000);
+    await download.saveAs(OUTPUT);
+    console.log('M3U file downloaded successfully at', OUTPUT);
 
     await browser.close();
-    console.log('Browser closed. Done!');
   } catch (err) {
     console.error('Error fetching M3U:', err);
     process.exit(1);
