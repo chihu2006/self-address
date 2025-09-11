@@ -1,8 +1,5 @@
 name: Fetch M3U
 
-permissions:
-  contents: write
-
 on:
   schedule:
     - cron: "0 0 * * *"   # runs every day at midnight UTC
