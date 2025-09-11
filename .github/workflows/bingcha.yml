@@ -25,11 +25,12 @@ jobs:
         with:
           node-version: '20'
 
-      # Install Playwright
+      # Install Playwright and Chromium browser
       - name: Install Playwright
         run: |
           npm init -y
           npm install playwright
+          npx playwright install chromium
 
       # Fetch the M3U file using headless browser
       - name: Fetch bingcha.m3u
@@ -42,15 +43,10 @@ jobs:
             const browser = await chromium.launch();
             const page = await browser.newPage();
 
-            // Go to URL (Cloudflare JS challenge will run)
+            // Go to URL (Cloudflare JS challenge may run)
             await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', { waitUntil: 'networkidle' });
 
-            // Get the page content (the real M3U should be in response body)
-            const content = await page.content();
-
-            // Cloudflare sometimes returns M3U directly as text/plain
-            // If not, you may need to extract the <pre> or <body> text
-            // Here we just save page.textContent
+            // Get the page content
             const bodyText = await page.evaluate(() => document.body.innerText);
 
             fs.writeFileSync('bingcha.m3u', bodyText);
@@ -58,7 +54,7 @@ jobs:
           })();
           JS
 
-      # Commit and push changes
+      # Commit and push changes if file updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
