@@ -1,32 +1,34 @@
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
-const { HttpsProxyAgent } = require('https-proxy-agent');
-
-const proxy = 'http://222.252.194.29:8080';
+const https = require('https');
 const url = 'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true';
 
-(async () => {
-  try {
-    console.log(`Fetching M3U via proxy: ${proxy}`);
+// HTTP proxy config
+const proxy = { host: '222.252.194.29', port: 8080 }; // HTTP proxy
 
-    const agent = new HttpsProxyAgent(proxy);
+const filePath = path.join(process.cwd(), 'bingcha.m3u');
 
-    const res = await fetch(url, {
-      agent,
-      headers: { 'User-Agent': 'curl/8.13.0', 'Accept': '*/*' },
-      timeout: 120000
+const options = {
+  host: proxy.host,
+  port: proxy.port,
+  method: 'CONNECT',
+  path: 'fy.188766.xyz:443',
+};
+
+const req = https.request(options);
+req.on('connect', (res, socket, head) => {
+  https.get({
+    host: 'fy.188766.xyz',
+    path: '/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true',
+    agent: new https.Agent({ socket }),
+    headers: { 'User-Agent': 'curl/8.13.0' },
+  }, (res) => {
+    let data = '';
+    res.on('data', chunk => data += chunk);
+    res.on('end', () => {
+      fs.writeFileSync(filePath, data);
+      console.log('M3U saved successfully:', filePath);
     });
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    const body = await res.text();
-    const filePath = path.join(process.cwd(), 'bingcha.m3u');
-    fs.writeFileSync(filePath, body);
-
-    console.log('M3U saved successfully:', filePath);
-  } catch (err) {
-    console.error('Error fetching M3U:', err);
-    process.exit(1);
-  }
-})();
+  });
+});
+req.end();
