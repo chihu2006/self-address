@@ -23,18 +23,24 @@ jobs:
         with:
           node-version: '20'
 
-      # 3. Create Node.js script
-      - name: Create fetch-m3u script
+      # 3. Install dependencies
+      - name: Install dependencies
         run: |
-          cat > fetch-m3u.js << 'EOF'
+          npm init -y
+          npm install https-proxy-agent
+
+      # 4. Add fetch script
+      - name: Create fetch-m3u.js
+        run: |
+          cat << 'EOF' > fetch-m3u.js
           const fs = require('fs');
           const https = require('https');
-          const HttpsProxyAgent = require('https-proxy-agent');
+          const { HttpsProxyAgent } = require('https-proxy-agent');
 
           const PROXY = 'http://222.252.194.29:8080';
           const URL = 'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true';
           const OUTPUT = 'bingcha.m3u';
-          const MAX_RETRIES = 5;
+          const MAX_RETRIES = 10;
 
           function fetchM3U(attempt = 1) {
             console.log(`Attempt ${attempt}: Fetching M3U via proxy ${PROXY}...`);
@@ -63,10 +69,6 @@ jobs:
 
           fetchM3U();
           EOF
-
-      # 4. Install proxy agent
-      - name: Install dependencies
-        run: npm install https-proxy-agent
 
       # 5. Run fetch script
       - name: Run fetch script
