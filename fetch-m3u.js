@@ -4,29 +4,35 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 const PROXY_LIST_URL = 'https://raw.githubusercontent.com/proxifly/free-proxy-list/refs/heads/main/proxies/all/data.txt';
-const MAX_RETRIES = 50; // Try up to 5 proxies
+const MAX_RETRIES = 150; // max proxies to try
 
 (async () => {
   try {
-    // Fetch proxy list
+    // 1. Fetch proxy list
     const res = await fetch(PROXY_LIST_URL);
     if (!res.ok) throw new Error(`Failed to fetch proxy list: ${res.status}`);
-    const proxies = (await res.text())
+    let proxies = (await res.text())
       .split('\n')
       .map(p => p.trim())
       .filter(Boolean);
 
     if (proxies.length === 0) throw new Error('No proxies found');
 
+    // 2. Shuffle proxies to try in random order
+    proxies = proxies.sort(() => Math.random() - 0.5);
+
     let success = false;
+    const tried = new Set();
+
     for (let i = 0; i < Math.min(MAX_RETRIES, proxies.length); i++) {
-      const proxy = proxies[Math.floor(Math.random() * proxies.length)];
+      const proxy = proxies[i];
+      tried.add(proxy);
       console.log(`Trying proxy: ${proxy}`);
 
       try {
         const browser = await chromium.launch({
           headless: true,
-          proxy: { server: `http://${proxy}` },
+          proxy: { server: `http://${proxy}` }, // or socks5:// if proxy requires
           args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
@@ -47,11 +53,11 @@ const MAX_RETRIES = 50; // Try up to 5 proxies
 
         const filePath = path.join(process.cwd(), 'bingcha.m3u');
         fs.writeFileSync(filePath, bodyText);
-        console.log('M3U file saved successfully!');
 
+        console.log('M3U file saved successfully!');
         await browser.close();
         success = true;
-        break; // exit retry loop
+        break; // exit loop
       } catch (err) {
         console.warn(`Proxy ${proxy} failed: ${err.message}`);
       }
