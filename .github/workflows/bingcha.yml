@@ -27,7 +27,6 @@ jobs:
       - name: Install dependencies
         run: |
           npm install playwright
-          npm install proxifly
           npx playwright install chromium
 
       # 4. Run fetch script
