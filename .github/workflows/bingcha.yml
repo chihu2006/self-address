@@ -24,7 +24,7 @@ jobs:
           node-version: '20'
 
       # 3. Cache node_modules and Playwright browsers
-      - name: Cache node_modules and Playwright browsers
+      - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: |
@@ -36,35 +36,14 @@ jobs:
       # 4. Install Playwright and Chromium
       - name: Install Playwright
         run: |
-          npm init -y
           npm install playwright
           npx playwright install chromium
 
-      # 5. Create fetch script
-      - name: Create fetch script
-        run: |
-          cat > fetch-m3u.js <<'EOF'
-          const { chromium } = require('playwright');
-          const fs = require('fs');
-
-          (async () => {
-            const browser = await chromium.launch({
-              headless: true,
-              args: ['--no-sandbox', '--disable-setuid-sandbox']
-            });
-            const page = await browser.newPage();
-            await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', { waitUntil: 'networkidle' });
-            const bodyText = await page.evaluate(() => document.body.innerText);
-            fs.writeFileSync('bingcha.m3u', bodyText);
-            await browser.close();
-          })();
-          EOF
-
-      # 6. Run fetch script
+      # 5. Run fetch script
       - name: Run fetch script
         run: node fetch-m3u.js
 
-      # 7. Commit and push changes if file updated
+      # 6. Commit and push if bingcha.m3u updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
