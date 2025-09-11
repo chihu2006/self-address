@@ -4,7 +4,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 const PROXY_LIST_URL = 'https://raw.githubusercontent.com/proxifly/free-proxy-list/refs/heads/main/proxies/all/data.txt';
-const MAX_RETRIES = 5; // Try up to 5 proxies
+const MAX_RETRIES = 50; // Try up to 5 proxies
 
 (async () => {
   try {
