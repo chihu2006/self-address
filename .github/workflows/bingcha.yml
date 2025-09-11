@@ -41,7 +41,7 @@ jobs:
 
       # 5. Run fetch script
       - name: Run fetch script
-        run: node fetch-m3u.js
+        run: node .github/workflows/fetch-m3u.js
 
       # 6. Commit and push if bingcha.m3u updated
       - name: Commit & push
