@@ -8,13 +8,10 @@ const MAX_RETRIES = 50; // Max proxies to try
 
 // Proxifly options
 const options = {
-  protocol: ['http', 'socks4','socks5'],       // http | socks4 | socks5
-  //anonymity: 'elite',     // transparent | anonymous | elite
-  //country: 'US',          // optional: country code
-  //https: true,            // true | false
-  speed: 10000,           // max latency in ms
-  format: 'json',         // json | text
-  quantity: 1,            // number of proxies to fetch each try
+  countries: ['US', 'RU'],
+  protocol: ['http', 'socks4'],
+  quantity: 20,
+  https: true,
 };
 
 (async () => {
