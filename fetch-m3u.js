@@ -3,25 +3,38 @@ const fs = require('fs');
 const path = require('path');
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
+  // Replace with your proxy details
+  // Format: http://username:password@proxy-ip:port
+  const proxyServer = 'http://82.102.10.253:80';
+
+  const browser = await chromium.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    proxy: {
+      server: proxyServer
+    }
+  });
+
+  const context = await browser.newContext({
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    extraHTTPHeaders: {
+      'Accept-Language': 'en-US,en;q=0.9'
+    }
+  });
+
   const page = await context.newPage();
 
-  // Navigate to M3U URL
   await page.goto(
     'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true',
     { waitUntil: 'load', timeout: 120000 }
   );
 
-  // Wait for body to render (Cloudflare JS challenge)
   await page.waitForSelector('body', { timeout: 120000 });
 
-  // Extract M3U content from the page
   const bodyText = await page.evaluate(() => document.body.innerText);
-
-  // Save in repo root
   fs.writeFileSync(path.join(process.cwd(), 'bingcha.m3u'), bodyText);
-  console.log('M3U file saved successfully!');
 
+  console.log('M3U file saved successfully via proxy!');
   await browser.close();
 })();
