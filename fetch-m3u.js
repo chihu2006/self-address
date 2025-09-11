@@ -20,16 +20,31 @@ const path = require('path');
 
     const page = await context.newPage();
 
+    // Catch the response
+    let m3uContent = '';
+    page.on('response', async (response) => {
+      const url = response.url();
+      if (url.includes('fy.188766.xyz')) { // target M3U URL
+        try {
+          m3uContent = await response.text();
+        } catch (err) {
+          console.warn('Failed to read response text:', err);
+        }
+      }
+    });
+
     console.log('Navigating to M3U URL...');
     await page.goto(
       'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true',
-      { waitUntil: 'load', timeout: 120000 }
+      { waitUntil: 'domcontentloaded', timeout: 120000 }
     );
 
-    const bodyText = await page.evaluate(() => document.body.innerText);
+    if (!m3uContent) {
+      throw new Error('M3U content not captured from response');
+    }
 
     const filePath = path.join(process.cwd(), 'bingcha.m3u');
-    fs.writeFileSync(filePath, bodyText);
+    fs.writeFileSync(filePath, m3uContent);
     console.log('M3U file saved successfully at', filePath);
 
     await browser.close();
