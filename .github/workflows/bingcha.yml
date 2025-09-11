@@ -1,26 +1,39 @@
-name: Fetch M3U
+name: Fetch BINGCHA M3U
 
+# Run daily at midnight UTC and allow manual trigger
 on:
   schedule:
-    - cron: "0 0 * * *"   # runs every day at midnight UTC
-  workflow_dispatch:       # allows manual trigger
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+# Ensure the workflow has write access
+permissions:
+  contents: write
 
 jobs:
   fetch-and-commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      # Checkout the repo
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      - name: Download M3U file
+      # Download the M3U file
+      - name: Download bingcha.m3u
         run: |
           curl -L "https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" -o bingcha.m3u
 
-      - name: Commit and push if changed
+      # Commit & push changes safely
+      - name: Commit & push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add bingcha.m3u
+          # Only commit if file changed
           git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u"
-          git pull --rebase origin main
+          # Pull remote changes to avoid non-fast-forward errors
+          git pull --rebase origin main || echo "Nothing to pull"
+          # Push the updated file
           git push origin HEAD:main
