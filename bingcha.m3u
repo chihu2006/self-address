@@ -1,7 +1,61 @@
-fy.188766.xyz
-
-Verifying you are human. This may take a few seconds.
-
-fy.188766.xyz needs to review the security of your connection before proceeding.
-Ray ID: 97d734fae9832320
-Performance & security by Cloudflare
+#EXTM3U x-tvg-url="https://show.188766.xyz/e.xml"
+#EXTINF:-1 tvg-id="CCTV1" tvg-name="CCTV1" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV1.png" group-title="央视频道",CCTV-1 综合
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/608807420.m3u8?sign=14697c625e5d6e574b3e83f84a00cbaa&tm=1757585563&token=f85336aae348beccadf1d903eb5ea96e2e5eb841cc7cfbc1090d77e1bbbc73f31f2d33772bc4b81ff0d592adf1a8a69d34891ebb64c681c83a546be2bf44f29c30f66bcd4225426e6e9ab38bf6
+#EXTINF:-1 tvg-id="CCTV2" tvg-name="CCTV2" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV2.png" group-title="央视频道",CCTV-2 财经
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/631780532.m3u8?sign=ddce07eeb37857ae01b1e83831e30634&tm=1757585563&token=08b393ab188134ca1ce7a7b51b0bdebaac120e479f6042169c3e4e3d7746d14008a280eddd4b54b009468ce4743a172dc54e1241be08d6e4e61a4994dec9bdf040f2c5312510f902aa8bfbd6e2
+#EXTINF:-1 tvg-id="CCTV3" tvg-name="CCTV3" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV3.png" group-title="央视频道",CCTV-3 综艺
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/624878271.m3u8?sign=da85a946186bdcabda2c74531ad60abb&tm=1757585563&token=c0fe742d36fdb28f980519218cc888e3aadbc4e4c1ac0fe94aab8ba0f9dca35818bde68cd9caa8a422cf4d30bc3f776e7aec506ab2af1cffcf36d33b29c2587371d6e935f246d7f789c9ac9385
+#EXTINF:-1 tvg-id="CCTV4" tvg-name="CCTV4" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV4.png" group-title="央视频道",CCTV-4 中文国际
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/631780421.m3u8?sign=a675f65668a8db667630d55538e2d13c&tm=1757585563&token=7e7f5acfb8170d72b306944f15c2a8ab1b505d3b1217934441b839c834b96d436dd161b36c9b83e36c9fdd8a23965647e39402316c06132bdb41774811c3e5b738983e203db493cffa14d0199c
+#EXTINF:-1 tvg-id="CCTV5" tvg-name="CCTV5" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV5.png" group-title="央视频道",CCTV-5 体育
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/641886683.m3u8?sign=3e3b74cc397ff294019b8fe2ff64100e&tm=1757585563&token=f63bcfbc80d92753748871d53f5a1a858c9c9632c5db7e62bfe08d3996ffa6cd5a085d4038b51e204b6b46768c9548b185543e7ee7c5040d04d6494037acedc2765529407eeca8c087079811f1
+#EXTINF:-1 tvg-id="CCTV5+" tvg-name="CCTV5+" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV5+.png" group-title="央视频道",CCTV-5+ 体育赛事
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/641886773.m3u8?sign=374d178c185ff10d6a07c37a8c9d50f8&tm=1757585563&token=de431ecd50ecd181ad43b652275ce234a93e3be6723f1f1b5a1a9cd0c5ec7e287a99d73df089162eded55501c285c8fb0b4ceafca711de5811a8018d5c29cbc899b8c2d67a6cbf9a46f5538f45
+#EXTINF:-1 tvg-id="CCTV6" tvg-name="CCTV6" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV6.png" group-title="央视频道",CCTV-6 电影
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/624878396.m3u8?sign=3988c79c004a219f004229787b830007&tm=1757585563&token=02c353ea2678b4a85f4767da9388b12e32e44ea0de779386d6db6856ad44457cf949636ba6c7d32f09f26b06a035c6d5120dff034627dff1b2c81867568eeed788789f12c368541c93ed1daa4e
+#EXTINF:-1 tvg-id="CCTV7" tvg-name="CCTV7" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV7.png" group-title="央视频道",CCTV-7 国防军事
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/673168121.m3u8?sign=9f85f3f7cdf4d12b16c5421061a3864a&tm=1757585563&token=593ea0b13c3f8fbfa784e2e969111e8a1c1f15990c8c92dc3baa3fb5885e6712ebcc997fe917013ac87b066d306ba0eaff5a0251737f068454b6fd09d23e4c08e0e6621ff05ca96b1b9ca59216
+#EXTINF:-1 tvg-id="CCTV8" tvg-name="CCTV8" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV8.png" group-title="央视频道",CCTV-8 电视剧
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/624878356.m3u8?sign=2e683f14246e8f6317d67d012b7593fc&tm=1757585563&token=d4477bd72d25cb82c0478ccbad309e25e7e60c4710b7eefcce0585f9b20fd8322f32e21cdceda5559b53090c5a9bea640878ff2c0a43d913916971c2bf7497e96754cde4722d416b3ecb6ea9a1
+#EXTINF:-1 tvg-id="CCTV9" tvg-name="CCTV9" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV9.png" group-title="央视频道",CCTV-9 纪录
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/673168140.m3u8?sign=486d10e2038bea77631dcfe8b9642fd3&tm=1757585563&token=61998afa5b98dfca3aa15abc0d3741e0d8f54958e7efedcb02aa6f499bcd74f91d21085ecee1e6c36f348a66f3437d0fb293a4ebd3fa74a031927357115378d5d1144965c4b9ca4576b05b3a1a
+#EXTINF:-1 tvg-id="CCTV10" tvg-name="CCTV10" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV10.png" group-title="央视频道",CCTV-10 科教
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/624878405.m3u8?sign=884759d83e64f4e3103b92646d473580&tm=1757585563&token=141ae2ba1047cd6cec626213d494f5d7662ceb0de626c8a10cc10ff3e1bce28fa4daaa5e8403c475dcc2c0462dac381c43ad4e685d452fcbe8a38ebbe19bdffb284f82e12bcf26b97ff719dabc
+#EXTINF:-1 tvg-id="CCTV11" tvg-name="CCTV11" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV11.png" group-title="央视频道",CCTV-11 戏曲
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/667987558.m3u8?sign=3807647d8ed1c07a6165f7b8107b986a&tm=1757585563&token=215ba7a7667160911721b17f290206ffe0756b2dee9716af5f3ad171748ac3e3788ed6be8faa3fe338797b9a0322963ee52008f1c5a524078a3be492b07dc890037116464128c3dcaf6e92d5da
+#EXTINF:-1 tvg-id="CCTV12" tvg-name="CCTV12" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV12.png" group-title="央视频道",CCTV-12 社会与法
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/673168185.m3u8?sign=3420b5d6d0d094678a675e5cf7fafa7b&tm=1757585563&token=55cffc07f834ef2cb08afed3ce58cc42b1ff1a6772bd9a3aa6e6f8513a34ffcdc416c40dff78e77ad96ab837a6ce0ad55c77fa9a095eba27d53fdfe80cea44dee715be046c6d5faf120cbd7ce6
+#EXTINF:-1 tvg-id="CCTV13" tvg-name="CCTV13" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV13.png" group-title="央视频道",CCTV-13 新闻
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/608807423.m3u8?sign=ca093b57368004e7978c429b6aaa0fad&tm=1757585563&token=08859da6d66a33d1269092c01b71e309556f7548ba4cff86fd8edcc3ded87466ce9846f7700cc00f7472b7e4e9277088bbd9f1a5ce4374f7755fc233a5594234851edec980efb4652cc1cb5ece
+#EXTINF:-1 tvg-id="CCTV14" tvg-name="CCTV14" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV14.png" group-title="央视频道",CCTV-14 少儿
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/624878440.m3u8?sign=bd2fc36f478af2e738147aaab489979d&tm=1757585563&token=95014e04f1030df88590d5c4b34fd00aa3f1acbf341dcac350a6114d1d6609ecf197ae30d9d65b1ed85b0028494a8d83365ed666d1946942c3e903e20f6dd723237bf617a82333861167cc6f30
+#EXTINF:-1 tvg-id="CCTV15" tvg-name="CCTV15" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV15.png" group-title="央视频道",CCTV-15 音乐
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/673168223.m3u8?sign=505e9694b4e19d9e6a55af06c4f1b207&tm=1757585563&token=f6ac3d485df72a4a2cb3d499b4e0694247dd80b7d3dfcef60bc38f34c618a686ca614a9e184652ded6eca08d4e25af7e03931c0d5641fe04ac342df99fe7aad7c58a89fb1ca13528e81cc89040
+#EXTINF:-1 tvg-id="CCTV16" tvg-name="CCTV16" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV16.png" group-title="央视频道",CCTV-16 奥林匹克
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mursor.ottiptv.cc/mst/cctv16.m3u8
+#EXTINF:-1 tvg-id="CCTV16" tvg-name="CCTV16" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV16.png" group-title="央视频道",CCTV-16 奥林匹克
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mursor.ottiptv.cc/mcp/cctv16.m3u8?sign=86cccc44a60c07a5faa6bb6e43412460&tm=1757593562
+#EXTINF:-1 tvg-id="CCTV17" tvg-name="CCTV17" http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV17.png" group-title="央视频道",CCTV-17 农业农村
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/673168256.m3u8?sign=560b439876686a1041d6afacd7c1dee6&tm=1757585563&token=ab1db1f8cb291a8cc51c4ef018b5d06a3567da77ea9322e776d7e14ee1f14fdbeeee105a0fc59508c1aeafc13aa6c0c2b614dddc802513b09521b4e51d339fceca5ee08f76b7b954fb04420d4a
+#EXTINF:-1 http-user-agent="okHttp/Mod-1.3.0.0" tvg-logo="https://fy.188766.xyz/logo/fanmingming/live/tv/CCTV4欧洲.png" group-title="央视频道", CCTV4欧洲
+#EXTVLCOPT:http-user-agent=okHttp/Mod-1.3.0.0
+https://mgtv.ottiptv.cc/mg/608807419.m3u8?sign=1d9a97ec3bc33546ee88d
