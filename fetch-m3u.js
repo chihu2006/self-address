@@ -7,17 +7,21 @@ const path = require('path');
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  // Listen for the download
-  page.on('download', async (download) => {
-    const filePath = path.join(process.cwd(), 'bingcha.m3u');
-    await download.saveAs(filePath);
-    console.log('M3U file downloaded successfully!');
-  });
+  // Navigate to M3U URL
+  await page.goto(
+    'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true',
+    { waitUntil: 'load', timeout: 120000 }
+  );
 
-  // Trigger the download
-  await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', {
-    waitUntil: 'domcontentloaded'
-  });
+  // Wait for body to render (Cloudflare JS challenge)
+  await page.waitForSelector('body', { timeout: 120000 });
+
+  // Extract M3U content from the page
+  const bodyText = await page.evaluate(() => document.body.innerText);
+
+  // Save in repo root
+  fs.writeFileSync(path.join(process.cwd(), 'bingcha.m3u'), bodyText);
+  console.log('M3U file saved successfully!');
 
   await browser.close();
 })();
