@@ -5,7 +5,7 @@ const path = require('path');
 (async () => {
   // Replace with your proxy details
   // Format: http://username:password@proxy-ip:port
-  const proxyServer = 'http://82.102.10.253:80';
+  const proxyServer = 'http://185.112.151.207:8022';
 
   const browser = await chromium.launch({
     headless: true,
