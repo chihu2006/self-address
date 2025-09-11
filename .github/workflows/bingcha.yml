@@ -1,4 +1,4 @@
-name: Fetch BINGCHA M3U via Proxy
+name: Fetch BINGCHA M3U via Playwright
 
 on:
   schedule:
@@ -17,30 +17,27 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Set environment variables
-      - name: Set variables
-        run: |
-          echo "PROXY=222.252.194.29:8080" >> $GITHUB_ENV
-          echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
-          echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
-      # 3. Fetch M3U using curl with retries and partial file check
-      - name: Fetch M3U via curl
+      # 3. Install Playwright
+      - name: Install Playwright
         run: |
-          echo "Fetching M3U via proxy $PROXY..."
-          curl --fail --retry 5 --retry-delay 5 -x $PROXY -L -A "curl/8.13.0" -o $OUTPUT $URL
-          # Check if file is empty or incomplete
-          if [ ! -s $OUTPUT ]; then
-            echo "Error: Downloaded file is empty or incomplete."
-            exit 1
-          fi
-          echo "M3U fetch completed successfully."
+          npm install playwright
+          npx playwright install chromium
 
-      # 4. Commit & push if bingcha.m3u updated
+      # 4. Run fetch script
+      - name: Run fetch script
+        run: node fetch-m3u.js
+
+      # 5. Commit & push if bingcha.m3u updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add $OUTPUT
+          git add bingcha.m3u
           git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u"
           git push origin HEAD:main
