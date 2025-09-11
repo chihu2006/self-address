@@ -4,19 +4,26 @@ const fs = require('fs');
 
 (async () => {
   const browser = await chromium.launch({
-    headless: true,
+    headless: false, // visible browser
+    slowMo: 50,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
   const page = await browser.newPage();
 
-  // Navigate to the URL
-  await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', { waitUntil: 'networkidle' });
+  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+  await page.setExtraHTTPHeaders({
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Accept-Encoding': 'gzip, deflate, br'
+  });
 
-  // Get the content
+  await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', {
+    waitUntil: 'load',
+    timeout: 90000
+  });
+
+  await page.waitForSelector('body', { timeout: 90000 });
   const bodyText = await page.evaluate(() => document.body.innerText);
 
-  // Save to file
   fs.writeFileSync('bingcha.m3u', bodyText);
-
   await browser.close();
 })();
