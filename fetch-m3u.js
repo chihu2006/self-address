@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-const PROXY_LIST_URL = 'https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/socks5.txt';
+const PROXY_LIST_URL = 'https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt';
 const MAX_RETRIES = 50; // Max proxies to try
 
 function fetchProxyList() {
@@ -23,7 +23,7 @@ function fetchProxyList() {
   let success = false;
 
   try {
-    console.log('Fetching proxy list...');
+    console.log('Fetching HTTP proxy list...');
     const proxies = await fetchProxyList();
     if (!proxies.length) throw new Error('No proxies found');
 
@@ -37,7 +37,7 @@ function fetchProxyList() {
       try {
         const browser = await chromium.launch({
           headless: true,
-          proxy: { server: `socks5://${proxy}` },
+          proxy: { server: `http://${proxy}` }, // switched to http://
           args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
