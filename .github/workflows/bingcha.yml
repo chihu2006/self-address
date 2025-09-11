@@ -1,32 +1,28 @@
-name: Fetch BINGCHA M3U (PAT Push)
+name: Fetch M3U
+
+permissions:
+  contents: write
 
 on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   fetch-and-commit:
     runs-on: ubuntu-latest
     steps:
-      # Checkout using PAT to allow push/fetch
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_TOKEN }}
-          fetch-depth: 0
           persist-credentials: true
 
-      - name: Download bingcha.m3u
-        run: |
-          curl -L "https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" -o bingcha.m3u
+      - name: Download M3U
+        run: curl -L "https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" -o bingcha.m3u
 
-      - name: Commit & push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add bingcha.m3u
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u"
-          git push origin HEAD:main --force
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github-actions[bot]
+          author_email: github-actions[bot]@users.noreply.github.com
+          message: "Update bingcha.m3u"
+          add: "bingcha.m3u"
