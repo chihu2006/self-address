@@ -1,12 +1,13 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
-const proxifly = require('proxifly');
+const proxifly = const proxifly = new(require('proxifly'))({
+  // Not required, but having one removes limits (get your key at https://proxifly.dev).
+  apiKey: '8Erh9PqTFMH8xmpHoABsJXTkvutHM62D6WanPXWcUy9E'
+});
 
 const MAX_RETRIES = 50; // Max proxies to try
 
-// Directly embed the API key
-const API_KEY = '8Erh9PqTFMH8xmpHoABsJXTkvutHM62D6WanPXWcUy9E';
 
 // Proxifly options
 const options = {
@@ -17,7 +18,6 @@ const options = {
   speed: 10000,           // max latency in ms
   format: 'json',         // json | text
   quantity: 1,            // number of proxies to fetch each try
-  key: API_KEY            // API key
 };
 
 (async () => {
