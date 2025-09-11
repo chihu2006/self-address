@@ -1,25 +1,68 @@
-name: Fetch M3U
+name: Fetch BINGCHA M3U via Playwright
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # runs every day at midnight UTC
-  workflow_dispatch:       # allows manual trigger
+    - cron: "0 0 * * *"  # daily at midnight UTC
+  workflow_dispatch:      # manual trigger
+
+permissions:
+  contents: write
 
 jobs:
-  fetch-and-commit:
+  fetch-m3u:
     runs-on: ubuntu-latest
+
     steps:
+      # Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      - name: Download M3U file
+      # Install Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Install Playwright
+      - name: Install Playwright
         run: |
-          curl -L "https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" -o bingcha.m3u
+          npm init -y
+          npm install playwright
 
-      - name: Commit and push if changed
+      # Fetch the M3U file using headless browser
+      - name: Fetch bingcha.m3u
+        run: |
+          node <<'JS'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+
+          (async () => {
+            const browser = await chromium.launch();
+            const page = await browser.newPage();
+
+            // Go to URL (Cloudflare JS challenge will run)
+            await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', { waitUntil: 'networkidle' });
+
+            // Get the page content (the real M3U should be in response body)
+            const content = await page.content();
+
+            // Cloudflare sometimes returns M3U directly as text/plain
+            // If not, you may need to extract the <pre> or <body> text
+            // Here we just save page.textContent
+            const bodyText = await page.evaluate(() => document.body.innerText);
+
+            fs.writeFileSync('bingcha.m3u', bodyText);
+            await browser.close();
+          })();
+          JS
+
+      # Commit and push changes
+      - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add bingcha.m3u
           git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u"
-          git push
+          git push origin HEAD:main
