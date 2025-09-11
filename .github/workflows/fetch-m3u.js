@@ -2,29 +2,33 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 
 (async () => {
-  // Launch headless browser (needed to create a context)
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
+  // Launch headless browser
+  const browser = await chromium.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
 
-  // Use Playwright request to fetch the M3U
-  const response = await context.request.get(
-    'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true',
-    {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept-Language': 'en-US,en;q=0.9'
-      }
+  const context = await browser.newContext({
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    extraHTTPHeaders: {
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Encoding': 'gzip, deflate, br'
     }
-  );
+  });
 
-  if (!response.ok()) {
-    console.error(`Failed to fetch M3U: ${response.status()}`);
-    await browser.close();
-    process.exit(1);
-  }
+  const page = await context.newPage();
 
-  // Get the M3U content as text
-  const bodyText = await response.text();
+  // Go to the M3U URL (Cloudflare JS challenge will run)
+  await page.goto('https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true', {
+    waitUntil: 'load',
+    timeout: 120000 // 2 minutes in case of slow JS challenge
+  });
+
+  // Wait for page body to render
+  await page.waitForSelector('body', { timeout: 120000 });
+
+  // Extract M3U content
+  const bodyText = await page.evaluate(() => document.body.innerText);
   fs.writeFileSync('bingcha.m3u', bodyText);
 
   console.log('M3U file saved successfully!');
