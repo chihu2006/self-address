@@ -23,27 +23,18 @@ jobs:
         with:
           node-version: '20'
 
-      # 3. Cache node_modules and Playwright browsers
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            node_modules
-            ~/.cache/ms-playwright
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-      # 4. Install Playwright and Chromium
-      - name: Install Playwright
+      # 3. Install dependencies
+      - name: Install dependencies
         run: |
           npm install playwright
+          npm install proxifly
           npx playwright install chromium
 
-      # 5. Run fetch script
+      # 4. Run fetch script
       - name: Run fetch script
         run: node fetch-m3u.js
 
-      # 6. Commit and push if bingcha.m3u updated
+      # 5. Commit & push if bingcha.m3u updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
