@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const proxifly = require('proxifly');
 
-const MAX_RETRIES = 10; // Max proxies to try
+const MAX_RETRIES = 50; // Max proxies to try
 
 // Directly embed the API key
 const API_KEY = '8Erh9PqTFMH8xmpHoABsJXTkvutHM62D6WanPXWcUy9E';
