@@ -1,43 +1,30 @@
-const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
+const { HttpsProxyAgent } = require('https-proxy-agent');
+
+const proxy = 'http://222.252.194.29:8080';
+const url = 'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true';
 
 (async () => {
   try {
-    console.log('Using fixed proxy: 222.252.194.29:8080');
+    console.log(`Fetching M3U via proxy: ${proxy}`);
 
-    const browser = await chromium.launch({
-      headless: true,
-      proxy: { server: 'http://222.252.194.29:8080' },
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const agent = new HttpsProxyAgent(proxy);
+
+    const res = await fetch(url, {
+      agent,
+      headers: { 'User-Agent': 'curl/8.13.0', 'Accept': '*/*' },
+      timeout: 120000
     });
 
-    const context = await browser.newContext({
-      userAgent:
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      extraHTTPHeaders: { 'Accept-Language': 'en-US,en;q=0.9' }
-    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    const page = await context.newPage();
+    const body = await res.text();
+    const filePath = path.join(process.cwd(), 'bingcha.m3u');
+    fs.writeFileSync(filePath, body);
 
-    // Listen for downloads
-    page.on('download', async (download) => {
-      const filePath = path.join(process.cwd(), 'bingcha.m3u');
-      await download.saveAs(filePath);
-      console.log('M3U file downloaded successfully at', filePath);
-    });
-
-    console.log('Navigating to M3U URL...');
-    // This triggers the download
-    await page.goto(
-      'https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true',
-      { waitUntil: 'load', timeout: 120000 }
-    );
-
-    // Wait a few seconds to ensure download event fires
-    await page.waitForTimeout(5000);
-
-    await browser.close();
+    console.log('M3U saved successfully:', filePath);
   } catch (err) {
     console.error('Error fetching M3U:', err);
     process.exit(1);
