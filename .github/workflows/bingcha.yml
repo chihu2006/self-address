@@ -15,7 +15,10 @@ jobs:
       - name: Download M3U file
         run: |
           curl -L "https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" -o bingcha.m3u
-
+      
+      - name: Pull latest changes from main
+        run: git pull origin main
+  
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
