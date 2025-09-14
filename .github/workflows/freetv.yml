@@ -1,4 +1,4 @@
-name: Fetch freetv M3U via Proxy
+name: Fetch freetv M3U
 
 on:
   schedule:
@@ -20,16 +20,15 @@ jobs:
       # 2. Set environment variables
       - name: Set variables
         run: |
-          echo "PROXY=222.252.194.29:8080" >> $GITHUB_ENV
           echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
           echo "OUTPUT=freetv.m3u" >> $GITHUB_ENV
 
-      # 3. Fetch M3U using curl via proxy (no resume, retries full download)
+      # 3. Fetch M3U using curl (no proxy)
       - name: Fetch M3U via curl
         run: |
-          echo "Fetching M3U via proxy $PROXY..."
+          echo "Fetching M3U directly..."
           for i in {1..20}; do
-            curl --fail --retry 20 --retry-delay 10 -x $PROXY -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
+            curl --fail --retry 20 --retry-delay 10 -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
             echo "Attempt $i failed, retrying..."
             sleep 5
           done
