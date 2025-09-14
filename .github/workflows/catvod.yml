@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "PROXY=222.252.194.29:8080" >> $GITHUB_ENV
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
-          echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
+          echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
       # 3. Fetch M3U using curl via proxy (no resume, retries full download)
       - name: Fetch M3U via curl
