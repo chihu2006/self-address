@@ -1,0 +1,52 @@
+name: Fetch catvod M3U via Proxy
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # daily at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-m3u:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2. Set environment variables
+      - name: Set variables
+        run: |
+          echo "PROXY=222.252.194.29:8080" >> $GITHUB_ENV
+          echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
+          echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
+
+      # 3. Fetch M3U using curl via proxy (no resume, retries full download)
+      - name: Fetch M3U via curl
+        run: |
+          echo "Fetching M3U via proxy $PROXY..."
+          for i in {1..5}; do
+            curl --fail --retry 5 --retry-delay 5 -x $PROXY -L -A "curl/8.13.0" -o $OUTPUT $URL && break
+            echo "Attempt $i failed, retrying..."
+            sleep 5
+          done
+
+          # Check if file is non-empty
+          if [ ! -s $OUTPUT ]; then
+            echo "Error: Downloaded file is empty or incomplete."
+            exit 1
+          fi
+
+          echo "M3U fetch completed successfully."
+
+      # 4. Commit & push if bingcha.m3u updated
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add $OUTPUT
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u"
+          git push origin HEAD:main
