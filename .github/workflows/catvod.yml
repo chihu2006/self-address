@@ -1,4 +1,4 @@
-name: Fetch catvod M3U via Proxy
+name: Fetch catvod M3U
 
 on:
   schedule:
@@ -20,16 +20,15 @@ jobs:
       # 2. Set environment variables
       - name: Set variables
         run: |
-          echo "PROXY=222.252.194.29:8080" >> $GITHUB_ENV
-          echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
+          echo "https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
-      # 3. Fetch M3U using curl via proxy (no resume, retries full download)
+      # 3. Fetch M3U using curl (no proxy)
       - name: Fetch M3U via curl
         run: |
-          echo "Fetching M3U via proxy $PROXY..."
+          echo "Fetching M3U directly..."
           for i in {1..5}; do
-            curl --fail --retry 5 --retry-delay 5 -x $PROXY -L -A "curl/8.13.0" -o $OUTPUT $URL && break
+            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
             echo "Attempt $i failed, retrying..."
             sleep 5
           done
@@ -42,13 +41,7 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 4. Patch EXTM3U line
-      - name: Patch EXTM3U header
-        run: |
-          sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' $OUTPUT
-          head -n 1 $OUTPUT
-
-      # 5. Commit & push if catvod.m3u updated
+      # 4. Commit & push if catvod.m3u updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
