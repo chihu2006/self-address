@@ -1,4 +1,4 @@
-name: Fetch catvod M3U via Proxy
+name: Fetch freetv M3U via Proxy
 
 on:
   schedule:
