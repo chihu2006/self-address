@@ -20,7 +20,7 @@ jobs:
       # 2. Set environment variables
       - name: Set variables
         run: |
-          echo "PROXY=222.252.194.29:8080" >> $GITHUB_ENV
+          echo "PROXY=108.162.192.12:80" >> $GITHUB_ENV
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
