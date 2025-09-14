@@ -27,8 +27,8 @@ jobs:
       - name: Fetch M3U via curl
         run: |
           echo "Fetching M3U directly..."
-          for i in {1..20}; do
-            curl --fail --retry 20 --retry-delay 10 -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
+          for i in {1..5}; do
+            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
             echo "Attempt $i failed, retrying..."
             sleep 5
           done
