@@ -1,749 +1,529 @@
 #EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"
-#EXTINF:-1 group-title="香港频道",翡翠台
-https://live.catvod.com/catvod_com.php?id=jade_twn&token=dc169f0f1796d00c854a5f283158ab3f6509ce9e23c7bc5f1e168198109114d3%3A1757851698
-#EXTINF:-1 group-title="香港频道",翡翠台 backup
-https://live.catvod.com/catvod_com.php?id=Jade_xue&token=03a0d03ef67ebb71b22cff80c4018695993d49c8e471ba8ddb716a450f4f4a6d%3A1757851698
-#EXTINF:-1 group-title="香港频道",iNews 新闻台
-https://live.catvod.com/catvod_com.php?id=inews_twn&token=924dc8d2025a4314070e7e24d785e2af3ef683a0f9921650d4b4328ec0ae19b6%3A1757851698
-#EXTINF:-1 group-title="香港频道",J 2
-https://live.catvod.com/catvod_com.php?id=j2_twn&token=380365b63572ffc5c3570b7be8c51f5046435cf36319ceb6dea800cb268acf31%3A1757851698
-#EXTINF:-1 group-title="香港频道",珍珠台
-https://live.catvod.com/catvod_com.php?id=pearl_twn&token=a76ebf0645e39fa1a9a57fc549e26bc897db857c7652978bf4edd0d9bb6d14e4%3A1757851698
-#EXTINF:-1 group-title="香港频道",凤凰香港
-https://live.catvod.com/catvod_com.php?id=hkphoenix_twn&token=7e60522722569d0cb912521802518269e4435e00fcfb4e695729b136a30ba34c%3A1757851698
-#EXTINF:-1 group-title="香港频道",HOY资讯台
-https://live.catvod.com/catvod_com.php?id=hoycaijing_twn&token=5d823d9690cc45ecbbef0744752cdd9932862328ca7d4f4873188c69dc9a1dcd%3A1757851698
-#EXTINF:-1 group-title="香港频道",RHK 31
-https://live.catvod.com/catvod_com.php?id=rhk31_twn&token=ab1fa2b804fca03bf61a93e2568f71f23012b3e8f83dccc4b5419477019bf76c%3A1757851698
-#EXTINF:-1 group-title="香港频道",VIUTV1
-https://live.catvod.com/catvod_com.php?id=viu1_twn&token=97dc8335f91eb519772d7f045f6cb11d7e06a9b1233c92301d3762a3ea0bbbc5%3A1757851698
-#EXTINF:-1 group-title="香港频道",RHK 32
-https://live.catvod.com/catvod_com.php?id=rhk32_twn&token=6334ebbfe06ba799d3237fbae73b3b02ceca1cbc4dfcee01a18040ee1769abfb%3A1757851698
-#EXTINF:-1 group-title="香港频道",凤凰卫视
-https://live.catvod.com/catvod_com.php?id=phoenixtv_hd&token=f39c1309bd56e7c017f287ff8976941919b759e2fda6144bf2af3b624115aab0%3A1757851698
-#EXTINF:-1 group-title="香港频道",凤凰资讯
-https://live.catvod.com/catvod_com.php?id=phoenixinfo_hd&token=a6156a3cf2c210f08d7c2655ff558257b378bd94f6d961a3c48c48edf2580041%3A1757851698
-#EXTINF:-1 group-title="香港频道",Viu6
-https://live.catvod.com/catvod_com.php?id=viusix_twn&token=1a5cc120666c3b46305f259cebb5faeaeafd6926bb3903c71448ccf3ae9322fb%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-1 综合 HD
-https://live.catvod.com/catvod_com.php?id=cctv1&token=69ef9de96c5d4ef01131bf7de71dc83f995d3017ca77415394baa8d7128146d8%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-2 财经
-https://live.catvod.com/catvod_com.php?id=cctv2&token=b662813ddceadfd8361bf72035cba0fe03511b20b8a1146efda13a9607f98759%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-3 综艺 HD
-https://live.catvod.com/catvod_com.php?id=cctv3&token=1740bcebe00dc6da36b69584f6921f204005245c5e9b1128292a41a430c4341f%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-4 中文国际
-https://live.catvod.com/catvod_com.php?id=cctv4&token=c3205ae0486521cdd15f647635e45521dca825ddca90f54b423fee541f9f2197%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV4 新闻台
-https://live.catvod.com/catvod_com.php?id=Cctv4&token=6a337db1bc4f5551b2160982846cf341a0714af158d273f395e7cce7f2b0a306%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-5 体育频道
-https://live.catvod.com/catvod_com.php?id=cctv5&token=fc83b8f1b278e12426c5712e5f94caa804187d014b10e5d1aef8db02a66eca02%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-5+ 体育赛事 HD
-https://live.catvod.com/catvod_com.php?id=cctv5plus&token=7719602a8197f3095d6a5157b37a6d686d338e7e4ff269693c5ef676e15d0f8a%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-6
-https://live.catvod.com/catvod_com.php?id=cctv6&token=2615427fe77cb8140926ad43ec5502df17e31afcf4b4f885d82be19a4efa5cf8%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-7 军事农业
-https://live.catvod.com/catvod_com.php?id=cctv7&token=36f67526cc3c2e7732e26c819960ca720cc3d80b70970934b8d7a24487f58adc%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-8 电视剧 HD
-https://live.catvod.com/catvod_com.php?id=cctv8hd&token=c6cf22b3677e3b3a5d125e7c6f1e3743d640eab339c1e38a9381f0e16ef8620d%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-9 记录 HD
-https://live.catvod.com/catvod_com.php?id=cctv9hd&token=18c98c6ce16520a3d06273567d9293382bd6067c52c0576a63440584bee0fd3d%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-10 科教 HD
-https://live.catvod.com/catvod_com.php?id=cctv10hd&token=7d4eff58e94352ea9efdd9db03346743348788f7b705da28289796cea7e5f59e%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-11 戏曲
-https://live.catvod.com/catvod_com.php?id=cctv11&token=7641cc14a87beaf3a11784b7c9255db2a3b19b09fd892907834083fe1ccec5cf%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-12 社会与法
-https://live.catvod.com/catvod_com.php?id=cctv12&token=e683a751751481fa882d15d7c6e215d346f5f5646ca11411f51cc83312af329b%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-13 新闻频道
-https://live.catvod.com/catvod_com.php?id=cctv13&token=590da4fe9525b9aeb1da3ad73aad36fb5a85f63102ac8edf7fcec5bcb43ce9f9%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-14 少儿
-https://live.catvod.com/catvod_com.php?id=cctv14&token=c24236b8151adeee306a456910d4fb70477d1095c725f0ae0bcf5d7ee3e0b79d%3A1757851698
-#EXTINF:-1 group-title="央视频道",CCTV-15 音乐
-https://live.catvod.com/catvod_com.php?id=cctv15&token=efc0e25f819bb5bc52feac2473d0c7720a42ed7a6df518028a3daadad6a8cf95%3A1757851698
-#EXTINF:-1 group-title="卫视频道",湖南卫视
-https://live.catvod.com/catvod_com.php?id=hunan_twn&token=f6c45d560a26b668b4f9dd98744212d7720935fc03fd9f4b4d34f2f3736ac2b7%3A1757851698
-#EXTINF:-1 group-title="卫视频道",浙江卫视
-https://live.catvod.com/catvod_com.php?id=zhejiang_twn&token=408e7ac711e0b61b98ae61c0d8b659313f05ef6afb5ca5ab015b770bf545935c%3A1757851698
-#EXTINF:-1 group-title="卫视频道",江苏卫视
-https://live.catvod.com/catvod_com.php?id=jiangsu_twn&token=329c0484c86662ab875634630aae344304362d83a3273cf2a8e693b937b983e9%3A1757851698
-#EXTINF:-1 group-title="卫视频道",深圳卫视
-https://live.catvod.com/catvod_com.php?id=shenzhen&token=2e5b0bc507be96a45cbb8861e35fce23c0c1c644de17a6dc9f844da44e87c622%3A1757851698
-#EXTINF:-1 group-title="卫视频道",福建东南卫视
-https://live.catvod.com/catvod_com.php?id=fujian&token=5ab38a94095c8a53b7371458b8144d1654db6c5b8754736263d7b85c0489fd16%3A1757851698
-#EXTINF:-1 group-title="卫视频道",广东南方卫视
-https://live.catvod.com/catvod_com.php?id=nanfang_twn&token=25074fda6227ce08f2edfe99d7e77875a014c477c720aea4c38a945a58a9fb61%3A1757851698
-#EXTINF:-1 group-title="卫视频道",广东卫视
-https://live.catvod.com/catvod_com.php?id=guangdongweishi_twn&token=d980b2d45fe39efe86ab656aa4da6cfd68cad1066ef4f8b82941cdac691df6e8%3A1757851698
-#EXTINF:-1 group-title="卫视频道",北京卫视
-https://live.catvod.com/catvod_com.php?id=beijing&token=97e5094505e82866826066dd8acf79f5264e63678f2af6115fcf1fe4b28b8908%3A1757851698
-#EXTINF:-1 group-title="卫视频道",珠江台
-https://live.catvod.com/catvod_com.php?id=zhujiang&token=f1590f7dc581df973400c3d9f345100ad596850b8ba50d1644155515f83fcf91%3A1757851698
-#EXTINF:-1 group-title="卫视频道",广西卫视
-https://live.catvod.com/catvod_com.php?id=guangxi&token=461b094cf4a552016b9d7c5f911ab7d15d32d5824e9e86caf55b1f1f81c1e550%3A1757851698
-#EXTINF:-1 group-title="卫视频道",湖北卫视
-https://live.catvod.com/catvod_com.php?id=hubei&token=10a697deb72a569b924278166f6f1641b8c5ef12b2e619c21dc94ed4282bc846%3A1757851698
-#EXTINF:-1 group-title="卫视频道",四川卫视
-https://live.catvod.com/catvod_com.php?id=sichuan_twn&token=468e72f24f48568e5dd399688f60dcd42540a8d767bade103d1006b932bb0046%3A1757851698
-#EXTINF:-1 group-title="卫视频道",东方卫视
-https://live.catvod.com/catvod_com.php?id=dongfangweishi_twn&token=ca9c9f14e45c729a0b9718c6d39d617c468c71a9c34d5ccbc6765f8b8522ecef%3A1757851698
-#EXTINF:-1 group-title="卫视频道",CGTN
-https://live.catvod.com/catvod_com.php?id=CGTN&token=8c439c1dc4029bd9821d22bd6422e441b1e4040434f560167d120844c98e0c48%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Premier League 1
-https://live.catvod.com/catvod_com.php?id=go_assp1&token=475fa6468d94393e3eca234020fedfe91a00bcb7456e32a76be87d338760f39e%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro EPL 1 backup
-https://live.catvod.com/catvod_com.php?id=go_assp1x&token=c5f791db4195b7b6b7f9c363c1aefb04b64776e38322e26679762f1fe92aeb00%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Premier League 2
-https://live.catvod.com/catvod_com.php?id=go_assp2&token=544d8598bcb24c9b336741058261d1e820a767e0b541103c2cd1ca19270badb4%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Grandstand
-https://live.catvod.com/catvod_com.php?id=go_assp3&token=9daa637e239b7fa2b17904029010ceb00795ba0fe6808a61722dfbfc074cc56c%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Football
-https://live.catvod.com/catvod_com.php?id=go_assp4&token=540147587c77693748bddfab3ae316ed5ab305ee086427faddee87da9882f994%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Sports Plus
-https://live.catvod.com/catvod_com.php?id=go_sportsplus&token=8a514d5ce7aefa5fcd74b605061150c7e4eaba4f6f7017a9754cfe906e90ff72%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Badminton 1
-https://live.catvod.com/catvod_com.php?id=go_badminton1&token=a2fd685ef41790ce3f1384216218fe2d1c2ff3377388aeda26760fbc98cf2093%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Badminton 2
-https://live.catvod.com/catvod_com.php?id=go_badminton2&token=4d288929f12c04ee6403e653745df3d57229f66c0217256bbdf20f5b3918750a%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro W-Sports
-https://live.catvod.com/catvod_com.php?id=go_assp5&token=7ff4c7edc28d8b9b6d60ac736e14153a339da7b7a7e5f75a86f5a3910d9b61a7%3A1757851698
-#EXTINF:-1 group-title="体育频道",Supersports 1
-https://live.catvod.com/catvod_com.php?id=Assp1&token=69c02fedb80104c29cfcedfbdb1fe8020c40e5a9482768e2b9b6d60555a2db49%3A1757851698
-#EXTINF:-1 group-title="体育频道",Supersports 2
-https://live.catvod.com/catvod_com.php?id=Assp2&token=93205b7439e4b8fa7162ca13d2ad4d4a620cdb7de3045849af0f12e03fe72691%3A1757851698
-#EXTINF:-1 group-title="体育频道",Supersports 3
-https://live.catvod.com/catvod_com.php?id=Assp3&token=3c37620922fcf0ce1ba07b6bebb1f144b0ba1a6534bd7030b2ef282b67db0f2f%3A1757851698
-#EXTINF:-1 group-title="体育频道",Supersports 4
-https://live.catvod.com/catvod_com.php?id=Assp4&token=441d7569ed295766818148c866453845ec4dad31857c944de8a87b3b93dc7599%3A1757851698
-#EXTINF:-1 group-title="体育频道",WWE
-https://live.catvod.com/catvod_com.php?id=Wwe&token=68c8edd95b95d2555ea9404218553274f388cb96e943003a7c9d7b137fb0fd4c%3A1757851698
-#EXTINF:-1 group-title="体育频道",Fight Sports
-https://live.catvod.com/catvod_com.php?id=Fs&token=6001bebb9565a9882cb6e51b227c612d603bebfea5ce03fe082d93a24cc3ca40%3A1757851698
-#EXTINF:-1 group-title="体育频道",NBA TV
-https://live.catvod.com/catvod_com.php?id=Nba&token=5f32c7d8f5db8666900399c5f4cd11574255a139884b04d52bc3292376771364%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Cricket
-https://live.catvod.com/catvod_com.php?id=Acricket&token=0ff934782416a125a8969c5c03ddf8c97c49fe2b9183b51a956d5db23f5cdc4a%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Golf
-https://live.catvod.com/catvod_com.php?id=Agolf&token=9b2959514874eca5633d63b1a6d21d4175bfd9a1ccd9f48350c3fbdf359b228b%3A1757851698
-#EXTINF:-1 group-title="体育频道",Tnt Sports 1
-https://live.catvod.com/catvod_com.php?id=6fac0aaead&token=c65efb36c965734d35644c318b2ffb2f7a21ff8ce2c7220dcf4ac01459b4c8f3%3A1757851698
-#EXTINF:-1 group-title="体育频道",TNT Sports 2
-https://live.catvod.com/catvod_com.php?id=d9a76a79cc&token=533a5477bf5064b6283d441ce638c6218ecfd58d151d41e81fc3a437a0b9304e%3A1757851698
-#EXTINF:-1 group-title="体育频道",TNT Sports 3
-https://live.catvod.com/catvod_com.php?id=5fea4d73db&token=f76195819214808acf9fa8cc79cec43ad66a9af15e9db91a4d385f21fbd7fbd0%3A1757851698
-#EXTINF:-1 group-title="体育频道",TNT Sports 4
-https://live.catvod.com/catvod_com.php?id=tntsport4&token=49c5cfb30aa9d13ded22de21ef5ef7ebc08ccbc5eda2868e6c8e1cb4ad3a7baf%3A1757851698
-#EXTINF:-1 group-title="体育频道",Sony Ten 1
-https://live.catvod.com/catvod_com.php?id=ten1_raj&token=d2bb7fe0b00e71c9c3865ff8b95d3ccafc95ecfec1a11dc3f4ef2dbd9b4f9710%3A1757851698
-#EXTINF:-1 group-title="体育频道",Sony Ten 2
-https://live.catvod.com/catvod_com.php?id=ten2_raj&token=11af30b8b5c5d92415cac40def039dcaabfc551359ec73a628daf2dece99a8ed%3A1757851698
-#EXTINF:-1 group-title="体育频道",Sony Ten 3
-https://live.catvod.com/catvod_com.php?id=ten3_raj&token=54b8c319dc4c51509a851b61e1fa17e7cb772f74e3d6700131d75e395ef27d1b%3A1757851698
-#EXTINF:-1 group-title="体育频道",SPOTV 1 HD
-https://live.catvod.com/catvod_com.php?id=go_spotv&token=3371254a8d8ceb083e406e3e060e45433bebba51f9d1ad47d87d9109294212d8%3A1757851698
-#EXTINF:-1 group-title="体育频道",SPO TV 2
-https://live.catvod.com/catvod_com.php?id=go_spotv2&token=edc62e2a52268bdea767df2f1b4be9df09359ddaa5fcfa78e6f576429844536b%3A1757851698
-#EXTINF:-1 group-title="体育频道",Skysports F1
-https://live.catvod.com/catvod_com.php?id=tiankongf1&token=5419015a1c439a5dd5555e778cc6b331cc026997417c794f041bcc29181aa068%3A1757851698
-#EXTINF:-1 group-title="体育频道",Skysports Cricket
-https://live.catvod.com/catvod_com.php?id=tiankongcricket&token=802ac7078f1260abfd83912870865cce52df1bf26b852180e1a2e8e961699e2d%3A1757851698
-#EXTINF:-1 group-title="体育频道",Skysports EPL
-https://live.catvod.com/catvod_com.php?id=tiankongepl&token=624f93edcc9b45e4ac0ff95b7ac1ea7726b7b00a5cab4ada8292cadab2d39bb1%3A1757851698
-#EXTINF:-1 group-title="体育频道",Skysports Main Event
-https://live.catvod.com/catvod_com.php?id=tiankongmain&token=c7d9e090613f629de916f9425554fbc7d27f0529a4434537861c698a94adce96%3A1757851698
-#EXTINF:-1 group-title="体育频道",Skysports News
-https://live.catvod.com/catvod_com.php?id=tiankongnews&token=f5ce799ef37682eb10d61c9a90fd7f7ece162bafff85b188f456d58563e3771b%3A1757851698
-#EXTINF:-1 group-title="体育频道",Skysports Mix
-https://live.catvod.com/catvod_com.php?id=tiankongmix&token=60705b089434975068498361fe000d56bc42081c0788f2c34914db0647a3d638%3A1757851698
-#EXTINF:-1 group-title="体育频道",爱尔达体育1台
-https://live.catvod.com/catvod_com.php?id=eltasport_twn&token=b519f533503c4c410a94ee2862e6c6249881ccc22c3b1e38ddb159abf2ce1543%3A1757851698
-#EXTINF:-1 group-title="体育频道",爱尔达体育2台
-https://live.catvod.com/catvod_com.php?id=eltasport2_twn&token=b85b4a0f91d36348c9b6fabfa51df4044af4213b6db54847ad48dee433020d1d%3A1757851698
-#EXTINF:-1 group-title="体育频道",爱尔达体育3台
-https://live.catvod.com/catvod_com.php?id=eltasport3_twn&token=9b01c1b19dc35cdd7e84823f9e30fe8c82717abd4f2890f406fe7e0cf5aba7e2%3A1757851698
-#EXTINF:-1 group-title="体育频道",爱尔达体育4台
-https://live.catvod.com/catvod_com.php?id=eltasports4_twn&token=5635011b3a496bc6f8ac758ca4fa12dae78a74e1f8c3d4d2c82f1c02caf93bbb%3A1757851698
-#EXTINF:-1 group-title="体育频道",小公視
-https://live.catvod.com/catvod_com.php?id=pts3_twn&token=6c5f95828dff9046604f3f2e870495ccef19d67faf8f8334379fb9ab5cc55ac7%3A1757851698
-#EXTINF:-1 group-title="体育频道",DAZN 1
-https://live.catvod.com/catvod_com.php?id=dazn1_twn&token=70f92193fc7a4aa760a242fbf7137c91d7423a497e4a65d99031c88f5f095b97%3A1757851698
-#EXTINF:-1 group-title="体育频道",DAZN 2
-https://live.catvod.com/catvod_com.php?id=dazn2_twn&token=e0bbfbc1bf0f78728ba0f9edcd00fe6606bd48e4702dfa5734094bacf915b4cf%3A1757851698
-#EXTINF:-1 group-title="体育频道",Rugby Pass TV
-https://live.catvod.com/catvod_com.php?id=Rugbypasstv&token=3eb4477bc067c46e0b97852d8db966d50939a46626b4d4b9096142ff39b5538a%3A1757851698
-#EXTINF:-1 group-title="体育频道",RTM Sports HD
-https://live.catvod.com/catvod_com.php?id=Rtmsport&token=0cc864693a2f93e2f9439785606bd6e28b9b146a6f8110cd2e030802d76e7e83%3A1757851698
-#EXTINF:-1 group-title="体育频道",Arena
-https://live.catvod.com/catvod_com.php?id=Arena&token=9bcde8299d931125f7e02ac7aecabdb2a32c3add08430ed37b5c64baf1ff1bd1%3A1757851698
-#EXTINF:-1 group-title="体育频道",Arena 2
-https://live.catvod.com/catvod_com.php?id=Arena2&token=c77fc4e0388ae8402ac30c6fc4a0062654bdc86f864eb94ef61aec388d5f3528%3A1757851698
-#EXTINF:-1 group-title="体育频道",BolaArena 1
-https://live.catvod.com/catvod_com.php?id=Bolaarena1&token=44ce0991073df2b202a231badeae3de4bb755d9cc8b10db76261b12f83e6de0b%3A1757851698
-#EXTINF:-1 group-title="体育频道",BolaArena 2
-https://live.catvod.com/catvod_com.php?id=Bolaarena2&token=77e5f06870c4bd5ee8ff9e46c68fce363420dade72a0ea6af181364ab1056288%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Beinsports 1
-https://live.catvod.com/catvod_com.php?id=Astrobein1&token=9ba478354a1ab9ba1e65d0ab1539a683132edb6e94427e211625973223286cf1%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Beinsports 2
-https://live.catvod.com/catvod_com.php?id=Astrobein2&token=c87057d7347c7ac11f5b91baa651f9b19456bcc9f0268510294fae293df27b74%3A1757851698
-#EXTINF:-1 group-title="体育频道",Astro Beinsports 3
-https://live.catvod.com/catvod_com.php?id=Astrobein3&token=a711145e40acfd0107a66a49d6f4448c4c52ad5ce9dea7c56f717231e868c943%3A1757851698
-#EXTINF:-1 group-title="台湾频道",TVBS News 新闻台
-https://live.catvod.com/catvod_com.php?id=tvbs_n&token=df8413976c0ba1675bae990d83663ac8536102e4e155748466584a55c49f70f2%3A1757851698
-#EXTINF:-1 group-title="台湾频道",TVBS 欢乐台 （备份）
-https://live.catvod.com/catvod_com.php?id=tvbshuanle_twn&token=067df0e393c6eaa3ff676f382712f98bf27abdac64473e9b938e0ee4a6321190%3A1757851698
-#EXTINF:-1 group-title="台湾频道",TVBS HD
-https://live.catvod.com/catvod_com.php?id=tvbs&token=895badc05c247b82430d7993edac5152275dbfac2e0423583fe1d7e7e35da2b0%3A1757851698
-#EXTINF:-1 group-title="台湾频道",中天新闻 HD
-https://live.catvod.com/catvod_com.php?id=ctinews&token=d72113b65c43957ff66167946a09baf59d89de3510522b468a62f04c2a9e1739%3A1757851698
-#EXTINF:-1 group-title="台湾频道",中天娱乐 CTI Entertaiment
-https://live.catvod.com/catvod_com.php?id=ctient&token=a5cffdfd9094e7ce006ed533663fc963ac07581c137df2d55906db0bd8514f4e%3A1757851698
-#EXTINF:-1 group-title="台湾频道",中天综合 CTI Metro
-https://live.catvod.com/catvod_com.php?id=ctizhonghe&token=413ecac97dde2a1e2d63232c13c8ad34ac10dc84d9f74fb59c8cba273a78b49e%3A1757851698
-#EXTINF:-1 group-title="台湾频道",中天亚洲台
-https://live.catvod.com/catvod_com.php?id=ctiasia_twn&token=9be9c3f037aa5bc30ac8cd9c2b611b0ed4e781c39ce24b25bfac67018c4da257%3A1757851698
-#EXTINF:-1 group-title="台湾频道",台视 TTV HD
-https://live.catvod.com/catvod_com.php?id=ttv_taiwan&token=c17e095cc300665591d98b35d2bac99afeac4907d6cd222b3aea9370b99c3434%3A1757851698
-#EXTINF:-1 group-title="台湾频道",台视新闻台
-https://live.catvod.com/catvod_com.php?id=ttvnews_twn&token=a372413491cb5b2f5e76d6f413652198d6fd2382d29725d46cd41af5887f1217%3A1757851698
-#EXTINF:-1 group-title="台湾频道",台视综合台
-https://live.catvod.com/catvod_com.php?id=ttvzhonghe&token=b3066e23ab5fa5b968bcbad1cd5195a00b24e84ffb0f3a94268e2686fc2b1dae%3A1757851698
-#EXTINF:-1 group-title="台湾频道",JET綜合
-https://live.catvod.com/catvod_com.php?id=jet&token=d74cd71fc9503c6cb29452aea21b43a4e5d7928843dd503b7c064e75e684ce72%3A1757851698
-#EXTINF:-1 group-title="台湾频道",中视 HD
-https://live.catvod.com/catvod_com.php?id=zhongshihd_twn&token=c58acc3c1142cc715319723194fcc23faa142d74f609f36cc346cc74e6e32af3%3A1757851698
-#EXTINF:-1 group-title="台湾频道",中视新闻台
-https://live.catvod.com/catvod_com.php?id=zhongshinews_twn&token=712e796e25be3264b3037ec7f2bb7b0eaf46c83ba5181ba2a3289d988b006885%3A1757851698
-#EXTINF:-1 group-title="台湾频道",民视 HD
-https://live.catvod.com/catvod_com.php?id=ftvhd_taiwan&token=88a75185a52f270618270dba067466a5df8837d3769cc51a5d0903b9b8d62809%3A1757851698
-#EXTINF:-1 group-title="台湾频道",民视新闻台 FTV News
-https://live.catvod.com/catvod_com.php?id=ftvnew_taiwan&token=f966c5c9520f795738cbc3d655d28cfc15c3ef78adf26d85a272905affa4b38d%3A1757851698
-#EXTINF:-1 group-title="台湾频道",民视台湾台
-https://live.catvod.com/catvod_com.php?id=ftvtaiwan_twn&token=942c2a28f5308c999f398273be50823a91b1b81d5c06ca1a3fcefc36235b75ab%3A1757851698
-#EXTINF:-1 group-title="台湾频道",华视 CTS HD
-https://live.catvod.com/catvod_com.php?id=ctshd_twn&token=3f5277602b1d0d8a574add0be3cd3936c0cb5064c82e475cde1bcfd0b9b9059c%3A1757851698
-#EXTINF:-1 group-title="台湾频道",公视 CTV
-https://live.catvod.com/catvod_com.php?id=ctv_taiwan&token=0df2f425406ef8d2b3f8e69df052af11f3020ef449271ff880181dc59ab76c1a%3A1757851698
-#EXTINF:-1 group-title="台湾频道",天映频道
-https://live.catvod.com/catvod_com.php?id=ctv18_twn&token=75076387bafb4c6232bfddf4fd4667d9b92ff9aaced48efbcaa4ca7c00e9f2f3%3A1757851698
-#EXTINF:-1 group-title="台湾频道",八大第一 GTV First
-https://live.catvod.com/catvod_com.php?id=badafirst&token=92e2cebb15742da6ff51c3628c87c1dbd80d0a3245bd8a007cd13ee58b75191f%3A1757851698
-#EXTINF:-1 group-title="台湾频道",八大综合 GTV Metro
-https://live.catvod.com/catvod_com.php?id=badazhonghe&token=8c48a9530ed3bf41cad027fcea227d321ea0e8b17cad4791183e58935de4df4b%3A1757851698
-#EXTINF:-1 group-title="台湾频道",八大戏剧 GTV Drama
-https://live.catvod.com/catvod_com.php?id=badadrama&token=068c9ca3ec51f48bdab0d2bfd822ced42e9298ef552057cbfe418bfdb6c405c0%3A1757851698
-#EXTINF:-1 group-title="台湾频道",HBO_HD
-https://live.catvod.com/catvod_com.php?id=hbohd_twn&token=9b668b6585538262ba33b5e14f01f9444b280333af8fa0a92a71945d74462425%3A1757851698
-#EXTINF:-1 group-title="台湾频道",HBO_HITS
-https://live.catvod.com/catvod_com.php?id=hbohit_twn&token=93094ca296fe89871b00d2267ed499c0168f1e7493e3d47ef4e0769b49a604d9%3A1757851698
-#EXTINF:-1 group-title="台湾频道",Hollywood Movies
-https://live.catvod.com/catvod_com.php?id=hollywoodmovies_twn&token=97d5bce6e8a837831c696cd7203b2ebe1fd7dd14f0f4f81f021fd1b289651855%3A1757851698
-#EXTINF:-1 group-title="台湾频道",三立台湾 Sanli Taiwan
-https://live.catvod.com/catvod_com.php?id=sanlitaiwan&token=8a591f413c743e7966a12b81bc7535a686400e3de262270565f94c8520503ab1%3A1757851698
-#EXTINF:-1 group-title="台湾频道",三立戏剧台
-https://live.catvod.com/catvod_com.php?id=sanlixiju_twn&token=ad5ee0d57079c21bb8eb3baab7c2aa6b77f64f1c6dc590c95c202f33e0573e3d%3A1757851698
-#EXTINF:-1 group-title="台湾频道",三立综合 Sanli Metro
-https://live.catvod.com/catvod_com.php?id=sanlizhonghe&token=9110b167365d7d0ba229f44c4a529f2cda3938142f6cef32eb47dd22fa81ba99%3A1757851698
-#EXTINF:-1 group-title="台湾频道",三立都会台
-https://live.catvod.com/catvod_com.php?id=sanlidouhui_twn&token=ff06064a9426fad039bc30f10090bded819c4a0e960ca8172c651f5611cf6d17%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森新闻 ETTV News
-https://live.catvod.com/catvod_com.php?id=ettvnews&token=d36f5b1bc72f8674b6238fc33af5b60939dc01f35fc598cc7db6d281b89d8abe%3A1757851698
-#EXTINF:-1 group-title="台湾频道",CINEMAX
-https://live.catvod.com/catvod_com.php?id=cinemax_twn&token=7e75340e0b28eb7e3b152107a6ae16079e5ac62ca392f2ba9f2cbd0316f779a4%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森综合 ETTV Metro
-https://live.catvod.com/catvod_com.php?id=ettvzhonghe&token=f4f2c3363a8c7244ac1aaa6c75b25347facc4b1867194dcc521dfceb3d25874e%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森戏剧 ETTV Drama
-https://live.catvod.com/catvod_com.php?id=ettvdrama&token=c6ce86761c856d2c25f9b086d8c87905b3c92254299ef6b9a9ca25b91f6bcd14%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森超视
-https://live.catvod.com/catvod_com.php?id=ettvsuper&token=e0caf54f97537c2bf1b0ae66dd7b47a71388e1e7372083f28e8ae7c9ee3e7baa%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森财经新闻 ETTV Business
-https://live.catvod.com/catvod_com.php?id=ettvcaijing_twn&token=bc2ee099421eabac2ac93a95887951e4736eff7db0ef2ed63f9c10da94dcc1da%3A1757851698
-#EXTINF:-1 group-title="台湾频道",寰宇财经
-https://live.catvod.com/catvod_com.php?id=huanyutaiwan_twn&token=7c036022169fd990141cdf5c23aa23210cba3112099c29232781c8bf9ce9930f%3A1757851698
-#EXTINF:-1 group-title="台湾频道",寰宇新闻台
-https://live.catvod.com/catvod_com.php?id=huanyuxinwen_twn&token=fd8ef491851390572aafeae9ef0ffc8b018f73bab734040f588d0d70dbe562e1%3A1757851698
-#EXTINF:-1 group-title="台湾频道",公视2
-https://live.catvod.com/catvod_com.php?id=ctv2_twn&token=0becf4f82c1ed260347079cd3f649a3e462bd9d182530d13c909b56c25512cf6%3A1757851698
-#EXTINF:-1 group-title="台湾频道",信大
-https://live.catvod.com/catvod_com.php?id=xinda_twn&token=14b7dda5673c47a67939ec7f7ca21aae1a07dd9f161017a907933b197403e61e%3A1757851698
-#EXTINF:-1 group-title="台湾频道",霹靂
-https://live.catvod.com/catvod_com.php?id=pilitw_twn&token=b146468cb7ef8693041e5f7b0595c194f52ba8ba5ff98c6cdff83332f05275f9%3A1757851698
-#EXTINF:-1 group-title="台湾频道",大爱1台
-https://live.catvod.com/catvod_com.php?id=daai_twn&token=91c1c67377ae2f5f35df3c2e5d108fd08a222f06dd8b72156f0cdf1051714738%3A1757851698
-#EXTINF:-1 group-title="台湾频道",壹新聞
-https://live.catvod.com/catvod_com.php?id=yinews&token=e3fd6b22593a7cb912f9ebf9741e0b10b15a4fb51935f2639681962c885060fe%3A1757851698
-#EXTINF:-1 group-title="台湾频道",非凡新闻台
-https://live.catvod.com/catvod_com.php?id=feifannews_twn&token=42e9bcb47005486b6d7841b8c6b9fd9b1b02ad11d7d82b6d1d82fae2d68179b5%3A1757851698
-#EXTINF:-1 group-title="台湾频道",龙华戏剧 Lunghua Drama
-https://live.catvod.com/catvod_com.php?id=lunghuaxiju_twn&token=f25984bdae00b66c049391c976a2be4d3b3fe02e1868797dc4b611ea3bf76728%3A1757851698
-#EXTINF:-1 group-title="台湾频道",龙华经典台
-https://live.catvod.com/catvod_com.php?id=lunghuajingdian_twn&token=84cb54b29be76968b04ea65c8cfe63a2cf15c3f4e04272bf175dca5f6b74eeaf%3A1757851698
-#EXTINF:-1 group-title="台湾频道",龙华偶像
-https://live.catvod.com/catvod_com.php?id=lunghuaidol_twn&token=08a4a7d519c54b83b9d54997a17f2e4c7d46b1222d90dbe0a7cd53c716de1bee%3A1757851698
-#EXTINF:-1 group-title="台湾频道",AXN Taiwan
-https://live.catvod.com/catvod_com.php?id=axn_twn&token=a09e0084e495454d50c7548738fcd6fc63ed1d0f1bc0256ade2a92a37b56a54d%3A1757851698
-#EXTINF:-1 group-title="台湾频道",靖天国际台
-https://live.catvod.com/catvod_com.php?id=jingtianintl_twn&token=3ab9d7c5c11496f94fc5f25883073ae98963c1019cdc8a73dd410f5e2cd1437b%3A1757851698
-#EXTINF:-1 group-title="台湾频道",年代新闻
-https://live.catvod.com/catvod_com.php?id=niandainews_twn&token=5eb81b1bd714d8503f4d509ea4fe532af2ff58c58db9872daed1ffb7b482f7e2%3A1757851698
-#EXTINF:-1 group-title="台湾频道",年代MUCH
-https://live.catvod.com/catvod_com.php?id=niandaitv_twn&token=6d9197ac450b461f917e08d2f07e5c168fe123345ce4e30af0788070091fd839%3A1757851698
-#EXTINF:-1 group-title="台湾频道",纬来日本台
-https://live.catvod.com/catvod_com.php?id=videolandjapan&token=cc017e8d23b2934fb8729ef66d14dd288a4a2331342562d7493e211944455321%3A1757851698
-#EXTINF:-1 group-title="台湾频道",纬来电影台
-https://live.catvod.com/catvod_com.php?id=videolandmovie&token=11e00e811ea88c3b4f167ab6814fce6aa5eff5f5e4146fcff3e69c050f1ac27e%3A1757851698
-#EXTINF:-1 group-title="台湾频道",纬来体育台
-https://live.catvod.com/catvod_com.php?id=videolandsport&token=c2aaeb432a42d55d0155b4f48d737329fe283f7365f3e389cc7ff8d2be79ac24%3A1757851698
-#EXTINF:-1 group-title="台湾频道",纬来综合台
-https://live.catvod.com/catvod_com.php?id=videolandzonghe&token=8b982ef334d7f927c428ff33d28e8e8c01177ea78ca6be9eb515b93af1d49871%3A1757851698
-#EXTINF:-1 group-title="台湾频道",纬来育乐
-https://live.catvod.com/catvod_com.php?id=videolandmax&token=5aba14831f83b8290cd3b60c11c3f062d46a1958b5d18380405c7ef4d1f4f6bc%3A1757851698
-#EXTINF:-1 group-title="台湾频道",纬来精彩
-https://live.catvod.com/catvod_com.php?id=videolandspecial_twn&token=b1865d6b609f183ed7e00f33fea60bebf3b254959867d6c55660448e359c9089%3A1757851698
-#EXTINF:-1 group-title="台湾频道",緯來戲劇
-https://live.catvod.com/catvod_com.php?id=videolandtv&token=ac84749233ea24457928799bb23cfd189357e008a44cc6c925503e96b1e2add8%3A1757851698
-#EXTINF:-1 group-title="台湾频道",好消息 2
-https://live.catvod.com/catvod_com.php?id=good2_twn&token=a879a010ad5506ade21a920616f6fee6b987b6a28a11e518ba0ce3675d4ec04a%3A1757851698
-#EXTINF:-1 group-title="台湾频道",大爱2台
-https://live.catvod.com/catvod_com.php?id=daai2_twn&token=7282e57b363850386a581cc8e37bad3f57f4ef74415cdaa9a6c84224ff0d0b0c%3A1757851698
-#EXTINF:-1 group-title="台湾频道",亚洲美食
-https://live.catvod.com/catvod_com.php?id=afc_twn&token=018123006f0b5a45f1ae06314424b396924e79d60e21e77d5db7be50eab04d25%3A1757851698
-#EXTINF:-1 group-title="台湾频道",美食星球
-https://live.catvod.com/catvod_com.php?id=foodplanet_twn&token=99b68c75594ca8c97dcd79bd827382133bdb4f446c15e4c4c151393be3c84da6%3A1757851698
-#EXTINF:-1 group-title="台湾频道",亚洲旅游 TLC Asia
-https://live.catvod.com/catvod_com.php?id=tlc_twn&token=0547af2c10beb6c5921f9940bfea82c0d7bcfacbf086a22ae1e06e3e09955441%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森电影 ETTV Movie
-https://live.catvod.com/catvod_com.php?id=ettvmovie&token=8f54b19ab41135e9e8f12872a2003a0cb73fe4b4847ff0e58ef7fb5119769573%3A1757851698
-#EXTINF:-1 group-title="台湾频道",阿里郎 Arirang
-https://live.catvod.com/catvod_com.php?id=arirang_twn&token=063d7bf913a7018c65d7526af132770a92f660270fd2603c6310ae843730b088%3A1757851698
-#EXTINF:-1 group-title="台湾频道",博斯运动 1
-https://live.catvod.com/catvod_com.php?id=bosisport1_twn&token=17cb878affb17c8a6f1b198245bb59edfca4305a16feb6e95b851105a5aaa778%3A1757851698
-#EXTINF:-1 group-title="台湾频道",博斯运动 2
-https://live.catvod.com/catvod_com.php?id=bosisport2_twn&token=b6d547248196c46dee80e423280d2c6534fa2eec84d888daadc77a00cac020eb%3A1757851698
-#EXTINF:-1 group-title="台湾频道",博斯高球2 HD
-https://live.catvod.com/catvod_com.php?id=bosigolf2_twn&token=09e3657268a74d1c3c9fc2077122605029d675b218600e18cef2638b5c6b147e%3A1757851698
-#EXTINF:-1 group-title="台湾频道",博斯网球 HD
-https://live.catvod.com/catvod_com.php?id=bositennis_twn&token=3af017c4dfe6d87fec88ff09235f980a7a36645b520dc788b8a18aa08264a328%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森洋片 ETTV Western
-https://live.catvod.com/catvod_com.php?id=ettvwestern&token=3991d9814341e8381af4a20cef4f14fb2bf72b463a59b3bea6bf0f9e35351d3e%3A1757851698
-#EXTINF:-1 group-title="台湾频道",龙华洋片 Lunghua Western
-https://live.catvod.com/catvod_com.php?id=lunghuawestern_twn&token=006bb22e5610803bf0e99c292e0683c769160e253687f39cb00f54f86c767912%3A1757851698
-#EXTINF:-1 group-title="台湾频道",博斯无限
-https://live.catvod.com/catvod_com.php?id=bosiunlimited_twn&token=1f8eba25bd130839e9a76bf275fa793771d9465b361881cf608c0635127b35de%3A1757851698
-#EXTINF:-1 group-title="台湾频道",MTV Live
-https://live.catvod.com/catvod_com.php?id=mtvhd_twn&token=de3c1182d9385f76379138c5d367d716838fb9f4489653f5b889ae7c8706bec9%3A1757851698
-#EXTINF:-1 group-title="台湾频道",龙详时代
-https://live.catvod.com/catvod_com.php?id=lungxiangtime_twn&token=fa8a0b983ba8ff2edc68cea174b627ecd02193f5b1ae335d33932d068dcbdfff%3A1757851698
-#EXTINF:-1 group-title="台湾频道",EYETV 旅游
-https://live.catvod.com/catvod_com.php?id=eyetvtravel_twn&token=99977f7481c8a5b4ea4a568fb64c397cb6a870dcd551d1c13d22de5e5badf711%3A1757851698
-#EXTINF:-1 group-title="台湾频道",靖天卡通台
-https://live.catvod.com/catvod_com.php?id=jingtiancartoon_twn&token=934d6848ad6c2cb52ac28460480f414768a16b5f0b1eba286273cb26ebfd9b71%3A1757851698
-#EXTINF:-1 group-title="台湾频道",EYETV 戏剧
-https://live.catvod.com/catvod_com.php?id=eyetvxiju_twn&token=5a08b651c1c43ac794758ff9ce7e135d7298867e43e317047c71b6bb396f3817%3A1757851698
-#EXTINF:-1 group-title="台湾频道",卫视中文台 Star Movies Chinese
-https://live.catvod.com/catvod_com.php?id=weishichinese_twn&token=fc3287af1bfa2b715a9e95f7f310ecc8df35b0daad9eaedbb2229cc5e43b2d01%3A1757851698
-#EXTINF:-1 group-title="台湾频道",东森幼幼 Yoyo TV
-https://live.catvod.com/catvod_com.php?id=yoyo_twn&token=2f3ca8fc185b7c293b8dcb741e34c83b8cf7d67cc24e0fe413929f531163675c%3A1757851698
-#EXTINF:-1 group-title="台湾频道",卫视电影台
-https://live.catvod.com/catvod_com.php?id=weishimovie_twn&token=c16a19eef10cc55c24ad9f1ffc05d883b4fcff655d048373ef0c36407d2849ff%3A1757851698
-#EXTINF:-1 group-title="台湾频道",美亚电影
-https://live.catvod.com/catvod_com.php?id=meiyamovie_twn&token=8992af8ebf34a2ff8c7dfbbfefacbf049f1a27f378e1627273f4056a4d37aee7%3A1757851698
-#EXTINF:-1 group-title="台湾频道",爱尔达影剧台
-https://live.catvod.com/catvod_com.php?id=eltayingju_twn&token=902dc873b9d7fbdf3cb920a695d0983a091d834f2e3d15aff9ad174de2e247e9%3A1757851698
-#EXTINF:-1 group-title="台湾频道",爱尔达综合台
-https://live.catvod.com/catvod_com.php?id=eltazonghe_twn&token=83f66bb930a8fc80d6e51d2cf13a49bc8389c503118e554a889a0677b95e6a0b%3A1757851698
-#EXTINF:-1 group-title="台湾频道",星卫电影
-https://live.catvod.com/catvod_com.php?id=xingwei_movie&token=a40a221f71d731d579a5ebe9d3b03e21a9d068c2415da8f2acaa56b2dd984afa%3A1757851698
-#EXTINF:-1 group-title="台湾频道",AFC 亚洲旅游台
-https://live.catvod.com/catvod_com.php?id=asiatravel_twn&token=d87b7e2c1e9abae2deec277c6c3b4fcb9dc563782c8cf7818ae377e1829eedad%3A1757851698
-#EXTINF:-1 group-title="电影频道",Catchplay電影
-https://live.catvod.com/catvod_com.php?id=catchplay_twn&token=27217b5dfe78734c13fad6f725494d3d761e3fa7314e321d574cb4ed951c468a%3A1757851698
-#EXTINF:-1 group-title="电影频道",amc電影
-https://live.catvod.com/catvod_com.php?id=starmoviesgold_twn&token=168c6070d72d11960dce7fdb5bde2b231111e100d232a9c475e04fd8555ba84a%3A1757851698
-#EXTINF:-1 group-title="电影频道",Cinemax
-https://live.catvod.com/catvod_com.php?id=Cinemax&token=e802a8c1f284ce8b8defc0cfd4bf0b2d85a8136e2aa4aeccb737bd95b298d420%3A1757851698
-#EXTINF:-1 group-title="电影频道",Animax
-https://live.catvod.com/catvod_com.php?id=Animax&token=1921d4c9a86e224b2d8c66ad6ca6b8a81164b4788300a0ae1492f765231f9784%3A1757851698
-#EXTINF:-1 group-title="电影频道",Movies Now HD
-https://live.catvod.com/catvod_com.php?id=moviesnow_raj&token=47d753231abe71e4351f6549fcf0bd2726b50190c7eb886abfebbdad8314dd47%3A1757851698
-#EXTINF:-1 group-title="电影频道",Star Movies HD
-https://live.catvod.com/catvod_com.php?id=starmovies_raj&token=d89a6241030490dcffc0f15955bd3455651d160deb1b127dfbed88bf6899a39a%3A1757851698
-#EXTINF:-1 group-title="电影频道",HBO Family
-https://live.catvod.com/catvod_com.php?id=Hbofamily&token=24db02a2a0777e4c1eb86c8abea4cbf52f0dc2ea1c4db37756f96721031538c3%3A1757851698
-#EXTINF:-1 group-title="电影频道",Hits
-https://live.catvod.com/catvod_com.php?id=Hits&token=234f58e5b5e9377f6c0dad41278b833add52435c29d4f51146e778c02e74c46a%3A1757851698
-#EXTINF:-1 group-title="电影频道",Warner TV
-https://live.catvod.com/catvod_com.php?id=WarnerTV&token=148310360eff28c945a26900459f8085b23528dc9ad8a8ab75cc50964108bf6c%3A1757851698
-#EXTINF:-1 group-title="电影频道",HBO HD
-https://live.catvod.com/catvod_com.php?id=Hbo&token=80f5e53231746189d74e02f13dcce2b442cbf0507cc8f8cf0598ab0caed8de69%3A1757851698
-#EXTINF:-1 group-title="电影频道",HBO Signature
-https://live.catvod.com/catvod_com.php?id=Hbosignature&token=41083ee5c710cfb138258162ee7f10fca1fa329c0b604744605c99c6c0e7f54a%3A1757851698
-#EXTINF:-1 group-title="电影频道",HBO Hits
-https://live.catvod.com/catvod_com.php?id=Hbohitshd&token=f365e4f0be042c1a09d78d542a112994814d77c45eca0094da523b89de574535%3A1757851698
-#EXTINF:-1 group-title="电影频道",SCM
-https://live.catvod.com/catvod_com.php?id=Weishimovie&token=7e38a16fc676bc0891521001665091cc4cc2ad91caf07f4b858f2b1aff0096b4%3A1757851698
-#EXTINF:-1 group-title="电影频道",Dreamworks
-https://live.catvod.com/catvod_com.php?id=Dreamworks&token=534b741259fc9964cd14f662def872f3011c8e715a07cbe989f4435ef521bd43%3A1757851698
-#EXTINF:-1 group-title="电影频道",Thrill
-https://live.catvod.com/catvod_com.php?id=Thrill&token=eb41c9dd20db167aa59bedc4e3367c63b06b0f949d143f4eb6d194db34a960ad%3A1757851698
-#EXTINF:-1 group-title="电影频道",Hits Movie
-https://live.catvod.com/catvod_com.php?id=Hitsmovie&token=b2e9b023747a99ba0087cd26b2e29a5a6aee3da62b577f5a2dc35641076b81b5%3A1757851698
-#EXTINF:-1 group-title="电影频道",One
-https://live.catvod.com/catvod_com.php?id=One&token=81191f58b95b782e09b6800cf1cabaa8c74c90ab29f9b5f57c8171c9f75ea3bc%3A1757851698
-#EXTINF:-1 group-title="电影频道",tvN Movie
-https://live.catvod.com/catvod_com.php?id=Tvnmovie&token=261e64903da95a98f589734ffff83a4eb47a1e27b2d6b08986903c0e5b82d6b2%3A1757851698
-#EXTINF:-1 group-title="电影频道",Celestial Classic
-https://live.catvod.com/catvod_com.php?id=Celestial2&token=f162f2d8060137e69e2ae18519b79891e93ce79ef3c014da3fbd40587e929e9e%3A1757851698
-#EXTINF:-1 group-title="电影频道",Celestial Movies HD
-https://live.catvod.com/catvod_com.php?id=Celestialindo&token=e3450e48c40cd72d3771accafb0bbcd029285d9c10d8e7f779d05a5f7ce44bb7%3A1757851698
-#EXTINF:-1 group-title="电影频道",Axn HD
-https://live.catvod.com/catvod_com.php?id=Axn&token=2f71aeb7d8aece1a72235ce18d0f9da181a1bbc669a14788b3dca8f1c6655c2f%3A1757851698
-#EXTINF:-1 group-title="电影频道",Paramount Network
-https://live.catvod.com/catvod_com.php?id=Paramountnetwork&token=b1eb0cd0cf841151abc9f8ed2b46758caa301f3bb646b55a07933cd22cff3f82%3A1757851698
-#EXTINF:-1 group-title="电影频道",Astrol Kplus
-https://live.catvod.com/catvod_com.php?id=Kplus&token=8e77c4bca9f427af7d85bb5d56d3d2b2479e9fe0cb13a297df06f69233a4b14f%3A1757851698
-#EXTINF:-1 group-title="电影频道",Rock Actions
-https://live.catvod.com/catvod_com.php?id=Rockaction&token=13972ea6cbb49aaebbaf72387edf892ae00df1dc3126d1c3c7824e549d3f5593%3A1757851698
-#EXTINF:-1 group-title="电影频道",Rock Entertainment
-https://live.catvod.com/catvod_com.php?id=Rockentertain&token=e2e4e0676a0706890ad5ff84bece9c29fb88d9c7235f19327dd24a973d96e59f%3A1757851698
-#EXTINF:-1 group-title="记录频道",Natgeo_HD
-https://live.catvod.com/catvod_com.php?id=natgeohd_twn&token=18ca850dfc1f2a3e74c7e63e6847e2774ef8f43758589dcea42c130c519fe53f%3A1757851698
-#EXTINF:-1 group-title="记录频道",NatGeo_Wild HD
-https://live.catvod.com/catvod_com.php?id=natgeowild_twn&token=4eeeb6d9d2fcb4e585eaabaef997951c77db2b90f29f2f1526919a7b69162a0e%3A1757851698
-#EXTINF:-1 group-title="记录频道",Animal_Planet
-https://live.catvod.com/catvod_com.php?id=animalplanet_twn&token=a8080b2c052630766d7df07261352ed7f3e25eb04bce8eac79f2f4fb0bd4d519%3A1757851698
-#EXTINF:-1 group-title="记录频道",Discovery Asia
-https://live.catvod.com/catvod_com.php?id=discoverytwn_twn&token=2584af05c834f78f7aec9b1976797f4a3a6ade58ebaa77823acef97f4f85166e%3A1757851698
-#EXTINF:-1 group-title="记录频道",CI
-https://live.catvod.com/catvod_com.php?id=ci_twn&token=c41b3f9af17ccf7d502a8e30f81301355337ba05db4654955b52b24617281979%3A1757851698
-#EXTINF:-1 group-title="记录频道",Discovery HD
-https://live.catvod.com/catvod_com.php?id=discoverych_twn&token=de296f36ca3fce643ccf6cb746eeb61029767eaea126e02b9f445fd333c249d2%3A1757851698
-#EXTINF:-1 group-title="记录频道",NatGeo HD
-https://live.catvod.com/catvod_com.php?id=Natgeo&token=24ef6665670a54ce9fa69dfd4a7784b16eb2e814696a832ebbdcad136cd86e0d%3A1757851698
-#EXTINF:-1 group-title="记录频道",Fashion TV
-https://live.catvod.com/catvod_com.php?id=fashiontv_twn&token=d650a561fc08cd4eac34eca0359e8fec202131e307d9ea34666feea1609f4372%3A1757851698
-#EXTINF:-1 group-title="记录频道",History
-https://live.catvod.com/catvod_com.php?id=History&token=9102bdb16de11304f8f1edfaf5aa78a99a68d8dab946579d1a36fa2aaabddbbb%3A1757851698
-#EXTINF:-1 group-title="记录频道",BBC Earth HD
-https://live.catvod.com/catvod_com.php?id=bbcearth_twn&token=a34e32683d9645ba9abaed2c46cae852e1b987de67b9339068da23b3759132d8%3A1757851698
-#EXTINF:-1 group-title="记录频道",BBC Earth Lifestyle
-https://live.catvod.com/catvod_com.php?id=bbclifestyle_twn&token=eea102c0e60b421d66ec80768b035b50044a3f4429d0fb51cc09bc592526a28e%3A1757851698
-#EXTINF:-1 group-title="记录频道",NatGeo Wild HD
-https://live.catvod.com/catvod_com.php?id=Natgeowild&token=f69cc06b9cb6337377aa4bd560e31f8c5937f5c8d734739be9c94051ce17db02%3A1757851698
-#EXTINF:-1 group-title="记录频道",Animal Planet (Eng)
-https://live.catvod.com/catvod_com.php?id=AnimalPlanet&token=46f78fd676d95a212eb115f52b507fc72f026765164cd74cbf9b545a00cdd32a%3A1757851698
-#EXTINF:-1 group-title="记录频道",TLC
-https://live.catvod.com/catvod_com.php?id=Tlc&token=54af3a02f8e6caa3cf016950ce7f0fe891316d7fd46871b92bc2b5800f9f2575%3A1757851698
-#EXTINF:-1 group-title="记录频道",Foodnetwork Hd
-https://live.catvod.com/catvod_com.php?id=Foodnetwork&token=b8a5e13f6d9d33252c152f0481779c1bb7b45f5f428cc039a5cd584309807710%3A1757851698
-#EXTINF:-1 group-title="记录频道",HGTV
-https://live.catvod.com/catvod_com.php?id=HGTV&token=9a138541c8f758266e6f6bdb656c6eb6f590beeb7ad58ac0cca4a6a98c350537%3A1757851698
-#EXTINF:-1 group-title="新闻频道",Skynews
-https://live.catvod.com/catvod_com.php?id=skynews_twn&token=ce2f418fbef2aca77c582db56e71897c0c3c8801fcd799ecefa6fefc8535081a%3A1757851698
-#EXTINF:-1 group-title="新闻频道",ABC News
-https://live.catvod.com/catvod_com.php?id=abcnews_glo&token=aeb04f584d35cc883c7e2510ea77894a7e38e5093d4a881553531d424ba8d313%3A1757851698
-#EXTINF:-1 group-title="新闻频道",CBS HD
-https://live.catvod.com/catvod_com.php?id=cbshd_glo&token=8172acee5b613e9dbc2c03317f40e04543dee3d5bb8ee1d862ab03803a655839%3A1757851698
-#EXTINF:-1 group-title="新闻频道",CBSN HD
-https://live.catvod.com/catvod_com.php?id=cbsn_glo&token=4b86bddd4bfd7fee5450d43aa65528d5648dae0df94d08059a91e978e6fe27ce%3A1757851698
-#EXTINF:-1 group-title="新闻频道",France 24
-https://live.catvod.com/catvod_com.php?id=france24_twn&token=48b30aa01bc1b7869b8f0c69b45bdbc5cb1f37f7029bbb4eb2813bb7d8793169%3A1757851698
-#EXTINF:-1 group-title="新闻频道",DW (Deutsch)
-https://live.catvod.com/catvod_com.php?id=dw_twn&token=30d85d9b6886b42aea6023a2354d2a4b2640f6ce5a29aaceb509fb041322337d%3A1757851698
-#EXTINF:-1 group-title="新闻频道",NHK World
-https://live.catvod.com/catvod_com.php?id=nhkworld_japan&token=060481abe069351f755a76ea8d1fceae093d9881d4966238d0e108a21dddca48%3A1757851698
-#EXTINF:-1 group-title="新闻频道",Fox News
-https://live.catvod.com/catvod_com.php?id=foxnews_twn&token=665b383505902052cf2ce9e04e51e4b674f5067a1066f11c076a0c49a49aba6d%3A1757851698
-#EXTINF:-1 group-title="新闻频道",CNN International
-https://live.catvod.com/catvod_com.php?id=Cnn&token=d2fdfe08d47f9f39d441fe94201796246d89daa686dadcb522a69e829e492f8d%3A1757851698
-#EXTINF:-1 group-title="新闻频道",CNN backup
-https://live.catvod.com/catvod_com.php?id=cnn_twn&token=08c0a6c693b3f9f34e4856f27f405fc89694cae43c25bbaf1cc572772334aa0e%3A1757851698
-#EXTINF:-1 group-title="新闻频道",CNBC
-https://live.catvod.com/catvod_com.php?id=cnbc_twn&token=7f5dac9e58783e6af88f77a30f4dc735fe5538a28de8e840c85e53931c3cab53%3A1757851698
-#EXTINF:-1 group-title="新闻频道",CNA
-https://live.catvod.com/catvod_com.php?id=cna&token=30b0037364e7cf88bc66d030801144ff3be9efa57f22da67b12d81007c68c6f2%3A1757851698
-#EXTINF:-1 group-title="新闻频道",BBC World News
-https://live.catvod.com/catvod_com.php?id=bbcnews_twn&token=94b4dbff11d57d04465b941a785bd212d0b739c992a58545540c716769185723%3A1757851698
-#EXTINF:-1 group-title="新闻频道",BBC World News
-https://live.catvod.com/catvod_com.php?id=Bbcnews&token=ac699d67a42225e8e50dfdd58a65776ecaaa2de75e5bf637339031225ced6f61%3A1757851698
-#EXTINF:-1 group-title="新闻频道",Bloomberg News
-https://live.catvod.com/catvod_com.php?id=bloomberg_twn&token=afd26810a47488c322449e6da3618af844e89fd66b00bc2dac337174600ffd83%3A1757851698
-#EXTINF:-1 group-title="新闻频道",Al-Jazeera
-https://live.catvod.com/catvod_com.php?id=aljazeera_twn&token=ecfa071ef0d9c11bcf342833aae297ad7759dc28afe34d2cd8ac24d183d51e0d%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Baby TV Eng
-https://live.catvod.com/catvod_com.php?id=Babytv&token=5be8fd42eee731fe7c9c8764505db93dbe30d95ad68beba5ce786962868a3665%3A1757851698
-#EXTINF:-1 group-title="儿童频道",CBeebies
-https://live.catvod.com/catvod_com.php?id=Cbeebies&token=6b10c728e7a907b6f49195223f52f7c6230ab14c02d6403dc6511c08f2dcf802%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Kids TV
-https://live.catvod.com/catvod_com.php?id=KidsTV&token=a9390b3035ce9d871ff2d43cd2a3bd9cb028024e27311f32bec2e0bd72ee5688%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Momo TV
-https://live.catvod.com/catvod_com.php?id=momo1_twn&token=c64373a1e2c63b55814a9665de15b3b7d0e5b5bf8a740ddebb6958e5bd28981a%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Baby TV
-https://live.catvod.com/catvod_com.php?id=babytv_twn&token=5052ba08926b33ea57f4d0d7df5a2d67d2500ba9af7d7dcf68de58c7b2408c36%3A1757851698
-#EXTINF:-1 group-title="儿童频道",MiaoMi
-https://live.catvod.com/catvod_com.php?id=MiaoMi&token=8adb46e3974b9bb0e0f287a2baf68265f6193f01405d0bb111220b1fd8b37a03%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Cartoon Network
-https://live.catvod.com/catvod_com.php?id=Cn&token=9ab126b0f98647f97dafea93a3416368d39815d9f44ce4903696459057f59736%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Nickelodeon台灣
-https://live.catvod.com/catvod_com.php?id=nickelodeon_twn&token=6ad3c81f4f743ad1843f1db7a57545809d6831774a43606ca2e79869a18facc0%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Nickelodeon
-https://live.catvod.com/catvod_com.php?id=Nickelodeon&token=dd0f50a812f169d74681921c78cb429185210f186cf73789179be868d2631298%3A1757851698
-#EXTINF:-1 group-title="儿童频道",Nick Jr
-https://live.catvod.com/catvod_com.php?id=Nickjr&token=d9e2cc07038955d36ebdd24594c04baab001bf7042e784a43452eeb8aff56c53%3A1757851698
-#EXTINF:-1 group-title="其它频道",NHK
-https://live.catvod.com/catvod_com.php?id=NHK&token=899ad20faccf3b7b7123db9735938b4398b8092a39633b167bf6412bd4711241%3A1757851698
-#EXTINF:-1 group-title="其它频道",Channel 5
-https://live.catvod.com/catvod_com.php?id=Channel5HD&token=073bd3bf341756d9be7fd6c1524de017a386c2f947df208062438e7a1e53aaa3%3A1757851698
-#EXTINF:-1 group-title="其它频道",Channel 8
-https://live.catvod.com/catvod_com.php?id=Channel8HD&token=2e896160d2c8cb5f0aa0ba0384bce97d37a5b3ae03e81cfbd02804d042b59990%3A1757851698
-#EXTINF:-1 group-title="其它频道",Suria
-https://live.catvod.com/catvod_com.php?id=Suria&token=2020d51d2bf15086df5c3663623cf855bf99b58618049074d7958d6eab124cb9%3A1757851698
-#EXTINF:-1 group-title="其它频道",Channel U
-https://live.catvod.com/catvod_com.php?id=ChannelU&token=ad29f77808a9f5c67458ef3e1e7116a5df15b387bb451e92952037918166ae6f%3A1757851698
-#EXTINF:-1 group-title="其它频道",Vasantham
-https://live.catvod.com/catvod_com.php?id=Vasantham&token=41ed4c8fc3019c4d1c45fcaf03103c2a44a450dd712407707cb308f18e66a21e%3A1757851698
-#EXTINF:-1 group-title="其它频道",MeWatch Ch 5
-https://live.catvod.com/catvod_com.php?id=Mewatch_ch5&token=79e4bf6467d703eda9eb75ec505dffe114c0672b6e4ab264ecffd24049f764ce%3A1757851698
-#EXTINF:-1 group-title="其它频道",MeWatch Ch 8
-https://live.catvod.com/catvod_com.php?id=Mewatch_ch8&token=a9e16a37d7c4f14137aa2de2f2f0c54743ae4bb4a1822fb9d60839a7dd6dbbaa%3A1757851698
-#EXTINF:-1 group-title="其它频道",MeWatch Ch U
-https://live.catvod.com/catvod_com.php?id=Mewatch_chU&token=97d102bc2d86c2bd1df524553d480014382f1223820a9d95746621cc17057a70%3A1757851698
-#EXTINF:-1 group-title="其它频道",MeWatch Suria
-https://live.catvod.com/catvod_com.php?id=Mewatch_Suria&token=1357391d2b397c479f6c0d93ece938f47c42734bd1cc18a2991b273271b2bfa3%3A1757851698
-#EXTINF:-1 group-title="其它频道",MeWatch Vasantham
-https://live.catvod.com/catvod_com.php?id=Mewatch_Vasantham&token=eb8dd72701799cfb76d0e0bf99729af500cd786002bef806f51961a141ec9ab7%3A1757851698
-#EXTINF:-1 group-title="其它频道",MeWatch CNA
-https://live.catvod.com/catvod_com.php?id=Mewatch_cna&token=5a4f169e31ba1623315cc509e9acba9b34e28603317e1c12c5d1657037ddcc1e%3A1757851698
-#EXTINF:-1 group-title="其它频道",TV1
-https://live.catvod.com/catvod_com.php?id=TV1&token=4f9169574b8c148ea7c7c969f2a07ac98b17bbdc88ae53a53cdfe64f978cae4e%3A1757851698
-#EXTINF:-1 group-title="其它频道",TV1 backup
-https://live.catvod.com/catvod_com.php?id=TV1_backup&token=c6964710af0fcee52a945393ac2faead26a73b15d536280a2b81cd283e317313%3A1757851698
-#EXTINF:-1 group-title="其它频道",TV2
-https://live.catvod.com/catvod_com.php?id=TV2&token=81381b6ddfb9e81ae9b267c1a8bb19900be28fa1607efe5b7fc38ee728bb3afd%3A1757851698
-#EXTINF:-1 group-title="其它频道",TV3
-https://live.catvod.com/catvod_com.php?id=TV3&token=916e37286a2f5901524b210d4ccb4bf5d14d13cdd358ad3789cca133c667bb2b%3A1757851698
-#EXTINF:-1 group-title="其它频道",TV3 SD
-https://live.catvod.com/catvod_com.php?id=TV3_mega&token=3649aeb1c3256ce034395724ba1d0aa894a1240e5bdbf7e75c122618bc0c44ad%3A1757851698
-#EXTINF:-1 group-title="其它频道",NTV7
-https://live.catvod.com/catvod_com.php?id=NTV7&token=dce581d870ba6788ada7e5db6e9251662b64aad5d26d9e7a5b476a43ffd0ca1a%3A1757851698
-#EXTINF:-1 group-title="其它频道",TV8
-https://live.catvod.com/catvod_com.php?id=TV8&token=0ddc0d77d856cd367dace0a4843d79c274b1e21bfa1fc7fd3257f20254239e4a%3A1757851698
-#EXTINF:-1 group-title="其它频道",TV9
-https://live.catvod.com/catvod_com.php?id=TV9&token=85cb7d2179092eb58c55cff9685b22d4791b3df5902cc54e7073b190fddeeb61%3A1757851698
-#EXTINF:-1 group-title="其它频道",Ria
-https://live.catvod.com/catvod_com.php?id=Ria&token=cf851724aaab3559dec176a043087cc5a59b692d7625758ff967598ddecc5b9b%3A1757851698
-#EXTINF:-1 group-title="其它频道",Ria-3
-https://live.catvod.com/catvod_com.php?id=Ria_backup&token=3f9f1dbfd2ce8d903b5b7bd9903799d0ba096619af89e61a51cdec6de01cf45a%3A1757851698
-#EXTINF:-1 group-title="其它频道",Al-Hijrah
-https://live.catvod.com/catvod_com.php?id=Alhijrah&token=c64862dbbb62191e93d66c7023520fa383669226870b7dd2f4d35811d2e98ba4%3A1757851698
-#EXTINF:-1 group-title="其它频道",Al-Hijrah backup
-https://live.catvod.com/catvod_com.php?id=Alhijrah_backup&token=ba1112f81d981371bec2291a43a0f16228ae2001ce7079e53d8449bc1987db15%3A1757851698
-#EXTINF:-1 group-title="其它频道",Awani
-https://live.catvod.com/catvod_com.php?id=Awani&token=c80ca82eda3f6504352a7cb88edc26f220dedecad591d1a553698e3397568361%3A1757851698
-#EXTINF:-1 group-title="其它频道",Bernama
-https://live.catvod.com/catvod_com.php?id=Bernama&token=d293d8bd63f0c9f3ab6d2e2ea4e8df432e878087c33a7c637186a61e6608d828%3A1757851698
-#EXTINF:-1 group-title="其它频道",Prima
-https://live.catvod.com/catvod_com.php?id=Prima&token=f17716a0edd78a492d4e83c0344c1b2c78b0be1a2a8fd52f82dade67f99957d4%3A1757851698
-#EXTINF:-1 group-title="其它频道",Prima backup
-https://live.catvod.com/catvod_com.php?id=AAprima1&token=d5143f96add61f3daf6214617c4e95f0c5d6f424b2c2516942c90215171a3a77%3A1757851698
-#EXTINF:-1 group-title="其它频道",Prima backup 2
-https://live.catvod.com/catvod_com.php?id=AAprima&token=eb16791c88985fbb704418432bc73c2e44426529d4674338fbd70dc2d83f5772%3A1757851698
-#EXTINF:-1 group-title="其它频道",Ceria
-https://live.catvod.com/catvod_com.php?id=Ceria&token=dbb232b5a831cdf0197d9bce5bd44e4c032c8f6c3894e2c3e5c84c3a1cebcd4f%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro MTV
-https://live.catvod.com/catvod_com.php?id=AstroMTV&token=2f7e72b41410ad0e916ddf5eaf3f04476f6df2d9d2dfad692da35a61bf975797%3A1757851698
-#EXTINF:-1 group-title="其它频道",Mecca Live HD
-https://live.catvod.com/catvod_com.php?id=quran_mido&token=26a3f8ffa6dfc9be9ec07600664e5e82c0d88d0e89f8f6704333cd0f8d5d076e%3A1757851698
-#EXTINF:-1 group-title="其它频道",Madinah HD
-https://live.catvod.com/catvod_com.php?id=sunnah_mido&token=bd923feca39788e0ba1cd7e36cc5d1476b4a0a8dec160d12118bdf0e77abf947%3A1757851698
-#EXTINF:-1 group-title="其它频道",Oasis
-https://live.catvod.com/catvod_com.php?id=Oasis&token=5f3a74971080e56dbdd3c5338f28b713e9a39fac78099bea213f79b1876f99e9%3A1757851698
-#EXTINF:-1 group-title="其它频道",Siar
-https://live.catvod.com/catvod_com.php?id=Siar&token=8bb6e6806249dac03642353a77beb904bf242f36a22e034a3410e3ebc0d9eb2a%3A1757851698
-#EXTINF:-1 group-title="其它频道",Citra
-https://live.catvod.com/catvod_com.php?id=AAcitra&token=4b236c18d74d3b6f9b1401e4ee3f7fb3d462781ac32361642d8729bdeaf220a9%3A1757851698
-#EXTINF:-1 group-title="其它频道",Citra backup
-https://live.catvod.com/catvod_com.php?id=AAcitra1&token=0a63ec9c2d44a761f670b976a05edcca491173ae808f7ccd3b2d17e1bb8539f1%3A1757851698
-#EXTINF:-1 group-title="其它频道",Sensasi
-https://live.catvod.com/catvod_com.php?id=Sensasi&token=dcf827d9b343c69b4b1b2aee7fddced4ff1b6c9b19c844c7bdbe115de847b7c5%3A1757851698
-#EXTINF:-1 group-title="其它频道",Aura
-https://live.catvod.com/catvod_com.php?id=Aura&token=b76d0a4a1c4faa3b669aa39648dab3154bf898224b8558cf9055a17401ffe41e%3A1757851698
-#EXTINF:-1 group-title="其它频道",Rania
-https://live.catvod.com/catvod_com.php?id=Rania&token=a0ed395bcc338e3534cdaa0bf1d1d3b5fc0aafa095d81ecfd9b0d4e9d93c89ee%3A1757851698
-#EXTINF:-1 group-title="其它频道",KBS World
-https://live.catvod.com/catvod_com.php?id=KBS&token=29af9b8e2716b511af1741b19b98b0aef44803f7510bf8a0da0ef25c8d151e86%3A1757851698
-#EXTINF:-1 group-title="其它频道",Boo
-https://live.catvod.com/catvod_com.php?id=Boo&token=65c93f7d7ca797f58c39376d23c2bd99134e41446cba99b0bfc2074ceae162c5%3A1757851698
-#EXTINF:-1 group-title="其它频道",Awesome TV
-https://live.catvod.com/catvod_com.php?id=Dsangat&token=f8a3830abc27cc2ded89d707ac11c744c8dd54fc89d06ff84dc9518f41830da8%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro Sonypix
-https://live.catvod.com/catvod_com.php?id=Asonypix&token=d2d93361cb1be0d93820221676432adec7e9a503cf9251b9ba8ec0bab7a2209b%3A1757851698
-#EXTINF:-1 group-title="其它频道",Sony HD
-https://live.catvod.com/catvod_com.php?id=SetOne&token=6c61bb73b5431739b1d1bca39d4fe711c51b1e714002edf2376e59ff23a5b71b%3A1757851698
-#EXTINF:-1 group-title="其它频道",TvN
-https://live.catvod.com/catvod_com.php?id=TVN&token=0bb280264715cb4fa0c815530cf90eda43f45d77a9561743a30ac772dbb2f17a%3A1757851698
-#EXTINF:-1 group-title="其它频道",AEC
-https://live.catvod.com/catvod_com.php?id=AEC&token=ac4375b5f3de5f503bc80c601640f2f5383667213aab02b3ce17d9f1e6020881%3A1757851698
-#EXTINF:-1 group-title="其它频道",华丽台 HD （Wah Lai Toi）
-https://live.catvod.com/catvod_com.php?id=Wlt&token=1f77b76dddeede20fed8b07428515e447dac1ecc71d1ae66a7d67aa96c5a2dcb%3A1757851698
-#EXTINF:-1 group-title="其它频道",欢喜台 HD （Hua Hee Tai）
-https://live.catvod.com/catvod_com.php?id=Huahee&token=54a7fdfb7dfacd31cbda1b6fc61715960b2ce4d356dca914b164a50c98633592%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro QJ
-https://live.catvod.com/catvod_com.php?id=Quanjia&token=55b37c93b57c02db4f8e7f1b1ccc3f9ca416bbaae6c18b7c87a1d1fc86dee77b%3A1757851698
-#EXTINF:-1 group-title="其它频道",TVB Jade
-https://live.catvod.com/catvod_com.php?id=Tvbjade&token=afe7c0144d44859db382f855678f3048d56778c434c761ee1026e00e3aff9454%3A1757851698
-#EXTINF:-1 group-title="其它频道",TVB Asia
-https://live.catvod.com/catvod_com.php?id=Tvbasia&token=618a95bc0e0c779052507b4cb93dae4cefb0796817bc4bfd8863c58829a663e0%3A1757851698
-#EXTINF:-1 group-title="其它频道",TVB Entertainment
-https://live.catvod.com/catvod_com.php?id=Tvbentertainment&token=c4bc723a719e773ef8e654d8637268c19dba6beb6f83d34331fa9d4b77c9da5c%3A1757851698
-#EXTINF:-1 group-title="其它频道",TVB Classic
-https://live.catvod.com/catvod_com.php?id=Tvbclassic&token=e417f57a39115e5998a096c3ab10a563cb308018ec04e0bfdbb7aeab7395da75%3A1757851698
-#EXTINF:-1 group-title="其它频道",AOD
-https://live.catvod.com/catvod_com.php?id=Aodhd&token=088aa2659b9cab2e1ab922710506f640df75d653a18df90a6ce426dcfabef01f%3A1757851698
-#EXTINF:-1 group-title="其它频道",TVB 星河台 Xing He
-https://live.catvod.com/catvod_com.php?id=Xinhe&token=c0057f538b36b573e90bc5f1544994534907eddfb3065200b92b5498d7ff85c8%3A1757851698
-#EXTINF:-1 group-title="其它频道",爱奇艺 iQiyi
-https://live.catvod.com/catvod_com.php?id=Qiyi&token=442b36063c9f503835d2068d62440552d692cfc44d9c0345829842c4fd921d8a%3A1757851698
-#EXTINF:-1 group-title="其它频道",Goshop
-https://live.catvod.com/catvod_com.php?id=Goshop&token=2d05a1b1b121c9786aa44d3f27c768597b1fd2875db6046c006304669d297841%3A1757851698
-#EXTINF:-1 group-title="其它频道",Celestial Movies HD
-https://live.catvod.com/catvod_com.php?id=Celestial&token=16e8ff9e36780ae9d50b44abfd294af7a98360d686698603bc17245060108b43%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro LOL
-https://live.catvod.com/catvod_com.php?id=Astro_lol&token=d665afd0a6ec95fbf66da8a72ef182544e3eb323311c02851bf5f7fdc65da985%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro Rusi
-https://live.catvod.com/catvod_com.php?id=Rusi&token=0475099e59e03aef04804ddc716f10fcd955b4c822b4c0e953a1d2ad9cb284fe%3A1757851698
-#EXTINF:-1 group-title="其它频道",WION
-https://live.catvod.com/catvod_com.php?id=Wion&token=9a238a9a14f3774f65d484eecad1fd3592a236e7a61f430d52644b27c50232ec%3A1757851698
-#EXTINF:-1 group-title="其它频道",RTM Asean
-https://live.catvod.com/catvod_com.php?id=Rtmasean&token=9fb09bda4b34ab9fbfa89845d5d913484b5148e1c7d3fcf48ed0f64a3a36c1f5%3A1757851698
-#EXTINF:-1 group-title="其它频道",TVRI National
-https://live.catvod.com/catvod_com.php?id=TVRI&token=e57348a6516def4ccf9cfda219a57f26dede7e11455f6f34dcc95b4a30b79849%3A1757851698
-#EXTINF:-1 group-title="其它频道",RCTI
-https://live.catvod.com/catvod_com.php?id=Rcti&token=0fc1f9ec04baac87ed3f5fd997199d2d2f2a6e6b4429f3862af5986d566a49b5%3A1757851698
-#EXTINF:-1 group-title="其它频道",Kompass TV
-https://live.catvod.com/catvod_com.php?id=Kompass&token=61433e7fde622773a193d873a6fd7759738f1a08e91ad8f83d6e167e8feee219%3A1757851698
-#EXTINF:-1 group-title="其它频道",Berita Satu
-https://live.catvod.com/catvod_com.php?id=BeritaSatu_eko&token=bc26bae1abbb8e723db1fb794dbc4f66324d51ecc1c660d59c1f5a134ac6c290%3A1757851698
-#EXTINF:-1 group-title="其它频道",Indosiar HD
-https://live.catvod.com/catvod_com.php?id=Indosiar&token=260271dd0cddfb1fba9843bdbdcb8f54517a6f8a1255c038e8ae2fdc5df229c4%3A1757851698
-#EXTINF:-1 group-title="其它频道",AnTV
-https://live.catvod.com/catvod_com.php?id=Antv&token=b52c83b3fa2f5df17f14686372ce05666130c93733e3ff1937413e5a2ad2dd7c%3A1757851698
-#EXTINF:-1 group-title="其它频道",MNC TV
-https://live.catvod.com/catvod_com.php?id=Mnctv&token=63041f82fd605895273ff14362a46a680d54644c37598040063c79fbc31e6833%3A1757851698
-#EXTINF:-1 group-title="其它频道",Trans 7
-https://live.catvod.com/catvod_com.php?id=Trans7_eko&token=775377da826b6771f1125cbfeb0425028817b778730970e9d4281c10248c9e00%3A1757851698
-#EXTINF:-1 group-title="其它频道",Transtv
-https://live.catvod.com/catvod_com.php?id=Transtv&token=2551ab1bcc9a8d080fb0130c0828be2c0abde244bb949127967dbb94de4e2240%3A1757851698
-#EXTINF:-1 group-title="其它频道",JTV
-https://live.catvod.com/catvod_com.php?id=JTV_eko&token=bd7ce47e57bef8622685dbd3fbf26763b4688e275205d59f4b22e1dbc9f5d240%3A1757851698
-#EXTINF:-1 group-title="其它频道",Metro TV
-https://live.catvod.com/catvod_com.php?id=metrotv_eko&token=3e32c8ae5feba2b5e7d6e83e79914e1a42a63845cdc204418622136db3d6ba05%3A1757851698
-#EXTINF:-1 group-title="其它频道",SCTV
-https://live.catvod.com/catvod_com.php?id=SCTV&token=105cc0683169ff93cfdb72c4c3e82198fc0495a7aa5d5a71fcf535b7c5aefdf3%3A1757851698
-#EXTINF:-1 group-title="其它频道",Tvone
-https://live.catvod.com/catvod_com.php?id=Tvone&token=b721402c1dee8681bfab80ab29a7a1321e5248e359c0d91789d995c31e29dd7a%3A1757851698
-#EXTINF:-1 group-title="其它频道",TVMU
-https://live.catvod.com/catvod_com.php?id=TVMU_eko&token=66b5965e0a8f558a11739db0d31d42edf71756901d1238f6b048bd2d1ef824f8%3A1757851698
-#EXTINF:-1 group-title="其它频道",GTV
-https://live.catvod.com/catvod_com.php?id=Gtv&token=5052e1519b7b450f80911560a3e5d78767e2ade1cce7d8a38cfdea9748b8a2d8%3A1757851698
-#EXTINF:-1 group-title="其它频道",RTV
-https://live.catvod.com/catvod_com.php?id=Rtv&token=b1fd5d6fdaaaef25bcf52ea0c2a528b5b7817f4f5c2fa200e89798bcb7784712%3A1757851698
-#EXTINF:-1 group-title="其它频道",Jak TV
-https://live.catvod.com/catvod_com.php?id=JakTV&token=f0c22cb78cba876c83ee1205c381b98e7322acb355a22d3b6e94abd2e60ca6c0%3A1757851698
-#EXTINF:-1 group-title="其它频道",iNews TV
-https://live.catvod.com/catvod_com.php?id=Inewstv&token=a28ba52ca637da9253d89ecec2c76705777f1da51cf4ba51d6612c6b8cd45577%3A1757851698
-#EXTINF:-1 group-title="其它频道",Daai TV
-https://live.catvod.com/catvod_com.php?id=DaaiTV&token=1b6b3455fb92fcc9b07ccd52bda88fd1317117ea40a81ed7dc540b8ca8a214c1%3A1757851698
-#EXTINF:-1 group-title="其它频道",Net TV
-https://live.catvod.com/catvod_com.php?id=NetTV&token=0f9eb64c5291afadbdd23088beb2943570a73b2d88f28f9d90b84ee13cb0b0e9%3A1757851698
-#EXTINF:-1 group-title="其它频道",EWTN
-https://live.catvod.com/catvod_com.php?id=Ewtn&token=a0d56635ca81a58e3a4daa75fbf4628c5d5d9ff45fb545312591c5246c1be3d0%3A1757851698
-#EXTINF:-1 group-title="其它频道",Tawaf TV
-https://live.catvod.com/catvod_com.php?id=TawafTV&token=60fd6fe9e4de596fd8d87a85f6031199d9babd3ef38a7c5a2ce39f254c4b9394%3A1757851698
-#EXTINF:-1 group-title="其它频道",Vision Prime
-https://live.catvod.com/catvod_com.php?id=VisionPrime&token=0efea69cb7b6fc5a1de5982aa998d45fa1f5d770ea11575e0675096f75402453%3A1757851698
-#EXTINF:-1 group-title="其它频道",Muslim TV
-https://live.catvod.com/catvod_com.php?id=MuslimTV&token=2957c5d2f4d3bb5efd5b7928e087136049d03ce2a173e662b487291664b4eee8%3A1757851698
-#EXTINF:-1 group-title="其它频道",Music TV
-https://live.catvod.com/catvod_com.php?id=MusicTV&token=9813c99c06d76ae82709c1637c8eee3498cf236dd2ddb719e8e5ee418acc84fd%3A1757851698
-#EXTINF:-1 group-title="其它频道",Lifestyle&amp;Fashion
-https://live.catvod.com/catvod_com.php?id=Lifestyle&token=06effd7fd6088b7db722706e38bd7aa27d77096a886383dcfb8b542c54c5bf63%3A1757851698
-#EXTINF:-1 group-title="其它频道",Sun TV HD
-https://live.catvod.com/catvod_com.php?id=Suntv&token=f45211ecb5646766f4166f2533d90eb26b9e0bbf84017ab8ecbc2b9f9b3481e7%3A1757851698
-#EXTINF:-1 group-title="其它频道",Star Vijay
-https://live.catvod.com/catvod_com.php?id=Starvijay&token=3074c11afec3b8be63f551ffae4fc80ac197b3c76c6e6c67fe1a97e25d83ee0f%3A1757851698
-#EXTINF:-1 group-title="其它频道",Colors Tamil
-https://live.catvod.com/catvod_com.php?id=Colorstam&token=ae23b93ff250551f2bf18e9733e2e228538fa0075f1464493e91d6b5c62c631c%3A1757851698
-#EXTINF:-1 group-title="其它频道",Sun Music
-https://live.catvod.com/catvod_com.php?id=Sunmusic&token=c8f50b6920fb10418e01dbfe1ead8afab7664003d4a9a33307a18809eb4bf96f%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro Sunlife
-https://live.catvod.com/catvod_com.php?id=Sunlife&token=8c044e87c3d313248b93aabcc4653a266134c962ecda897d61aa6fbc706c693c%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro Vaanavil
-https://live.catvod.com/catvod_com.php?id=Vaanavil&token=02934a8fd49cd89f43b95162e14f8b74a792bca666d7ea4b5a8870bfaf66ae65%3A1757851698
-#EXTINF:-1 group-title="其它频道",Zee Tamil
-https://live.catvod.com/catvod_com.php?id=Zeetamil&token=60424fe1f8c77bc24e9dc788e4e987d1ec17baac0143d7d0778be0d5d26b1036%3A1757851698
-#EXTINF:-1 group-title="其它频道",Zee Business
-https://live.catvod.com/catvod_com.php?id=Zeebusiness&token=86abd87b5046e45c14203b05dd3f6f8c2b7b515d4f3a2e1bbb4266a8db3eee34%3A1757851698
-#EXTINF:-1 group-title="其它频道",News 18 Tamil
-https://live.catvod.com/catvod_com.php?id=news18tamil_raj&token=4caa54696b07f1c01db07af8e7667b8ca8f6113ff0ed1c58bcbbb3e57e209bd1%3A1757851698
-#EXTINF:-1 group-title="其它频道",Adithya
-https://live.catvod.com/catvod_com.php?id=Adithya&token=31acf92fca7dc5bed6452e01eb5f5f1d70b7e9396f6354ba2483cf8b3e93cd56%3A1757851698
-#EXTINF:-1 group-title="其它频道",Makkal TV
-https://live.catvod.com/catvod_com.php?id=Makkaltv&token=26e6fdeeae65aeb5f6f6d0ae8e073c26a17ce0449ff05f2560524c3518ebc9d9%3A1757851698
-#EXTINF:-1 group-title="其它频道",Zee Action
-https://live.catvod.com/catvod_com.php?id=Zeeaction&token=274883c63f7544677e11106cd5383063c7e96dd97f13729233f3b7023eb9f538%3A1757851698
-#EXTINF:-1 group-title="其它频道",Astro KTV
-https://live.catvod.com/catvod_com.php?id=Astroktv&token=b71c1cd687190bbd7ff4844ad1373150e13d472fa80c85d85dd5b9fa3fb5438b%3A1757851698
-#EXTINF:-1 group-title="其它频道",Zee TV HD
-https://live.catvod.com/catvod_com.php?id=Zeetvhd&token=d7a4367ed56f1c04b2e9ac3612b729802f9ed27f0a8067ee708783f71b95bd06%3A1757851698
-#EXTINF:-1 group-title="其它频道",Zee Cinema HD
-https://live.catvod.com/catvod_com.php?id=Zeecinemahd&token=0ca7fba3101cd291881f621643f7d30f526c922b9fd90eb2ff70da8c4d8875bd%3A1757851698
-#EXTINF:-1 group-title="其它频道",Color HD
-https://live.catvod.com/catvod_com.php?id=Colorhd&token=3de3a6de083329b03c2042016cab25fa8f65f8cba4888242998f33bcf522ca64%3A1757851698
-#EXTINF:-1 group-title="其它频道",Starplus HD
-https://live.catvod.com/catvod_com.php?id=Starplushd&token=bd8266532617b85ea76b7ba676a09781f357dd452b889514c4885d04555c0799%3A1757851698
-#EXTINF:-1 group-title="其它频道",Picture HD
-https://live.catvod.com/catvod_com.php?id=Npicture&token=35af8d317982f092500b94f8d5992a45e702ebafc55d8bfd65a1d45fd74cde7d%3A1757851698
-#EXTINF:-1 group-title="其它频道",Zee News
-https://live.catvod.com/catvod_com.php?id=Zeenews&token=78cbc68531c6daf993b24d4e1128bdfb8bc7e1de4335dffdc274a502b95a5f61%3A1757851698
-#EXTINF:-1 group-title="其它频道",Asianet
-https://live.catvod.com/catvod_com.php?id=asianet_raj&token=30dd1a79b9769d929dea892834995936be00defb1be51d000250eab06bdc443e%3A1757851698
-#EXTINF:-1 group-title="其它频道",Discovery World Tamil
-https://live.catvod.com/catvod_com.php?id=discoveryworldtam_raj&token=c774b76fc4af4b9ca231ccdb391ba11526edbc4c2d5fadd5a035fa544a89a88f%3A1757851698
-#EXTINF:-1 group-title="其它频道",History Tamil
-https://live.catvod.com/catvod_com.php?id=historytam_raj&token=a83483ab95ab5fc63226b18a981b46a7be2a924c6e59c9d73fdc2ec1d9e7b779%3A1757851698
-#EXTINF:-1 group-title="其它频道",NatGeo Tamil
-https://live.catvod.com/catvod_com.php?id=natgeotamil_raj&token=fd9b3c95ff3e2377456b13337a43d5f65f1720a5deccfc642a39d00b4580beab%3A1757851698
-#EXTINF:-1 group-title="其它频道",Natgeo Wild Tamil
-https://live.catvod.com/catvod_com.php?id=natgeowildtamil_raj&token=3f0ac2098646e0ac64faacdf73d21cb08eb6d17e0a52e1dc28b1e5fafcc0184b%3A1757851698
-#EXTINF:-1 group-title="其它频道",Discovery Kids Tamil
-https://live.catvod.com/catvod_com.php?id=discoverykidtamil_raj&token=a7ecd53fd74b80b5eab6242d77f518e01d5aac2e83a4d3686bf7e2f8d7d840d5%3A1757851698
-#EXTINF:-1 group-title="其它频道",Sony Yay Tamil
-https://live.catvod.com/catvod_com.php?id=sonyyaytam_raj&token=ddee3ed1868d06905dc4aaabf089523a8adbcfa28092b9f6a34ccfabd72c3769%3A1757851698
-#EXTINF:-1 group-title="其它频道",Starmaa HD
-https://live.catvod.com/catvod_com.php?id=starmaa_raj&token=5b3c56905072b56bb06ce30aaeb55028e5b076f7193161b97259ab3aed452666%3A1757851698
-#EXTINF:-1 group-title="其它频道",Starmaa Movies HD
-https://live.catvod.com/catvod_com.php?id=starmaamovies_raj&token=84eeb76e38e10d24532a2a4840357715c9d6cdb4adc21637abed2edd4074c4d2%3A1757851698
-#EXTINF:-1 group-title="其它频道",Bollyone
-https://live.catvod.com/catvod_com.php?id=Bollyone&token=393f32a2166b603bf209158601c301d4783e5e3e1b5e5f98f58054fb1548737b%3A1757851698
-#EXTINF:-1 group-title="其它频道",Vijay Super
-https://live.catvod.com/catvod_com.php?id=vijaysuper_raj&token=79ed0dbbdf76c61936f0db2304329bbe510c11f5237400ac579e54b94b5fd325%3A1757851698
-#EXTINF:-1 group-title="其它频道",Vellithirai
-https://live.catvod.com/catvod_com.php?id=Vellithirai&token=d6fd64cc959141e92de79066a4dc495f1d40ed3c9c5b63899b9036a2cfb95168%3A1757851698
-#EXTINF:-1 group-title="其它频道",MCOT HD Thailand-1
-https://live.catvod.com/catvod_com.php?id=mcot_pat&token=d0c580b332bb000e79928ede97e221b660e93d87f879324251acdf50a9b1d727%3A1757851698
-#EXTINF:-1 group-title="其它频道",PPTV Thailand1
-https://live.catvod.com/catvod_com.php?id=pptv_pat&token=ea48bb0b6c57222f07beedfc368fd378a28b341a30e70885a125cb78b91004c3%3A1757851698
-#EXTINF:-1 group-title="其它频道",Ch 8
-https://live.catvod.com/catvod_com.php?id=ch8_pat&token=86e90b9ccc0f5e7737defa4b61cc1c35c9c76cf041e7e52183fab2853dfc50fe%3A1757851698
-#EXTINF:-1 group-title="其它频道",Mono
-https://live.catvod.com/catvod_com.php?id=mono_pat&token=d6d8767b85a397204ebf971db9108127ad712edea26ce2bc22ba73cc1cad92e9%3A1757851698
-#EXTINF:-1 group-title="其它频道",Workpoint
-https://live.catvod.com/catvod_com.php?id=workpoint_pat&token=720f9e06edb09d5eb647d7f1a1bbe4f8e1404453bfd5ce0c4ba8f17bcd452052%3A1757851698
-#EXTINF:-1 group-title="其它频道",Gmm Channel
-https://live.catvod.com/catvod_com.php?id=gmmchannel_pat&token=6e7ae28b613bd5611ecb0f58154c042069f84f721a2b2498a7e03e19d6ea64e7%3A1757851698
-#EXTINF:-1 group-title="其它频道",Nation
-https://live.catvod.com/catvod_com.php?id=nation_pat&token=ad5cf5353481074e6f191e6f4195bdfa366b04ea7867a88ffa4096c1430fb07f%3A1757851698
-#EXTINF:-1 group-title="其它频道",Tnn24
-https://live.catvod.com/catvod_com.php?id=tnn24_pat&token=c2c08aad7da9ddcfe457933d929113254a178d1e4a24a08aae8f4c52bc3e1bb6%3A1757851698
-#EXTINF:-1 group-title="其它频道",BBC 1
-https://live.catvod.com/catvod_com.php?id=bbc1_antik&token=0a27dc2fa2441ac5bb67d8be18ceaee5afc8762029616579071e0a59029e3a5b%3A1757851698
-#EXTINF:-1 group-title="其它频道",itv 1
-https://live.catvod.com/catvod_com.php?id=itv1_antik&token=fa7c9563b544cf5c2d0327ac9c23e4b54f533fd42cd046d55458df1df0b244b4%3A1757851698
+#EXTINF:-1 tvg-name="CCTV-Documentary" tvg-id="" tvg-country="China" tvg-language="English" tvg-logo="https://epg.pw/media/uploads/tmp_logo/2014/05/19/20140519052300032514_79.png" group-title="Knowledge",[BD]documentary plus
+https://stream1.freetv.fun/documentary-plus-4.m3u8
+#EXTINF:-1 tvg-name="CCTV1" tvg-id="378819" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001359645907_15.png" group-title="Generic",[BD]唐河一套
+https://stream1.freetv.fun/tang-he-yi-tao-1.m3u8
+#EXTINF:-1 tvg-name="CCTV1" tvg-id="378819" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001359645907_15.png" group-title="Generic",[SD]cctv1
+https://stream1.freetv.fun/cctv1-70.ctv
+#EXTINF:-1 tvg-name="CCTV1" tvg-id="378819" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001359645907_15.png" group-title="Generic",[BD]cctv1
+https://stream1.freetv.fun/cctv1-38.m3u8
+#EXTINF:-1 tvg-name="CCTV1" tvg-id="378819" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001359645907_15.png" group-title="Generic",[BD]cctv1[ipv6]
+https://stream1.freetv.fun/ipv6-cctv1-47.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-30.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-73.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-84.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[SD]cctv1
+https://stream1.freetv.fun/cctv1-32.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1[ipv6]
+https://stream1.freetv.fun/ipv6-cctv1-62.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-61.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-45.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-21.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[HD]cctv1 *n
+https://stream1.freetv.fun/cctv1--n-1.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1[ipv6]
+https://stream1.freetv.fun/ipv6-cctv1-40.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-69.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-27.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1
+https://stream1.freetv.fun/cctv1-15.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1[ipv6]
+https://stream1.freetv.fun/ipv6-cctv1-50.m3u8
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1-综合
+https://stream1.freetv.fun/cctv1-zong-he-15.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1-综合
+https://stream1.freetv.fun/cctv1-zong-he-17.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv1 *wj
+https://stream1.freetv.fun/cctv1--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV1(RTHK33)" tvg-id="368552" tvg-country="Hong Kong" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2024/05/16/large/20240516043525045887_55.png" group-title="News",[BD]cctv-01
+https://stream1.freetv.fun/cctv-01-3.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[SD]cctv10
+https://stream1.freetv.fun/cctv10-88.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10-科教
+https://stream1.freetv.fun/cctv10-ke-jiao-14.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10
+https://stream1.freetv.fun/cctv10-24.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[HD]cctv10
+https://stream1.freetv.fun/cctv10-84.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv-10
+https://stream1.freetv.fun/cctv-10-2.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10
+https://stream1.freetv.fun/cctv10-70.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[SD]cctv10
+https://stream1.freetv.fun/cctv10-79.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10
+https://stream1.freetv.fun/cctv10-12.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10-科教
+https://stream1.freetv.fun/cctv10-ke-jiao-16.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10 *wj
+https://stream1.freetv.fun/cctv10--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10[ipv6]
+https://stream1.freetv.fun/ipv6-cctv10-41.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10[ipv6]
+https://stream1.freetv.fun/ipv6-cctv10-56.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10
+https://stream1.freetv.fun/cctv10-60.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10
+https://stream1.freetv.fun/cctv10-75.ctv
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[SD]cctv10
+https://stream1.freetv.fun/cctv10-47.m3u8
+#EXTINF:-1 tvg-name="CCTV10" tvg-id="378829" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001612572151_13.png" group-title="Other",[BD]cctv10
+https://stream1.freetv.fun/cctv10-50.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-33.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-35.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[SD]cctv11
+https://stream1.freetv.fun/cctv11-77.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-37.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-48.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-5.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-1.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-15.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11[ipv6]
+https://stream1.freetv.fun/ipv6-cctv11-47.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11[ipv6]
+https://stream1.freetv.fun/ipv6-cctv11-12.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-7.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11-戏曲
+https://stream1.freetv.fun/cctv11-xi-qu-10.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11-戏曲
+https://stream1.freetv.fun/cctv11-xi-qu-6.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11 *wj
+https://stream1.freetv.fun/cctv11--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[SD]cctv11
+https://stream1.freetv.fun/cctv11-55.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-54.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[SD]cctv11
+https://stream1.freetv.fun/cctv11-58.m3u8
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[BD]cctv11
+https://stream1.freetv.fun/cctv11-39.ctv
+#EXTINF:-1 tvg-name="CCTV11" tvg-id="378830" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001605278776_41.png" group-title="Movies",[SD]cctv11
+https://stream1.freetv.fun/cctv11-75.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[SD]cctv12
+https://stream1.freetv.fun/cctv12-13.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[HD]cctv12
+https://stream1.freetv.fun/cctv12-37.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-43.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12-社会与法
+https://stream1.freetv.fun/cctv12-she-hui-yu-fa-13.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-70.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-71.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-2.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[SD]cctv12
+https://stream1.freetv.fun/cctv12-7.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-74.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[SD]cctv12
+https://stream1.freetv.fun/cctv12-16.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-79.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-46.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12-社会与法
+https://stream1.freetv.fun/cctv12-she-hui-yu-fa-5.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12 *wj
+https://stream1.freetv.fun/cctv12--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12[ipv6]
+https://stream1.freetv.fun/ipv6-cctv12-77.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12
+https://stream1.freetv.fun/cctv12-47.m3u8
+#EXTINF:-1 tvg-name="CCTV12" tvg-id="378831" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001556307504_11.png" group-title="Generic",[BD]cctv12[ipv6]
+https://stream1.freetv.fun/ipv6-cctv12-38.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13[ipv6]
+https://stream1.freetv.fun/ipv6-cctv13-68.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-55.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-70.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv-13
+https://stream1.freetv.fun/cctv-13-14.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13-新闻
+https://stream1.freetv.fun/cctv13-xin-wen-1.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13 *wj
+https://stream1.freetv.fun/cctv13--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[SD]cctv13
+https://stream1.freetv.fun/cctv13-16.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-35.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-58.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-22.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13-新闻
+https://stream1.freetv.fun/cctv13-xin-wen-13.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[SD]cctv13
+https://stream1.freetv.fun/cctv13-36.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-69.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[HD]cctv13
+https://stream1.freetv.fun/cctv13-56.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-13.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[SD]cctv13
+https://stream1.freetv.fun/cctv13-82.ctv
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[VGA]cctv13
+https://stream1.freetv.fun/cctv13-23.m3u8
+#EXTINF:-1 tvg-name="CCTV13" tvg-id="378832" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001548035027_74.png" group-title="News",[BD]cctv13
+https://stream1.freetv.fun/cctv13-34.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[SD]cctv14
+https://stream1.freetv.fun/cctv14-45.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14
+https://stream1.freetv.fun/cctv14-59.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[SD]cctv14
+https://stream1.freetv.fun/cctv14-43.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14
+https://stream1.freetv.fun/cctv14-1.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14
+https://stream1.freetv.fun/cctv14-67.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14[ipv6]
+https://stream1.freetv.fun/ipv6-cctv14-83.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14[ipv6]
+https://stream1.freetv.fun/ipv6-cctv14-58.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14
+https://stream1.freetv.fun/cctv14-6.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[SD]cctv14
+https://stream1.freetv.fun/cctv14-71.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[HD]cctv14
+https://stream1.freetv.fun/cctv14-63.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[SD]cctv14
+https://stream1.freetv.fun/cctv14-28.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14
+https://stream1.freetv.fun/cctv14-66.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14-少儿
+https://stream1.freetv.fun/cctv14-shao-er-10.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14-少儿
+https://stream1.freetv.fun/cctv14-shao-er-9.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14 *wj
+https://stream1.freetv.fun/cctv14--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[SD]cctv14
+https://stream1.freetv.fun/cctv14-35.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14
+https://stream1.freetv.fun/cctv14-60.m3u8
+#EXTINF:-1 tvg-name="CCTV14" tvg-id="378833" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001539178535_27.png" group-title="Kids",[BD]cctv14
+https://stream1.freetv.fun/cctv14-65.m3u8
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15
+https://stream1.freetv.fun/cctv15-44.m3u8
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[SD]cctv15
+https://stream1.freetv.fun/cctv15-5.ctv
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15
+https://stream1.freetv.fun/cctv15-13.m3u8
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15 *wj
+https://stream1.freetv.fun/cctv15--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15-音乐
+https://stream1.freetv.fun/cctv15-yin-le-1.ctv
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15
+https://stream1.freetv.fun/cctv15-19.m3u8
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15
+https://stream1.freetv.fun/cctv15-56.m3u8
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15
+https://stream1.freetv.fun/cctv15-71.m3u8
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[SD]cctv15
+https://stream1.freetv.fun/cctv15-66.ctv
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[BD]cctv15[ipv6]
+https://stream1.freetv.fun/ipv6-cctv15-75.m3u8
+#EXTINF:-1 tvg-name="CCTV15" tvg-id="378834" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001529466715_75.png" group-title="Music",[HD]cctv15
+https://stream1.freetv.fun/cctv15-90.ctv
+#EXTINF:-1 tvg-name="CCTV16" tvg-id="379031" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001520864227_20.jpg" group-title="Sports",[BD]cctv16
+https://stream1.freetv.fun/cctv16-7.m3u8
+#EXTINF:-1 tvg-name="CCTV16" tvg-id="379031" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001520864227_20.jpg" group-title="Sports",[HD]cctv16
+https://stream1.freetv.fun/cctv16-42.ctv
+#EXTINF:-1 tvg-name="CCTV16" tvg-id="379031" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001520864227_20.jpg" group-title="Sports",[BD]cctv16[ipv6]
+https://stream1.freetv.fun/ipv6-cctv16-10.m3u8
+#EXTINF:-1 tvg-name="CCTV17" tvg-id="378835" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001508671387_16.jpg" group-title="Other",[BD]cctv17
+https://stream1.freetv.fun/cctv17-46.ctv
+#EXTINF:-1 tvg-name="CCTV17" tvg-id="378835" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001508671387_16.jpg" group-title="Other",[BD]cctv17
+https://stream1.freetv.fun/cctv17-28.ctv
+#EXTINF:-1 tvg-name="CCTV17" tvg-id="378835" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001508671387_16.jpg" group-title="Other",[BD]cctv17
+https://stream1.freetv.fun/cctv17-68.ctv
+#EXTINF:-1 tvg-name="CCTV17" tvg-id="378835" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001508671387_16.jpg" group-title="Other",[BD]cctv-17农业
+https://stream1.freetv.fun/cctv-17nong-ye-1.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[SD]cctv2
+https://stream1.freetv.fun/cctv2-32.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2-财经
+https://stream1.freetv.fun/cctv2-cai-jing-1.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2-财经
+https://stream1.freetv.fun/cctv2-cai-jing-5.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2 *wj
+https://stream1.freetv.fun/cctv2--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2[ipv6]
+https://stream1.freetv.fun/ipv6-cctv2-34.m3u8
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2
+https://stream1.freetv.fun/cctv2-27.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2
+https://stream1.freetv.fun/cctv2-78.m3u8
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2
+https://stream1.freetv.fun/cctv2-22.m3u8
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2
+https://stream1.freetv.fun/cctv2-45.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[BD]cctv2
+https://stream1.freetv.fun/cctv2-76.m3u8
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[SD]cctv2
+https://stream1.freetv.fun/cctv2-54.ctv
+#EXTINF:-1 tvg-name="CCTV2" tvg-id="378820" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001945876001_87.png" group-title="News",[SD]cctv2
+https://stream1.freetv.fun/cctv2-51.m3u8
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3
+https://stream1.freetv.fun/cctv3-68.m3u8
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3
+https://stream1.freetv.fun/cctv3-50.m3u8
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3
+https://stream1.freetv.fun/cctv3-17.m3u8
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[HD]cctv3
+https://stream1.freetv.fun/cctv3-27.ctv
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3
+https://stream1.freetv.fun/cctv3-13.ctv
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv-03
+https://stream1.freetv.fun/cctv-03-1.m3u8
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3-综艺
+https://stream1.freetv.fun/cctv3-zong-yi-5.ctv
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3 *wj
+https://stream1.freetv.fun/cctv3--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[SD]cctv3
+https://stream1.freetv.fun/cctv3-2.m3u8
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[SD]cctv3
+https://stream1.freetv.fun/cctv3-54.ctv
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3[ipv6]
+https://stream1.freetv.fun/ipv6-cctv3-14.m3u8
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3
+https://stream1.freetv.fun/cctv3-16.ctv
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[BD]cctv3-综艺
+https://stream1.freetv.fun/cctv3-zong-yi-15.ctv
+#EXTINF:-1 tvg-name="CCTV3" tvg-id="378821" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001936710108_56.png" group-title="Entertainment",[SD]cctv3
+https://stream1.freetv.fun/cctv3-34.ctv
+#EXTINF:-1 tvg-name="CCTV4" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001925822086_33.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-60.m3u8
+#EXTINF:-1 tvg-name="CCTV4" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001925822086_33.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-13.m3u8
+#EXTINF:-1 tvg-name="CCTV4" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001925822086_33.png" group-title="News",[SD]cctv4
+https://stream1.freetv.fun/cctv4-47.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-56.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[SD]cctv4
+https://stream1.freetv.fun/cctv4-67.m3u8
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-41.m3u8
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-27.m3u8
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-55.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[HD]cctv4
+https://stream1.freetv.fun/cctv4-59.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-50.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[SD]cctv4
+https://stream1.freetv.fun/cctv4-32.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-6.m3u8
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4-国际
+https://stream1.freetv.fun/cctv4-guo-ji-3.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[HD]cctv4 *wj
+https://stream1.freetv.fun/cctv4--wj-2.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[HD]cctv4 *wj
+https://stream1.freetv.fun/cctv4--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4-国际
+https://stream1.freetv.fun/cctv4-guo-ji-9.ctv
+#EXTINF:-1 tvg-name="CCTV4 FHD" tvg-id="378822" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001917639668_91.png" group-title="News",[BD]cctv4
+https://stream1.freetv.fun/cctv4-54.m3u8
+#EXTINF:-1 tvg-name="CCTV5" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001827124534_66.png" group-title="Sports",[SD]cctv5
+https://stream1.freetv.fun/cctv5-34.m3u8
+#EXTINF:-1 tvg-name="CCTV5" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001827124534_66.png" group-title="Sports",[SD]cctv5
+https://stream1.freetv.fun/cctv5-41.ctv
+#EXTINF:-1 tvg-name="CCTV5" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001827124534_66.png" group-title="Sports",[BD]cctv5[ipv6]
+https://stream1.freetv.fun/ipv6-cctv5-83.m3u8
+#EXTINF:-1 tvg-name="CCTV5" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001827124534_66.png" group-title="Sports",[HD]cctv5
+https://stream1.freetv.fun/cctv5-6.m3u8
+#EXTINF:-1 tvg-name="CCTV5" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001827124534_66.png" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-78.m3u8
+#EXTINF:-1 tvg-name="CCTV5" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001827124534_66.png" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-48.m3u8
+#EXTINF:-1 tvg-name="CCTV5" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001827124534_66.png" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-35.m3u8
+#EXTINF:-1 tvg-name="CCTV5(backup)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001815951580_60.jpg" group-title="Sports",[BD]cctv5-体育
+https://stream1.freetv.fun/cctv5-ti-yu-14.ctv
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-71.ctv
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-93.m3u8
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-40.ctv
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5[ipv6]
+https://stream1.freetv.fun/ipv6-cctv5-24.m3u8
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5-体育
+https://stream1.freetv.fun/cctv5-ti-yu-8.ctv
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5 *wj
+https://stream1.freetv.fun/cctv5--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-70.m3u8
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-37.m3u8
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[BD]cctv5
+https://stream1.freetv.fun/cctv5-56.ctv
+#EXTINF:-1 tvg-name="CCTV5(h265)" tvg-id="378823" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001808321738_22.jpg" group-title="Sports",[SD]cctv5
+https://stream1.freetv.fun/cctv5-69.ctv
+#EXTINF:-1 tvg-name="CCTV5+" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001757126121_81.png" group-title="Sports",[BD]cctv5 plus
+https://stream1.freetv.fun/cctv5-plus-33.ctv
+#EXTINF:-1 tvg-name="CCTV5+" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001757126121_81.png" group-title="Sports",[BD]cctv5 plus
+https://stream1.freetv.fun/cctv5-plus-6.m3u8
+#EXTINF:-1 tvg-name="CCTV5+" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001757126121_81.png" group-title="Sports",[BD]cctv5 plus
+https://stream1.freetv.fun/cctv5-plus-58.m3u8
+#EXTINF:-1 tvg-name="CCTV5+" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001757126121_81.png" group-title="Sports",[BD]cctv5 plus
+https://stream1.freetv.fun/cctv5-plus-38.ctv
+#EXTINF:-1 tvg-name="CCTV5+" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001757126121_81.png" group-title="Sports",[BD]cctv5 plus
+https://stream1.freetv.fun/cctv5-plus-54.ctv
+#EXTINF:-1 tvg-name="CCTV5+(backup)" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001746078420_25.png" group-title="Sports",[HD]cctv-5 plus体育赛事
+https://stream1.freetv.fun/cctv-5-plusti-yu-sai-shi-1.m3u8
+#EXTINF:-1 tvg-name="CCTV5+(backup)" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001746078420_25.png" group-title="Sports",[SD]cctv plus 2
+https://stream1.freetv.fun/cctv-plus-2-1.m3u8
+#EXTINF:-1 tvg-name="CCTV5+(backup)" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001746078420_25.png" group-title="Sports",[SD]cctv plus 1
+https://stream1.freetv.fun/cctv-plus-1-1.m3u8
+#EXTINF:-1 tvg-name="CCTV5+(backup)" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001746078420_25.png" group-title="Sports",[BD]cctv5 plus体育赛事
+https://stream1.freetv.fun/cctv5-plusti-yu-sai-shi-2.ctv
+#EXTINF:-1 tvg-name="CCTV5+(backup)" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001746078420_25.png" group-title="Sports",[HD]cctv5 plus *wj
+https://stream1.freetv.fun/cctv5-plus--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV5+(backup)" tvg-id="378824" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001746078420_25.png" group-title="Sports",[BD]cctv5 plus
+https://stream1.freetv.fun/cctv5-plus-42.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6[ipv6]
+https://stream1.freetv.fun/ipv6-cctv6-3.m3u8
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6
+https://stream1.freetv.fun/cctv6-37.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6-电影
+https://stream1.freetv.fun/cctv6-dian-ying-13.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6-电影
+https://stream1.freetv.fun/cctv6-dian-ying-5.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6 *wj
+https://stream1.freetv.fun/cctv6--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6[ipv6]
+https://stream1.freetv.fun/ipv6-cctv6-20.m3u8
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6
+https://stream1.freetv.fun/cctv6-54.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6[ipv6]
+https://stream1.freetv.fun/ipv6-cctv6-29.m3u8
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6
+https://stream1.freetv.fun/cctv6-72.m3u8
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6
+https://stream1.freetv.fun/cctv6-39.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6
+https://stream1.freetv.fun/cctv6-33.m3u8
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[HD]cctv6
+https://stream1.freetv.fun/cctv6-71.ctv
+#EXTINF:-1 tvg-name="CCTV6" tvg-id="378825" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001735955364_69.png" group-title="Movies",[BD]cctv6
+https://stream1.freetv.fun/cctv6-26.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7-军农
+https://stream1.freetv.fun/cctv7-jun-nong-1.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-49.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-11.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-42.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[SD]cctv7
+https://stream1.freetv.fun/cctv7-83.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-72.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-67.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-5.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[SD]cctv7
+https://stream1.freetv.fun/cctv7-79.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[HD]cctv7
+https://stream1.freetv.fun/cctv7-81.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7[ipv6]
+https://stream1.freetv.fun/ipv6-cctv7-53.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7[ipv6]
+https://stream1.freetv.fun/ipv6-cctv7-12.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[HD]cctv7
+https://stream1.freetv.fun/cctv7-40.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[SD]cctv7
+https://stream1.freetv.fun/cctv7-47.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-75.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7[ipv6]
+https://stream1.freetv.fun/ipv6-cctv7-19.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7-国防军事
+https://stream1.freetv.fun/cctv7-guo-fang-jun-shi-2.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[SD]cctv7 *wj
+https://stream1.freetv.fun/cctv7--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-78.m3u8
+#EXTINF:-1 tvg-name="CCTV7" tvg-id="378826" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001726519561_49.png" group-title="Other",[BD]cctv7
+https://stream1.freetv.fun/cctv7-4.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8-电视剧
+https://stream1.freetv.fun/cctv8-dian-shi-ju-2.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[SD]cctv8
+https://stream1.freetv.fun/cctv8-14.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8[ipv6]
+https://stream1.freetv.fun/ipv6-cctv8-12.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8[ipv6]
+https://stream1.freetv.fun/ipv6-cctv8-34.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8
+https://stream1.freetv.fun/cctv8-42.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8
+https://stream1.freetv.fun/cctv8-73.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8
+https://stream1.freetv.fun/cctv8-76.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8[ipv6]
+https://stream1.freetv.fun/ipv6-cctv8-72.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8
+https://stream1.freetv.fun/cctv8-33.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8-电视剧
+https://stream1.freetv.fun/cctv8-dian-shi-ju-8.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8 *wj
+https://stream1.freetv.fun/cctv8--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[SD]cctv8
+https://stream1.freetv.fun/cctv8-43.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8
+https://stream1.freetv.fun/cctv8-26.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8
+https://stream1.freetv.fun/cctv8-47.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[HD]cctv8
+https://stream1.freetv.fun/cctv8-69.ctv
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[SD]cctv8
+https://stream1.freetv.fun/cctv8-3.m3u8
+#EXTINF:-1 tvg-name="CCTV8" tvg-id="378827" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001717964200_12.png" group-title="Movies",[BD]cctv8
+https://stream1.freetv.fun/cctv8-10.ctv
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[BD]cctv9-纪录
+https://stream1.freetv.fun/cctv9-ji-lu-3.ctv
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[VGA]cctv9
+https://stream1.freetv.fun/cctv9-60.m3u8
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[BD]cctv9
+https://stream1.freetv.fun/cctv9-67.ctv
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[BD]cctv9
+https://stream1.freetv.fun/cctv9-32.ctv
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[SD]cctv9
+https://stream1.freetv.fun/cctv9-17.m3u8
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[BD]cctv9-纪录
+https://stream1.freetv.fun/cctv9-ji-lu-13.ctv
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[BD]cctv9 *wj
+https://stream1.freetv.fun/cctv9--wj-1.ctv
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[BD]cctv9
+https://stream1.freetv.fun/cctv9-75.m3u8
+#EXTINF:-1 tvg-name="CCTV9" tvg-id="378828" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2025/01/25/large/20250125001710136564_30.png" group-title="Knowledge",[SD]cctv9
+https://stream1.freetv.fun/cctv9-49.m3u8
+#EXTINF:-1 tvg-name="CCTV第一劇場" tvg-id="" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2022/09/07/large/20220907150153591598_13.jpg" group-title="Movies",[BD]cctv第一剧场
+https://stream1.freetv.fun/cctvdi-yi-ju-chang-28.m3u8
+#EXTINF:-1 tvg-name="CCTV風雲足球" tvg-id="" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2022/05/10/large/20220510165533742367_97.jpg" group-title="Sports",[BD]cctv风云足球
+https://stream1.freetv.fun/cctvfeng-yun-zu-qiu-6.m3u8
+#EXTINF:-1 tvg-name="CCTV風雲足球" tvg-id="" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2022/05/10/large/20220510165533742367_97.jpg" group-title="Sports",[BD]cctv风云足球
+https://stream1.freetv.fun/cctvfeng-yun-zu-qiu-16.m3u8
+#EXTINF:-1 tvg-name="CCTV風雲足球" tvg-id="" tvg-country="China" tvg-language="Chinese" tvg-logo="https://epg.pw/media/images/channel/2022/05/10/large/20220510165533742367_97.jpg" group-title="Sports",[SD]cctv风云足球
+https://stream1.freetv.fun/cctvfeng-yun-zu-qiu-25.m3u8
