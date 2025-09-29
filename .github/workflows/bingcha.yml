@@ -17,17 +17,64 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Set environment variables
+      # 2. Get proxy list from ProxyScrape and validate one
+      - name: Get & validate proxy
+        run: |
+          API_URL='https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&proxy_format=ipport&format=text'
+          curl -sS --max-time 15 "$API_URL" -o /tmp/proxies.txt || { echo "Failed to download proxy list"; exit 1; }
+          echo "Downloaded $(wc -l < /tmp/proxies.txt) proxies"
+
+          test_proxy() {
+            proxy_opt="$1"
+            if curl -sS -I --max-time 10 -x "$proxy_opt" https://www.google.com >/dev/null 2>&1; then
+              echo "$proxy_opt"
+              return 0
+            else
+              return 1
+            fi
+          }
+
+          CHOSEN=""
+          while read -r ipport; do
+            [ -z "$ipport" ] && continue
+
+            # Try SOCKS5 (with DNS through proxy)
+            if proxy=$(test_proxy "socks5h://$ipport"); then
+              CHOSEN="$proxy"
+              break
+            fi
+
+            # Try SOCKS4
+            if proxy=$(test_proxy "socks4://$ipport"); then
+              CHOSEN="$proxy"
+              break
+            fi
+
+            # Try HTTP
+            if proxy=$(test_proxy "http://$ipport"); then
+              CHOSEN="$proxy"
+              break
+            fi
+          done < /tmp/proxies.txt
+
+          if [ -z "$CHOSEN" ]; then
+            echo "No working proxy found."
+            exit 1
+          fi
+
+          echo "Using proxy: $CHOSEN"
+          echo "PROXY=$CHOSEN" >> $GITHUB_ENV
+
+      # 3. Set other environment variables
       - name: Set variables
         run: |
-          echo "PROXY=101.1.59.65:443" >> $GITHUB_ENV
           echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
-      # 3. Fetch M3U using curl via proxy (no resume, retries full download)
+      # 4. Fetch M3U using curl via validated proxy
       - name: Fetch M3U via curl
         run: |
-          echo "Fetching M3U via proxy $PROXY..."
+          echo "Fetching M3U via $PROXY..."
           for i in {1..50}; do
             curl --fail --retry 50 --retry-delay 5 -x $PROXY -L -A "curl/8.13.0" -o $OUTPUT $URL && break
             echo "Attempt $i failed, retrying..."
@@ -42,7 +89,7 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 4. Commit & push if bingcha.m3u updated
+      # 5. Commit & push if bingcha.m3u updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
