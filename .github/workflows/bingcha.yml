@@ -17,53 +17,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Get proxy list from ProxyScrape and validate one
-      - name: Get & validate proxy
+      # 2. Get proxy list from ProxyScrape
+      - name: Download proxy list
         run: |
-          API_URL='https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&proxy_format=ipport&format=text'
-          curl -sS --max-time 15 "$API_URL" -o /tmp/proxies.txt || { echo "Failed to download proxy list"; exit 1; }
+          # Request only SOCKS5 proxies (most reliable for curl + remote DNS)
+          API_URL='https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks5&proxy_format=ipport&format=text'
+          curl -sS --max-time 40 "$API_URL" -o /tmp/proxies.txt || { echo "Failed to download proxy list"; exit 1; }
           echo "Downloaded $(wc -l < /tmp/proxies.txt) proxies"
-
-          test_proxy() {
-            proxy_opt="$1"
-            if curl -sS -I --max-time 10 -x "$proxy_opt" https://www.google.com >/dev/null 2>&1; then
-              echo "$proxy_opt"
-              return 0
-            else
-              return 1
-            fi
-          }
-
-          CHOSEN=""
-          while read -r ipport; do
-            [ -z "$ipport" ] && continue
-
-            # Try SOCKS5 (with DNS through proxy)
-            if proxy=$(test_proxy "socks5h://$ipport"); then
-              CHOSEN="$proxy"
-              break
-            fi
-
-            # Try SOCKS4
-            if proxy=$(test_proxy "socks4://$ipport"); then
-              CHOSEN="$proxy"
-              break
-            fi
-
-            # Try HTTP
-            if proxy=$(test_proxy "http://$ipport"); then
-              CHOSEN="$proxy"
-              break
-            fi
-          done < /tmp/proxies.txt
-
-          if [ -z "$CHOSEN" ]; then
-            echo "No working proxy found."
-            exit 1
-          fi
-
-          echo "Using proxy: $CHOSEN"
-          echo "PROXY=$CHOSEN" >> $GITHUB_ENV
 
       # 3. Set other environment variables
       - name: Set variables
@@ -71,23 +31,40 @@ jobs:
           echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
-      # 4. Fetch M3U using curl via validated proxy
-      - name: Fetch M3U via curl
+      # 4. Fetch M3U, rotating through proxies
+      - name: Fetch M3U with rotating proxies
         run: |
-          echo "Fetching M3U via $PROXY..."
-          for i in {1..50}; do
-            curl --fail --retry 50 --retry-delay 5 -x $PROXY -L -A "curl/8.13.0" -o $OUTPUT $URL && break
-            echo "Attempt $i failed, retrying..."
-            sleep 5
-          done
+          echo "Starting M3U fetch with rotating proxies..."
 
-          # Check if file is non-empty
-          if [ ! -s $OUTPUT ]; then
-            echo "Error: Downloaded file is empty or incomplete."
+          success=false
+          attempt=0
+          max_attempts=100   # how many proxies to try at most
+
+          while read -r ipport && [ $attempt -lt $max_attempts ]; do
+            [ -z "$ipport" ] && continue
+            attempt=$((attempt+1))
+
+            PROXY="socks5h://$ipport"
+            echo "[$attempt] Trying proxy $PROXY"
+
+            if curl --fail --max-time 30 -x "$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
+              if [ -s "$OUTPUT" ]; then
+                echo "M3U fetch completed successfully using $PROXY"
+                success=true
+                break
+              else
+                echo "Downloaded file is empty, trying next proxy..."
+              fi
+            else
+              echo "Proxy $PROXY failed, trying next..."
+            fi
+
+          done < /tmp/proxies.txt
+
+          if [ "$success" != true ]; then
+            echo "❌ All tested proxies failed after $attempt attempts."
             exit 1
           fi
-
-          echo "M3U fetch completed successfully."
 
       # 5. Commit & push if bingcha.m3u updated
       - name: Commit & push
