@@ -20,7 +20,7 @@ jobs:
       # 2. Set environment variables
       - name: Set variables
         run: |
-          echo "PROXY=163.141.128.151:80" >> $GITHUB_ENV
+          echo "PROXY=63.141.128.151:80" >> $GITHUB_ENV
           echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
