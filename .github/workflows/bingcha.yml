@@ -70,7 +70,7 @@ jobs:
                 http)   PREFIX="http://";;
               esac
 
-              if curl -s --max-time 10 -x "$PREFIX$PROXY" -I https://www.google.com > /dev/null 2>&1; then
+              if curl -s --max-time 3000 -x "$PREFIX$PROXY" -I https://www.google.com > /dev/null 2>&1; then
                 echo "$PROXY" >> "$OUT_FILE"
                 verified=$((verified+1))
               else
