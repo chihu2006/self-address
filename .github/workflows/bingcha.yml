@@ -64,42 +64,39 @@ jobs:
       - name: Fetch M3U
         run: |
           echo "Fetching M3U using validated proxies..."
-          echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
-          echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
+
+          M3U_URL="https://example.com/playlist.m3u8"  # replace this with your actual M3U source
+          OUTPUT="playlist.m3u"
 
           success=false
 
-          # Try SOCKS5 proxies first
-          while read -r ipport; do
-            [ -z "$ipport" ] && continue
-            PROXY="socks5h://$ipport"
-            echo "Trying SOCKS5 proxy $PROXY..."
-            if curl -k -L --fail --max-time 30 -x "$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-              if grep -q '#EXTM3U' "$OUTPUT"; then
-                echo "✅ Success with SOCKS5 proxy $PROXY"
+          # Try HTTP proxies first
+          for proxy in "${http_proxies[@]}"; do
+            echo "Trying HTTP proxy http://$proxy..."
+            if curl --max-time 10 --fail -x "http://$proxy" "$M3U_URL" -o "$OUTPUT"; then
+              echo "✅ Successfully fetched M3U via HTTP proxy $proxy"
+              success=true
+              break
+            else
+              echo "❌ HTTP proxy $proxy failed, trying next..."
+            fi
+          done
+
+          # Try SOCKS5 proxies if HTTP failed
+          if [ "$success" = false ] && [ ${#socks5_proxies[@]} -gt 0 ]; then
+            for proxy in "${socks5_proxies[@]}"; do
+              echo "Trying SOCKS5 proxy socks5h://$proxy..."
+              if curl --max-time 10 --fail -x "socks5h://$proxy" "$M3U_URL" -o "$OUTPUT"; then
+                echo "✅ Successfully fetched M3U via SOCKS5 proxy $proxy"
                 success=true
                 break
+              else
+                echo "❌ SOCKS5 proxy $proxy failed, trying next..."
               fi
-            fi
-          done < /tmp/valid_socks5.txt
-
-          # If SOCKS5 all failed, try HTTP
-          if [ "$success" != true ]; then
-            while read -r ipport; do
-              [ -z "$ipport" ] && continue
-              PROXY="http://$ipport"
-              echo "Trying HTTP proxy $PROXY..."
-              if curl -k -L --fail --max-time 30 -x "$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-                if grep -q '#EXTM3U' "$OUTPUT"; then
-                  echo "✅ Success with HTTP proxy $PROXY"
-                  success=true
-                  break
-                fi
-              fi
-            done < /tmp/valid_http.txt
+            done
           fi
 
-          if [ "$success" != true ]; then
+          if [ "$success" = false ]; then
             echo "❌ All proxies failed to fetch M3U."
             exit 1
           fi
