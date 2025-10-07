@@ -52,7 +52,7 @@ jobs:
             PROXY="socks5h://$ipport"
             echo "[$attempt] Trying proxy $PROXY"
 
-            if curl --fail --max-time 30 -x "$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
+            if curl --fail --max-time 30 -k -x "$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
               if [ -s "$OUTPUT" ]; then
                 echo "✅ M3U fetch succeeded via $PROXY"
                 success=true
