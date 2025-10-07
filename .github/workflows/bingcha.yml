@@ -22,56 +22,85 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq curl
 
       # 3️⃣ Fetch proxies
-      - name: Fetch verified proxies
+      - name: Fetch proxies
         run: |
           mkdir -p /tmp/proxies
 
           # SOCKS5
           curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks5&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/socks5.json || echo "Warning: SOCKS5 fetch failed"
-          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks5.json > /tmp/socks5.txt || echo ""
+          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks5.json > /tmp/proxies/socks5.txt || echo ""
 
           # SOCKS4
           curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks4&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/socks4.json || echo "Warning: SOCKS4 fetch failed"
-          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks4.json > /tmp/socks4.txt || echo ""
+          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks4.json > /tmp/proxies/socks4.txt || echo ""
 
           # HTTP
           curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=http&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/http.json || echo "Warning: HTTP fetch failed"
-          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/http.json > /tmp/http.txt || echo ""
+          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/http.json > /tmp/proxies/http.txt || echo ""
 
           echo "✅ Proxies fetched"
 
-      # 4️⃣ Set variables
+      # 4️⃣ Set environment variables
       - name: Set environment variables
         run: |
           echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
-      # 5️⃣ Try SOCKS5 → SOCKS4 → HTTP proxies
-      - name: Rotate proxies (SOCKS5 → SOCKS4 → HTTP)
+      # 5️⃣ Verify proxies
+      - name: Verify proxies
         run: |
-          success=false
+          mkdir -p /tmp/verified_proxies
+          TEST_URL="$URL"
+
           PROXY_TYPES=("socks5" "socks4" "http")
-
           for TYPE in "${PROXY_TYPES[@]}"; do
-            FILE="/tmp/${TYPE}.txt"
-            [ -f "$FILE" ] || continue
+            INPUT_FILE="/tmp/proxies/${TYPE}.txt"
+            OUTPUT_FILE="/tmp/verified_proxies/${TYPE}.txt"
+            [ -f "$INPUT_FILE" ] || continue
 
-            echo "🚀 Trying $TYPE proxies..."
+            echo "🔍 Testing $TYPE proxies..."
+            > "$OUTPUT_FILE"
             while read -r PROXY; do
               [ -z "$PROXY" ] && continue
-
               case "$TYPE" in
                 socks5) PREFIX="socks5h://";;
                 socks4) PREFIX="socks4a://";;
                 http)   PREFIX="http://";;
               esac
 
-              echo "→ Trying $TYPE proxy $PROXY"
+              if curl -sS --max-time 15 -x "$PREFIX$PROXY" -I "$TEST_URL" | grep -q "200"; then
+                echo "$PROXY" >> "$OUTPUT_FILE"
+                echo "✅ $TYPE proxy works: $PROXY"
+              else
+                echo "❌ $TYPE proxy failed: $PROXY"
+              fi
+            done < "$INPUT_FILE"
+          done
+
+      # 6️⃣ Rotate verified proxies to fetch M3U
+      - name: Fetch M3U using verified proxies
+        run: |
+          success=false
+          PROXY_TYPES=("socks5" "socks4" "http")
+
+          for TYPE in "${PROXY_TYPES[@]}"; do
+            FILE="/tmp/verified_proxies/${TYPE}.txt"
+            [ -f "$FILE" ] || continue
+
+            echo "🚀 Fetching using verified $TYPE proxies..."
+            while read -r PROXY; do
+              [ -z "$PROXY" ] && continue
+              case "$TYPE" in
+                socks5) PREFIX="socks5h://";;
+                socks4) PREFIX="socks4a://";;
+                http)   PREFIX="http://";;
+              esac
+
               if curl -sS --max-time 25 -x "$PREFIX$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
                 if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
-                  echo "✅ Success with $TYPE proxy $PROXY"
+                  echo "✅ M3U fetch success with $TYPE proxy $PROXY"
                   success=true
-                  break 2  # Exit both loops
+                  break 2
                 else
                   echo "⚠️ Not a valid M3U, skipping..."
                 fi
@@ -86,7 +115,7 @@ jobs:
             exit 1
           fi
 
-      # 6️⃣ Commit & push updated M3U
+      # 7️⃣ Commit & push updated M3U
       - name: Commit & push
         if: success()
         run: |
