@@ -24,37 +24,30 @@ jobs:
       # 3️⃣ Fetch proxies (plain text)
       - name: Fetch proxies
         run: |
-          mkdir -p /tmp/proxies /tmp/verified_proxies
+          mkdir -p /tmp/proxies
 
           # SOCKS5
-          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=socks5&anon=elite&timeout=2000&country=all" -o /tmp/proxies/socks5.txt || echo "Warning: SOCKS5 fetch failed"
+          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=socks5&anon=elite&timeout=2000&country=all&format=txt" -o /tmp/proxies/socks5.txt || echo "Warning: SOCKS5 fetch failed"
 
           # SOCKS4
-          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=socks4&anon=elite&timeout=2000&country=all" -o /tmp/proxies/socks4.txt || echo "Warning: SOCKS4 fetch failed"
+          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=socks4&anon=elite&timeout=2000&country=all&format=txt" -o /tmp/proxies/socks4.txt || echo "Warning: SOCKS4 fetch failed"
 
           # HTTP
-          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=http&anon=elite&timeout=2000&country=all" -o /tmp/proxies/http.txt || echo "Warning: HTTP fetch failed"
+          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=http&anon=elite&timeout=2000&country=all&format=txt" -o /tmp/proxies/http.txt || echo "Warning: HTTP fetch failed"
 
-          SOCKS5_COUNT=$(wc -l < /tmp/proxies/socks5.txt || echo 0)
-          SOCKS4_COUNT=$(wc -l < /tmp/proxies/socks4.txt || echo 0)
-          HTTP_COUNT=$(wc -l < /tmp/proxies/http.txt || echo 0)
+          echo "✅ Proxies fetched: SOCKS5=$(wc -l < /tmp/proxies/socks5.txt), SOCKS4=$(wc -l < /tmp/proxies/socks4.txt), HTTP=$(wc -l < /tmp/proxies/http.txt)"
 
-          echo "✅ Proxies fetched: SOCKS5=$SOCKS5_COUNT, SOCKS4=$SOCKS4_COUNT, HTTP=$HTTP_COUNT"
-
-      # 4️⃣ Set M3U variables
+      # 4️⃣ Set environment variables
       - name: Set environment variables
         run: |
           echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
-      # 5️⃣ Verify proxies before fetching M3U
-      - name: Verify proxies
+      # 5️⃣ Verify and rotate proxies
+      - name: Verify and fetch M3U
         run: |
           success=false
           PROXY_TYPES=("socks5" "socks4" "http")
-
-          declare -A VERIFIED_COUNT
-          declare -A FAILED_COUNT
 
           for TYPE in "${PROXY_TYPES[@]}"; do
             FILE="/tmp/proxies/${TYPE}.txt"
@@ -63,7 +56,6 @@ jobs:
             TOTAL=$(wc -l < "$FILE")
             VERIFIED=0
             FAILED=0
-
             echo "🔍 Verifying $TYPE proxies (Total: $TOTAL)..."
 
             while read -r PROXY; do
@@ -75,55 +67,22 @@ jobs:
                 http)   PREFIX="http://";;
               esac
 
-              # Quick test: HEAD request to the URL
-              if curl -s --max-time 10 -I -x "$PREFIX$PROXY" "$URL" >/dev/null; then
-                VERIFIED=$((VERIFIED+1))
-                echo "$PROXY" >> /tmp/verified_proxies/${TYPE}.txt
+              if curl -sS --max-time 25 -x "$PREFIX$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
+                if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
+                  VERIFIED=$((VERIFIED+1))
+                  echo "✅ Success with $TYPE proxy $PROXY"
+                  success=true
+                  break 2
+                else
+                  FAILED=$((FAILED+1))
+                fi
               else
                 FAILED=$((FAILED+1))
               fi
             done < "$FILE"
 
-            VERIFIED_COUNT[$TYPE]=$VERIFIED
-            FAILED_COUNT[$TYPE]=$FAILED
-
             echo "✅ $TYPE verified: $VERIFIED/$TOTAL, failed: $FAILED"
-          done
 
-      # 6️⃣ Fetch M3U using verified proxies
-      - name: Fetch M3U via verified proxies
-        run: |
-          success=false
-          PROXY_TYPES=("socks5" "socks4" "http")
-
-          for TYPE in "${PROXY_TYPES[@]}"; do
-            FILE="/tmp/verified_proxies/${TYPE}.txt"
-            [ -f "$FILE" ] || continue
-
-            echo "🚀 Trying $TYPE verified proxies..."
-
-            while read -r PROXY; do
-              [ -z "$PROXY" ] && continue
-
-              case "$TYPE" in
-                socks5) PREFIX="socks5h://";;
-                socks4) PREFIX="socks4a://";;
-                http)   PREFIX="http://";;
-              esac
-
-              echo "→ Trying $TYPE proxy $PROXY"
-              if curl -sS --max-time 25 -x "$PREFIX$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-                if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
-                  echo "✅ Success with $TYPE proxy $PROXY"
-                  success=true
-                  break 2  # Exit both loops
-                else
-                  echo "⚠️ Not a valid M3U, skipping..."
-                fi
-              else
-                echo "❌ Proxy failed: $PROXY"
-              fi
-            done < "$FILE"
           done
 
           if [ "$success" != true ]; then
@@ -131,7 +90,7 @@ jobs:
             exit 1
           fi
 
-      # 7️⃣ Commit & push updated M3U
+      # 6️⃣ Commit & push updated M3U
       - name: Commit & push
         if: success()
         run: |
