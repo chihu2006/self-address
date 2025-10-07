@@ -24,21 +24,24 @@ jobs:
       # 3️⃣ Fetch proxies
       - name: Fetch proxies
         run: |
-          mkdir -p /tmp/proxies
+          mkdir -p /tmp/proxies /tmp/verified_proxies
 
           # SOCKS5
           curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks5&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/socks5.json || echo "Warning: SOCKS5 fetch failed"
           jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks5.json > /tmp/proxies/socks5.txt || echo ""
+          SOCKS5_COUNT=$(wc -l < /tmp/proxies/socks5.txt || echo 0)
 
           # SOCKS4
           curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks4&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/socks4.json || echo "Warning: SOCKS4 fetch failed"
           jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks4.json > /tmp/proxies/socks4.txt || echo ""
+          SOCKS4_COUNT=$(wc -l < /tmp/proxies/socks4.txt || echo 0)
 
           # HTTP
           curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=http&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/http.json || echo "Warning: HTTP fetch failed"
           jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/http.json > /tmp/proxies/http.txt || echo ""
+          HTTP_COUNT=$(wc -l < /tmp/proxies/http.txt || echo 0)
 
-          echo "✅ Proxies fetched"
+          echo "✅ Proxies fetched: SOCKS5=$SOCKS5_COUNT, SOCKS4=$SOCKS4_COUNT, HTTP=$HTTP_COUNT"
 
       # 4️⃣ Set environment variables
       - name: Set environment variables
@@ -49,17 +52,21 @@ jobs:
       # 5️⃣ Verify proxies
       - name: Verify proxies
         run: |
-          mkdir -p /tmp/verified_proxies
-          TEST_URL="$URL"
-
           PROXY_TYPES=("socks5" "socks4" "http")
+
           for TYPE in "${PROXY_TYPES[@]}"; do
             INPUT_FILE="/tmp/proxies/${TYPE}.txt"
             OUTPUT_FILE="/tmp/verified_proxies/${TYPE}.txt"
+            FAIL_FILE="/tmp/verified_proxies/${TYPE}_fail.txt"
             [ -f "$INPUT_FILE" ] || continue
 
-            echo "🔍 Testing $TYPE proxies..."
+            TOTAL=$(wc -l < "$INPUT_FILE")
+            SUCCESS=0
+            FAILURE=0
             > "$OUTPUT_FILE"
+            > "$FAIL_FILE"
+
+            echo "🔍 Verifying $TYPE proxies (Total: $TOTAL)..."
             while read -r PROXY; do
               [ -z "$PROXY" ] && continue
               case "$TYPE" in
@@ -68,26 +75,30 @@ jobs:
                 http)   PREFIX="http://";;
               esac
 
-              if curl -sS --max-time 15 -x "$PREFIX$PROXY" -I "$TEST_URL" | grep -q "200"; then
+              if curl -sS --max-time 15 -x "$PREFIX$PROXY" -I "$URL" | grep -q "200"; then
                 echo "$PROXY" >> "$OUTPUT_FILE"
-                echo "✅ $TYPE proxy works: $PROXY"
+                SUCCESS=$((SUCCESS+1))
               else
-                echo "❌ $TYPE proxy failed: $PROXY"
+                echo "$PROXY" >> "$FAIL_FILE"
+                FAILURE=$((FAILURE+1))
               fi
             done < "$INPUT_FILE"
+
+            echo "✅ $TYPE verified: $SUCCESS/$TOTAL, failed: $FAILURE"
           done
 
-      # 6️⃣ Rotate verified proxies to fetch M3U
-      - name: Fetch M3U using verified proxies
+      # 6️⃣ Fetch M3U using verified proxies
+      - name: Fetch M3U
         run: |
           success=false
           PROXY_TYPES=("socks5" "socks4" "http")
+          FETCH_FAIL=0
+          FETCH_SUCCESS=0
 
           for TYPE in "${PROXY_TYPES[@]}"; do
             FILE="/tmp/verified_proxies/${TYPE}.txt"
             [ -f "$FILE" ] || continue
 
-            echo "🚀 Fetching using verified $TYPE proxies..."
             while read -r PROXY; do
               [ -z "$PROXY" ] && continue
               case "$TYPE" in
@@ -98,24 +109,50 @@ jobs:
 
               if curl -sS --max-time 25 -x "$PREFIX$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
                 if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
-                  echo "✅ M3U fetch success with $TYPE proxy $PROXY"
+                  echo "✅ M3U fetched successfully with $TYPE proxy $PROXY"
+                  FETCH_SUCCESS=$((FETCH_SUCCESS+1))
                   success=true
                   break 2
                 else
-                  echo "⚠️ Not a valid M3U, skipping..."
+                  echo "$PROXY" >> "/tmp/verified_proxies/${TYPE}_fail.txt"
+                  echo "⚠️ Not a valid M3U: $PROXY"
+                  FETCH_FAIL=$((FETCH_FAIL+1))
                 fi
               else
-                echo "❌ Proxy failed: $PROXY"
+                echo "$PROXY" >> "/tmp/verified_proxies/${TYPE}_fail.txt"
+                echo "❌ Proxy fetch failed: $PROXY"
+                FETCH_FAIL=$((FETCH_FAIL+1))
               fi
             done < "$FILE"
           done
 
+          echo "📊 M3U fetch stats: Success=$FETCH_SUCCESS, Failed=$FETCH_FAIL"
+
           if [ "$success" != true ]; then
-            echo "❌ All proxies failed."
+            echo "❌ All proxies failed to fetch M3U."
             exit 1
           fi
 
-      # 7️⃣ Commit & push updated M3U
+      # 7️⃣ Print summary table
+      - name: Print proxy summary
+        run: |
+          echo "📊 Proxy & M3U fetch summary:"
+          printf "%-8s | %-7s | %-8s | %-8s\n" "Type" "Fetched" "Verified" "M3U Fail"
+          echo "----------------------------------------"
+          
+          for TYPE in socks5 socks4 http; do
+            FETCHED_FILE="/tmp/proxies/${TYPE}.txt"
+            VERIFIED_FILE="/tmp/verified_proxies/${TYPE}.txt"
+            FAIL_FILE="/tmp/verified_proxies/${TYPE}_fail.txt"
+
+            FETCHED=$( [ -f "$FETCHED_FILE" ] && wc -l < "$FETCHED_FILE" || echo 0 )
+            VERIFIED=$( [ -f "$VERIFIED_FILE" ] && wc -l < "$VERIFIED_FILE" || echo 0 )
+            M3U_FAIL=$( [ -f "$FAIL_FILE" ] && wc -l < "$FAIL_FILE" || echo 0 )
+
+            printf "%-8s | %-7s | %-8s | %-8s\n" "$TYPE" "$FETCHED" "$VERIFIED" "$M3U_FAIL"
+          done
+
+      # 8️⃣ Commit & push updated M3U
       - name: Commit & push
         if: success()
         run: |
