@@ -62,3 +62,51 @@ jobs:
                 break
               else
                 echo "⚠️ Not a valid M3U response, skipping..."
+              fi
+            else
+              echo "❌ Proxy failed: $PROXY"
+            fi
+          done < <(head -n 80 /tmp/socks5.txt)
+
+          if [ "$success" != true ]; then
+            echo "⚠️ All SOCKS5 proxies failed."
+            exit 1
+          fi
+
+      # 6️⃣ HTTP fallback (only runs if SOCKS5 failed)
+      - name: Try verified HTTP proxies
+        if: failure()
+        run: |
+          echo "🌐 Starting verified HTTP proxy fallback..."
+          success=false
+
+          while read -r PROXY; do
+            echo "→ Trying HTTP proxy http://$PROXY"
+            if curl -sS --max-time 25 -x "http://$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
+              if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
+                echo "✅ Success with $PROXY"
+                success=true
+                break
+              else
+                echo "⚠️ Not a valid M3U response, skipping..."
+              fi
+            else
+              echo "❌ Proxy failed: $PROXY"
+            fi
+          done < <(head -n 80 /tmp/http.txt)
+
+          if [ "$success" != true ]; then
+            echo "❌ All verified HTTP proxies failed."
+            exit 1
+          fi
+
+      # 7️⃣ Commit & push if file updated
+      - name: Commit & push updated M3U
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add "$OUTPUT"
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update: bingcha.m3u [$(date -u '+%Y-%m-%d %H:%M:%S')]"
+          git push origin HEAD:main
