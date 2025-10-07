@@ -1,4 +1,4 @@
-name: Fetch Catvod M3U via Proxy
+name: Fetch catvod M3U via Proxy
 
 on:
   schedule:
@@ -17,25 +17,30 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Get proxy list from ProxyScrape
-      - name: Download proxy list
-        run: |
-          echo "Fetching fresh SOCKS5 proxies..."
-          API_URL='https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks5&proxy_format=ipport&format=text'
-          curl -sS --max-time 40 "$API_URL" -o /tmp/proxies.txt || { echo "❌ Failed to download proxy list"; exit 1; }
-          echo "Downloaded $(wc -l < /tmp/proxies.txt) proxies"
-
-          # Normalize line endings and clean malformed entries
-          sed -i 's/\r$//' /tmp/proxies.txt
-          grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+$' /tmp/proxies.txt > /tmp/clean_proxies.txt
-          mv /tmp/clean_proxies.txt /tmp/proxies.txt
-          echo "After cleaning, $(wc -l < /tmp/proxies.txt) valid proxies remain"
-
-      # 3. Set environment variables
+      # 2. Set environment variables
       - name: Set variables
         run: |
+          echo "PROXY=27.79.47.21:10001" >> $GITHUB_ENV
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
+
+      # 3. Fetch M3U using curl via proxy (no resume, retries full download)
+      - name: Fetch M3U via curl
+        run: |
+          echo "Fetching M3U via proxy $PROXY..."
+          for i in {1..50}; do
+            curl --fail --retry 50 --retry-delay 5 -x $PROXY -L -A "curl/8.13.0" -o $OUTPUT $URL && break
+            echo "Attempt $i failed, retrying..."
+            sleep 5
+          done
+
+          # Check if file is non-empty
+          if [ ! -s $OUTPUT ]; then
+            echo "Error: Downloaded file is empty or incomplete."
+            exit 1
+          fi
+
+          echo "M3U fetch completed successfully."
 
       # 4. Patch EXTM3U line
       - name: Patch EXTM3U header
@@ -43,50 +48,12 @@ jobs:
           sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' $OUTPUT
           head -n 1 $OUTPUT
           
-      # 5. Fetch M3U using rotating proxies
-      - name: Fetch M3U with rotating proxies
-        run: |
-          echo "Starting M3U fetch with rotating proxies..."
-
-          success=false
-          attempt=0
-          max_attempts=100
-
-          while read -r ipport && [ $attempt -lt $max_attempts ]; do
-            [ -z "$ipport" ] && continue
-            attempt=$((attempt+1))
-            PROXY="socks5h://$ipport"
-            echo "[$attempt] Trying proxy $PROXY"
-
-            if curl --fail --max-time 30 -k -x "$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-              if [ -s "$OUTPUT" ]; then
-                echo "✅ M3U fetch succeeded via $PROXY"
-                success=true
-                break
-              else
-                echo "⚠️ File is empty, trying next proxy..."
-              fi
-            else
-              echo "❌ Proxy $PROXY failed, trying next..."
-            fi
-          done < /tmp/proxies.txt
-
-          if [ "$success" != true ]; then
-            echo "❌ All tested proxies failed after $attempt attempts."
-            exit 1
-          fi
-
-      # 6. Commit & push if bingcha.m3u updated
+      # 5. Commit & push if catvod.m3u updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add "$OUTPUT"
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Update catvod.m3u ($(date -u '+%Y-%m-%d %H:%M:%S UTC'))"
-            git push origin HEAD:main
-            echo "✅ Updated bingcha.m3u pushed successfully."
-          fi
+          git add $OUTPUT
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update catvod.m3u"
+          git push origin HEAD:main
+          git push origin HEAD:main
