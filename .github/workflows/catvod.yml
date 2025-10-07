@@ -17,24 +17,35 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Set environment variables
-      - name: Set variables
+      # 2. Fetch proxy from pubproxy.com
+      - name: Fetch proxy
         run: |
-          echo "PROXY=27.79.47.21:10001" >> $GITHUB_ENV
+          mkdir -p /tmp
+          echo "Fetching proxy from PubProxy..."
+          PROXY_JSON=$(curl -s "http://pubproxy.com/api/proxy?limit=1&format=json")
+          echo "Raw proxy JSON: $PROXY_JSON"
+          
+          PROXY=$(echo $PROXY_JSON | jq -r '.data[0].ip + ":" + .data[0].port')
+          echo "Selected proxy: $PROXY"
+          
+          echo "PROXY=$PROXY" >> $GITHUB_ENV
+
+      # 3. Set URL & OUTPUT variables
+      - name: Set URL & output
+        run: |
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
-      # 3. Fetch M3U using curl via proxy (no resume, retries full download)
+      # 4. Fetch M3U using curl via proxy
       - name: Fetch M3U via curl
         run: |
           echo "Fetching M3U via proxy $PROXY..."
-          for i in {1..50}; do
-            curl --fail --retry 50 --retry-delay 5 -x $PROXY -L -A "curl/8.13.0" -o $OUTPUT $URL && break
+          for i in {1..10}; do
+            curl --fail --retry 10 --retry-delay 5 -x "http://$PROXY" -L -A "curl/8.13.0" -o $OUTPUT $URL && break
             echo "Attempt $i failed, retrying..."
             sleep 5
           done
 
-          # Check if file is non-empty
           if [ ! -s $OUTPUT ]; then
             echo "Error: Downloaded file is empty or incomplete."
             exit 1
@@ -42,18 +53,17 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 4. Patch EXTM3U line
+      # 5. Patch EXTM3U line
       - name: Patch EXTM3U header
         run: |
           sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' $OUTPUT
           head -n 1 $OUTPUT
           
-      # 5. Commit & push if catvod.m3u updated
+      # 6. Commit & push if updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add $OUTPUT
           git diff --quiet && git diff --staged --quiet || git commit -m "Update catvod.m3u"
-          git push origin HEAD:main
           git push origin HEAD:main
