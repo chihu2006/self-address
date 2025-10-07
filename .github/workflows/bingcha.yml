@@ -21,68 +21,98 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y curl
 
-      # 3️⃣ Fetch proxies (plain text)
+      # 3️⃣ Fetch proxies
       - name: Fetch proxies
         run: |
-          mkdir -p /tmp/proxies
+          mkdir -p /tmp/proxies /tmp/verified_proxies
 
           # SOCKS5
-          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=socks5&anon=elite&timeout=2000&country=all&format=txt" -o /tmp/proxies/socks5.txt || echo "Warning: SOCKS5 fetch failed"
+          curl -s "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks5&timeout=10000&country=all&ssl=all&anonymity=all" -o /tmp/proxies/socks5.txt || echo "Warning: SOCKS5 fetch failed"
 
           # SOCKS4
-          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=socks4&anon=elite&timeout=2000&country=all&format=txt" -o /tmp/proxies/socks4.txt || echo "Warning: SOCKS4 fetch failed"
+          curl -s "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks4&timeout=10000&country=all&ssl=all&anonymity=all" -o /tmp/proxies/socks4.txt || echo "Warning: SOCKS4 fetch failed"
 
           # HTTP
-          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/?type=http&anon=elite&timeout=2000&country=all&format=txt" -o /tmp/proxies/http.txt || echo "Warning: HTTP fetch failed"
+          curl -s "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all" -o /tmp/proxies/http.txt || echo "Warning: HTTP fetch failed"
 
-          echo "✅ Proxies fetched: SOCKS5=$(wc -l < /tmp/proxies/socks5.txt), SOCKS4=$(wc -l < /tmp/proxies/socks4.txt), HTTP=$(wc -l < /tmp/proxies/http.txt)"
+          echo "✅ Proxies fetched:"
+          echo "   SOCKS5: $(wc -l < /tmp/proxies/socks5.txt)"
+          echo "   SOCKS4: $(wc -l < /tmp/proxies/socks4.txt)"
+          echo "   HTTP:   $(wc -l < /tmp/proxies/http.txt)"
 
-      # 4️⃣ Set environment variables
+      # 4️⃣ Set variables
       - name: Set environment variables
         run: |
           echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
-      # 5️⃣ Verify and rotate proxies
-      - name: Verify and fetch M3U
+      # 5️⃣ Verify proxies
+      - name: Verify proxies
         run: |
-          success=false
           PROXY_TYPES=("socks5" "socks4" "http")
-
           for TYPE in "${PROXY_TYPES[@]}"; do
-            FILE="/tmp/proxies/${TYPE}.txt"
-            [ -f "$FILE" ] || continue
+            IN_FILE="/tmp/proxies/${TYPE}.txt"
+            OUT_FILE="/tmp/verified_proxies/${TYPE}.txt"
+            > "$OUT_FILE"
+            total=0
+            verified=0
+            failed=0
 
-            TOTAL=$(wc -l < "$FILE")
-            VERIFIED=0
-            FAILED=0
-            echo "🔍 Verifying $TYPE proxies (Total: $TOTAL)..."
+            [ -f "$IN_FILE" ] || continue
 
+            echo "🔍 Verifying $TYPE proxies (Total: $(wc -l < "$IN_FILE"))..."
             while read -r PROXY; do
               [ -z "$PROXY" ] && continue
-
+              total=$((total+1))
               case "$TYPE" in
                 socks5) PREFIX="socks5h://";;
                 socks4) PREFIX="socks4a://";;
                 http)   PREFIX="http://";;
               esac
 
+              if curl -s --max-time 10 -x "$PREFIX$PROXY" -I https://www.google.com > /dev/null 2>&1; then
+                echo "$PROXY" >> "$OUT_FILE"
+                verified=$((verified+1))
+              else
+                failed=$((failed+1))
+              fi
+            done < "$IN_FILE"
+
+            echo "✅ $TYPE verified: $verified/$total, failed: $failed"
+          done
+
+      # 6️⃣ Fetch M3U with verified proxies
+      - name: Fetch M3U via verified proxies
+        run: |
+          success=false
+          PROXY_TYPES=("socks5" "socks4" "http")
+
+          for TYPE in "${PROXY_TYPES[@]}"; do
+            FILE="/tmp/verified_proxies/${TYPE}.txt"
+            [ -f "$FILE" ] || continue
+
+            echo "🚀 Trying $TYPE proxies..."
+            while read -r PROXY; do
+              [ -z "$PROXY" ] && continue
+              case "$TYPE" in
+                socks5) PREFIX="socks5h://";;
+                socks4) PREFIX="socks4a://";;
+                http)   PREFIX="http://";;
+              esac
+
+              echo "→ Trying $TYPE proxy $PROXY"
               if curl -sS --max-time 25 -x "$PREFIX$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
                 if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
-                  VERIFIED=$((VERIFIED+1))
                   echo "✅ Success with $TYPE proxy $PROXY"
                   success=true
                   break 2
                 else
-                  FAILED=$((FAILED+1))
+                  echo "⚠️ Not a valid M3U, skipping..."
                 fi
               else
-                FAILED=$((FAILED+1))
+                echo "❌ Proxy failed: $PROXY"
               fi
             done < "$FILE"
-
-            echo "✅ $TYPE verified: $VERIFIED/$TOTAL, failed: $FAILED"
-
           done
 
           if [ "$success" != true ]; then
@@ -90,13 +120,12 @@ jobs:
             exit 1
           fi
 
-      # 6️⃣ Commit & push updated M3U
+      # 7️⃣ Commit & push updated M3U
       - name: Commit & push
         if: success()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           git add "$OUTPUT"
           git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u [$(date -u '+%Y-%m-%d %H:%M:%S')]"
           git push origin HEAD:main
