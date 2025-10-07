@@ -34,7 +34,7 @@ jobs:
       # 3. Set environment variables
       - name: Set variables
         run: |
-          echo "https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
+          echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
       # 4. Patch EXTM3U line
