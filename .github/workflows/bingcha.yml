@@ -2,7 +2,7 @@ name: Fetch BINGCHA M3U via Proxy
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Run daily at midnight UTC
+    - cron: "0 0 * * *"  # Daily at midnight UTC
   workflow_dispatch:
 
 permissions:
@@ -13,32 +13,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
+      # 1️⃣ Checkout repo
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2️⃣ Install jq (for JSON parsing)
+      # 2️⃣ Install dependencies
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y jq
+        run: sudo apt-get update && sudo apt-get install -y jq curl
 
-      # 3️⃣ Fetch verified proxies
-      - name: Fetch verified proxies from openproxy.space
-        id: fetch_proxies
+      # 3️⃣ Fetch proxies
+      - name: Fetch verified proxies
         run: |
-          echo "Fetching verified proxies from openproxy.space..."
           mkdir -p /tmp/proxies
 
-          # Get fresh SOCKS5 and HTTP lists
-          curl -s "https://openproxy.space/list/socks5" -o /tmp/proxies/socks5.json
-          curl -s "https://openproxy.space/list/http" -o /tmp/proxies/http.json
+          # SOCKS5
+          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks5&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/socks5.json || echo "Warning: SOCKS5 fetch failed"
+          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks5.json > /tmp/socks5.txt || echo ""
 
-          # Extract ip:port from JSON
-          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks5.json > /tmp/socks5.txt
-          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/http.json > /tmp/http.txt
+          # SOCKS4
+          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=socks4&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/socks4.json || echo "Warning: SOCKS4 fetch failed"
+          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/socks4.json > /tmp/socks4.txt || echo ""
 
-          SOCKS5_COUNT=$(wc -l < /tmp/socks5.txt)
-          HTTP_COUNT=$(wc -l < /tmp/http.txt)
-          echo "✅ Got $SOCKS5_COUNT SOCKS5 and $HTTP_COUNT HTTP proxies"
+          # HTTP
+          curl -s "https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&protocol=http&proxy_format=protocolipport&format=json&timeout=20000" -o /tmp/proxies/http.json || echo "Warning: HTTP fetch failed"
+          jq -r '.[] | "\(.ip):\(.port)"' /tmp/proxies/http.json > /tmp/http.txt || echo ""
+
+          echo "✅ Proxies fetched"
 
       # 4️⃣ Set variables
       - name: Set environment variables
@@ -46,67 +46,53 @@ jobs:
           echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
-      # 5️⃣ Try SOCKS5 proxies first
-      - name: Try verified SOCKS5 proxies
-        id: socks5
+      # 5️⃣ Try SOCKS5 → SOCKS4 → HTTP proxies
+      - name: Rotate proxies (SOCKS5 → SOCKS4 → HTTP)
         run: |
-          echo "🚀 Starting verified SOCKS5 proxy rotation..."
           success=false
+          PROXY_TYPES=("socks5" "socks4" "http")
 
-          while read -r PROXY; do
-            echo "→ Trying SOCKS5 proxy socks5h://$PROXY"
-            if curl -sS --max-time 25 -x "socks5h://$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-              if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
-                echo "✅ Success with $PROXY"
-                success=true
-                break
+          for TYPE in "${PROXY_TYPES[@]}"; do
+            FILE="/tmp/${TYPE}.txt"
+            [ -f "$FILE" ] || continue
+
+            echo "🚀 Trying $TYPE proxies..."
+            while read -r PROXY; do
+              [ -z "$PROXY" ] && continue
+
+              case "$TYPE" in
+                socks5) PREFIX="socks5h://";;
+                socks4) PREFIX="socks4a://";;
+                http)   PREFIX="http://";;
+              esac
+
+              echo "→ Trying $TYPE proxy $PROXY"
+              if curl -sS --max-time 25 -x "$PREFIX$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
+                if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
+                  echo "✅ Success with $TYPE proxy $PROXY"
+                  success=true
+                  break 2  # Exit both loops
+                else
+                  echo "⚠️ Not a valid M3U, skipping..."
+                fi
               else
-                echo "⚠️ Not a valid M3U response, skipping..."
+                echo "❌ Proxy failed: $PROXY"
               fi
-            else
-              echo "❌ Proxy failed: $PROXY"
-            fi
-          done < <(head -n 80 /tmp/socks5.txt)
+            done < "$FILE"
+          done
 
           if [ "$success" != true ]; then
-            echo "⚠️ All SOCKS5 proxies failed."
+            echo "❌ All proxies failed."
             exit 1
           fi
 
-      # 6️⃣ HTTP fallback (only runs if SOCKS5 failed)
-      - name: Try verified HTTP proxies
-        if: failure()
-        run: |
-          echo "🌐 Starting verified HTTP proxy fallback..."
-          success=false
-
-          while read -r PROXY; do
-            echo "→ Trying HTTP proxy http://$PROXY"
-            if curl -sS --max-time 25 -x "http://$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-              if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
-                echo "✅ Success with $PROXY"
-                success=true
-                break
-              else
-                echo "⚠️ Not a valid M3U response, skipping..."
-              fi
-            else
-              echo "❌ Proxy failed: $PROXY"
-            fi
-          done < <(head -n 80 /tmp/http.txt)
-
-          if [ "$success" != true ]; then
-            echo "❌ All verified HTTP proxies failed."
-            exit 1
-          fi
-
-      # 7️⃣ Commit & push if file updated
-      - name: Commit & push updated M3U
+      # 6️⃣ Commit & push updated M3U
+      - name: Commit & push
         if: success()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add "$OUTPUT"
-          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update: bingcha.m3u [$(date -u '+%Y-%m-%d %H:%M:%S')]"
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u [$(date -u '+%Y-%m-%d %H:%M:%S')]"
           git push origin HEAD:main
