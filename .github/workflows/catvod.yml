@@ -1,4 +1,4 @@
-name: Fetch CatVod M3U via Proxy (Proxifly Edition)
+name: Fetch CatVod M3U via Proxy (Validated 10)
 
 on:
   schedule:
@@ -13,62 +13,84 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # 2. Set constants
       - name: Set environment variables
         run: |
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
+      # 3. Fetch proxies and validate top 10
       - name: Fetch and validate proxies
         run: |
-          echo "Fetching proxy list from Proxifly (HTTP only)..."
+          echo "Fetching proxy list from Proxifly..."
           PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
-          curl -s "$PROXY_LIST_URL" -o /tmp/proxies.json
+          curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json
 
-          echo "Selecting top 10 proxies for testing..."
-          jq -r '.[0:10] | .[] | "\(.ip):\(.port)"' /tmp/proxies.json > /tmp/proxies.txt
+          echo "Testing proxies (max 20) to find 10 working..."
+          jq -r '.[0:20] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
 
-          echo "Testing up to 10 proxies..."
           URL_TO_TEST="https://httpbin.org/ip"
-          WORKING_PROXY=""
+          WORKING_PROXIES=()
 
           while read PROXY; do
             echo "Testing proxy: $PROXY"
-            if curl --silent --fail --max-time 10 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null; then
+            if curl --silent --fail --max-time 5 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null; then
               echo "✅ Proxy $PROXY works!"
-              WORKING_PROXY="$PROXY"
-              break
+              WORKING_PROXIES+=("$PROXY")
             else
               echo "❌ Proxy $PROXY failed."
             fi
-          done < /tmp/proxies.txt
 
-          if [ -z "$WORKING_PROXY" ]; then
+            # Stop once we have 10 working proxies
+            if [ ${#WORKING_PROXIES[@]} -ge 10 ]; then
+              break
+            fi
+          done < /tmp/test_proxies.txt
+
+          if [ ${#WORKING_PROXIES[@]} -eq 0 ]; then
             echo "🚨 No working proxies found. Exiting."
             exit 1
           fi
 
-          echo "Using working proxy: $WORKING_PROXY"
-          echo "PROXY=$WORKING_PROXY" >> $GITHUB_ENV
+          echo "Found ${#WORKING_PROXIES[@]} working proxies:"
+          printf '%s\n' "${WORKING_PROXIES[@]}"
 
-      - name: Fetch M3U via working proxy
+          # Save to file for future use
+          printf '%s\n' "${WORKING_PROXIES[@]}" > /tmp/working_proxies.txt
+
+          # Pick first one (or random)
+          SELECTED_PROXY=$(head -n 1 /tmp/working_proxies.txt)
+          echo "Using proxy: $SELECTED_PROXY"
+          echo "PROXY=$SELECTED_PROXY" >> $GITHUB_ENV
+
+      # 4. Fetch M3U file using verified proxy
+      - name: Fetch M3U via verified proxy
         run: |
           echo "Fetching M3U via proxy $PROXY..."
           if curl --fail --retry 3 --retry-delay 5 --max-time 30 \
               -x "http://$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-            echo "✅ M3U fetched successfully."
+            echo "✅ M3U downloaded successfully."
           else
-            echo "🚨 Failed to download M3U."
+            echo "🚨 Failed to download M3U file."
             exit 1
           fi
 
+          if [ ! -s "$OUTPUT" ]; then
+            echo "🚨 File is empty or incomplete."
+            exit 1
+          fi
+
+      # 5. Patch EXTM3U header for EPG
       - name: Patch EXTM3U header
         run: |
           sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' "$OUTPUT"
           head -n 1 "$OUTPUT"
 
+      # 6. Commit only if updated
       - name: Commit & push if updated
         run: |
           git config user.name "github-actions[bot]"
