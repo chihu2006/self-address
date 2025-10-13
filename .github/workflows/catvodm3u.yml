@@ -90,7 +90,9 @@ jobs:
               PROXY=$(head -n1 "$BATCH_WORKING")
               echo "Trying proxy for fetch: $PROXY"
 
-              if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT_FILE}.tmp" "$URL"; then
+              if curl --fail --max-time 5 -x "http://$PROXY" -L \
+                -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" \
+                -o "${OUTPUT_FILE}.tmp" "$URL"; then
                 echo "✅ Successfully fetched via $PROXY"
                 mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
                 echo "PROXY=$PROXY" >> $GITHUB_ENV
