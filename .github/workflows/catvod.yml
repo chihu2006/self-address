@@ -1,4 +1,4 @@
-name: Fetch CatVod M3U via Proxy (10 Validated, No Retry)
+name: Fetch CatVod M3U via Proxy (Validate 150, Use all valid, No Retry)
 
 on:
   schedule:
@@ -13,19 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Set constants
       - name: Set environment variables
         run: |
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
-      # 3. Fetch proxies and validate 10 working ones (parallel test, 5s timeout)
-      - name: Fetch and validate proxies (parallel)
+      - name: Fetch and validate proxies (parallel, up to 150)
         run: |
+          set -uo pipefail
+
           echo "Fetching HTTP proxy list from Proxifly..."
           PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
           curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json
@@ -33,17 +32,18 @@ jobs:
           echo "Selecting first 150 proxies for testing..."
           jq -r '.[0:150] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
 
-          echo "Testing proxies in parallel (timeout 10s each)..."
+          echo "Testing proxies in parallel (timeout 5s each)..."
           URL_TO_TEST="https://api.ipify.org"
           WORKING_FILE="/tmp/working_proxies.txt"
           > "$WORKING_FILE"
 
-          MAX_PARALLEL=10
+          # Tunable concurrency - don't spawn too many background jobs in CI
+          MAX_PARALLEL=50
           COUNT=0
 
-          while read PROXY; do
+          while read -r PROXY; do
             (
-              if curl --silent --fail --max-time 10 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null; then
+              if curl --silent --fail --max-time 5 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null 2>&1; then
                 echo "$PROXY" >> "$WORKING_FILE"
                 echo "✅ Proxy $PROXY works"
               else
@@ -63,49 +63,50 @@ jobs:
             exit 1
           fi
 
-          echo "✅ Working proxies found:"
-          cat "$WORKING_FILE" | head -n 10
+          echo "✅ Working proxies found (total: $(wc -l < $WORKING_FILE)) :"
+          cat "$WORKING_FILE"
 
-          # Keep only first 10
-          head -n 10 "$WORKING_FILE" > /tmp/working_proxies.txt
-          echo "PROXY_LIST=$(cat /tmp/working_proxies.txt | tr '\n' ',' | sed 's/,$//')" >> $GITHUB_ENV
+          # Export all working proxies (comma separated) to env
+          echo "PROXY_LIST=$(paste -sd, $WORKING_FILE)" >> $GITHUB_ENV
 
-      # 4. Use all 10 validated proxies sequentially (no retry)
-      - name: Fetch M3U via validated proxies
+      - name: Fetch M3U using all validated proxies (sequential, no retry per proxy)
         run: |
-          IFS=',' read -r -a PROXIES <<< "$PROXY_LIST"
-          echo "Attempting to fetch M3U using up to ${#PROXIES[@]} proxies..."
+          set -uo pipefail
+
+          IFS=',' read -r -a PROXIES <<< "${PROXY_LIST}"
+          echo "Attempting to fetch M3U using up to ${#PROXIES[@]} validated proxies..."
           SUCCESS=false
 
           for PROXY in "${PROXIES[@]}"; do
             echo "Trying proxy: $PROXY"
-            if curl --fail --max-time 10 -x "http://$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
+            # No retries for each proxy; if curl returns non-zero we move to next proxy
+            if curl --fail --max-time 15 -x "http://$PROXY" -L -A "curl/8.13.0" -o "${OUTPUT}.tmp" "${URL}"; then
               echo "✅ Successfully fetched via $PROXY"
+              mv "${OUTPUT}.tmp" "${OUTPUT}"
               SUCCESS=true
               echo "PROXY=$PROXY" >> $GITHUB_ENV
               break
             else
               echo "❌ Failed with proxy $PROXY"
+              rm -f "${OUTPUT}.tmp" || true
             fi
           done
 
           if [ "$SUCCESS" = false ]; then
-            echo "🚨 All 10 proxies failed. Exiting."
+            echo "🚨 All validated proxies failed. Exiting."
             exit 1
           fi
 
           if [ ! -s "$OUTPUT" ]; then
-            echo "🚨 Downloaded file is empty."
+            echo "🚨 Downloaded file is empty.";
             exit 1
           fi
 
-      # 5. Patch EXTM3U header
       - name: Patch EXTM3U header
         run: |
           sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' "$OUTPUT"
           head -n 1 "$OUTPUT"
 
-      # 6. Commit & push only if updated
       - name: Commit & push if updated
         run: |
           git config user.name "github-actions[bot]"
