@@ -1,4 +1,4 @@
-name: Fetch CatVod M3U via Proxy (Validate up to 600 sequential, Use all valid, No Retry)
+name: Fetch CatVod M3U via Proxy (Up to 600, Batch Fetch with Retry)
 
 on:
   schedule:
@@ -30,18 +30,18 @@ jobs:
           # Extract up to 600 proxies
           jq -r '.[0:600] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
 
-      - name: Validate proxies in batches of 50 (sequential)
+      - name: Batch validation and fetch
         run: |
           set -uo pipefail
 
           LIGHT_URL="https://www.google.com/generate_204"
           CONNECT_URL="https://www.google.com/generate_204"
-          WORKING_FILE="/tmp/working_proxies.txt"
-          > "$WORKING_FILE"
+          OUTPUT_FILE="$OUTPUT"
 
           BATCH_SIZE=50
           TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt)
           BATCHES=$(( (TOTAL_PROXIES + BATCH_SIZE - 1) / BATCH_SIZE ))
+          FETCH_SUCCESS=false
 
           for ((i=0; i<BATCHES; i++)); do
             echo "Processing batch $((i+1)) of $BATCHES"
@@ -66,10 +66,13 @@ jobs:
             done < /tmp/batch.txt
 
             # Phase 2: CONNECT test
+            BATCH_WORKING="/tmp/batch_working.txt"
+            > "$BATCH_WORKING"
+
             while read -r PROXY; do
               echo "[CONNECT] Testing proxy: $PROXY"
               if curl --silent --fail --head --max-time 10 -x "http://$PROXY" "$CONNECT_URL" > /dev/null 2>&1; then
-                echo "$PROXY" >> "$WORKING_FILE"
+                echo "$PROXY" >> "$BATCH_WORKING"
                 echo "✅ CONNECT OK: $PROXY"
               else
                 echo "❌ CONNECT failed: $PROXY"
@@ -77,53 +80,34 @@ jobs:
               sleep 0.5
             done < "$LIGHT_OK_FILE"
 
-            # If any working proxies found, stop testing further batches
-            if [ -s "$WORKING_FILE" ]; then
-              echo "✅ Found working proxies, stopping batch testing."
-              break
-            else
+            if [ ! -s "$BATCH_WORKING" ]; then
               echo "No valid proxies in this batch, moving to next batch."
+              continue
             fi
+
+            # Fetch using validated batch proxies sequentially
+            while [ -s "$BATCH_WORKING" ]; do
+              PROXY=$(head -n1 "$BATCH_WORKING")
+              echo "Trying proxy for fetch: $PROXY"
+
+              if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT_FILE}.tmp" "$URL"; then
+                echo "✅ Successfully fetched via $PROXY"
+                mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
+                echo "PROXY=$PROXY" >> $GITHUB_ENV
+                FETCH_SUCCESS=true
+                break 2  # exit both fetch loop and batch loop
+              else
+                echo "❌ Failed with proxy $PROXY, removing from batch"
+                sed -i '1d' "$BATCH_WORKING"  # remove first proxy
+                rm -f "${OUTPUT_FILE}.tmp" || true
+              fi
+            done
+
+            echo "All proxies in this batch exhausted, moving to next batch."
           done
 
-          if [ ! -s "$WORKING_FILE" ]; then
-            echo "🚨 No working proxies found in any batch!"
-            exit 1
-          fi
-
-          echo "Working proxies found:"
-          cat "$WORKING_FILE"
-          echo "PROXY_LIST=$(paste -sd, $WORKING_FILE)" >> $GITHUB_ENV
-
-      - name: Fetch M3U using validated proxies (sequential, no retry)
-        run: |
-          set -uo pipefail
-
-          IFS=',' read -r -a PROXIES <<< "${PROXY_LIST}"
-          echo "Attempting to fetch M3U using up to ${#PROXIES[@]} validated proxies..."
-          SUCCESS=false
-
-          for PROXY in "${PROXIES[@]}"; do
-            echo "Trying proxy: $PROXY"
-            if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT}.tmp" "${URL}"; then
-              echo "✅ Successfully fetched via $PROXY"
-              mv "${OUTPUT}.tmp" "${OUTPUT}"
-              SUCCESS=true
-              echo "PROXY=$PROXY" >> $GITHUB_ENV
-              break
-            else
-              echo "❌ Failed with proxy $PROXY"
-              rm -f "${OUTPUT}.tmp" || true
-            fi
-          done
-
-          if [ "$SUCCESS" = false ]; then
-            echo "🚨 All validated proxies failed. Exiting."
-            exit 1
-          fi
-
-          if [ ! -s "$OUTPUT" ]; then
-            echo "🚨 Downloaded file is empty.";
+          if [ "$FETCH_SUCCESS" = false ]; then
+            echo "🚨 All batches exhausted, unable to fetch M3U."
             exit 1
           fi
 
