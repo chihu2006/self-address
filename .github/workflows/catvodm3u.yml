@@ -90,9 +90,12 @@ jobs:
               PROXY=$(head -n1 "$BATCH_WORKING")
               echo "Trying proxy for fetch: $PROXY"
 
-              if curl --fail --max-time 10 -x "http://$PROXY" -L \
+              if curl --fail --connect-timeout 15 --max-time 30 -x "http://$PROXY" -L \
                 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" \
                 -H "Referer: https://iptv.catvod.com/" \
+                -H "Accept: application/x-mpegURL,application/vnd.apple.mpegurl,text/plain,*/*" \
+                -H "Accept-Language: en-US,en;q=0.9" \
+                -H "Connection: keep-alive" \
                 -o "${OUTPUT_FILE}.tmp" "$URL"; then
                 echo "✅ Successfully fetched via $PROXY"
                 mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
