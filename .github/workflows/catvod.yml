@@ -1,4 +1,4 @@
-name: Fetch CatVod M3U via Proxy (Up to 600, Batch Fetch with Retry)
+name: Fetch CatVod JSON via Proxy (Up to 600, Batch Fetch with Retry)
 
 on:
   schedule:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  fetch-m3u:
+  fetch-json:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,8 +18,8 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
-          echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
+          echo "URL=https://tvbox.catvod.com/catvod.json" >> $GITHUB_ENV
+          echo "OUTPUT=catvod.json" >> $GITHUB_ENV
 
       - name: Fetch proxy list
         run: |
@@ -90,7 +90,7 @@ jobs:
               PROXY=$(head -n1 "$BATCH_WORKING")
               echo "Trying proxy for fetch: $PROXY"
 
-              if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT_FILE}.tmp" "$URL"; then
+              if curl --fail --max-time 10 -x "http://$PROXY" -L -A "Mozilla/5.0" -o "${OUTPUT_FILE}.tmp" "$URL"; then
                 echo "✅ Successfully fetched via $PROXY"
                 mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
                 echo "PROXY=$PROXY" >> $GITHUB_ENV
@@ -107,14 +107,9 @@ jobs:
           done
 
           if [ "$FETCH_SUCCESS" = false ]; then
-            echo "🚨 All batches exhausted, unable to fetch M3U."
+            echo "🚨 All batches exhausted, unable to fetch JSON."
             exit 1
           fi
-
-      - name: Patch EXTM3U header
-        run: |
-          sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' "$OUTPUT"
-          head -n 1 "$OUTPUT"
 
       - name: Commit & push if updated
         run: |
@@ -125,6 +120,6 @@ jobs:
           if git diff --quiet && git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Update catvod.m3u [auto]"
+            git commit -m "Update catvod.json [auto]"
             git push origin HEAD:main
           fi
