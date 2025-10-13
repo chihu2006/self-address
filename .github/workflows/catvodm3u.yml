@@ -1,4 +1,4 @@
-name: Fetch Bingcha M3U via Proxy (Up to 600, Batch Fetch with Retry)
+name: Fetch Catvod M3U via Proxy (Up to 600, Batch Fetch with Retry)
 
 on:
   schedule:
