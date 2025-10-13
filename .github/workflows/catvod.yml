@@ -1,4 +1,4 @@
-name: Fetch CatVod M3U via Proxy (Improved)
+name: Fetch CatVod M3U via Proxy (Proxifly Edition)
 
 on:
   schedule:
@@ -13,67 +13,67 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Set URL and output variables
       - name: Set environment variables
         run: |
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
-      # 3. Fetch multiple HTTP proxies from PubProxy
-      - name: Fetch proxies
+      - name: Fetch and validate proxies
         run: |
-          echo "Fetching up to 5 HTTP proxies from PubProxy..."
-          PROXY_JSON=$(curl -s "http://pubproxy.com/api/proxy?limit=5&format=json&type=http")
-          echo "Proxy list received:"
-          echo "$PROXY_JSON" | jq '.data[] | {ip: .ip, port: .port}'
-          
-          echo "$PROXY_JSON" > /tmp/proxies.json
+          echo "Fetching proxy list from Proxifly (HTTP only)..."
+          PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
+          curl -s "$PROXY_LIST_URL" -o /tmp/proxies.json
 
-      # 4. Attempt to fetch the M3U file using the proxy list
-      - name: Download M3U using available proxies
-        run: |
-          URL=${URL}
-          OUTPUT=${OUTPUT}
-          echo "Attempting to download $URL with fallback proxies..."
+          echo "Selecting top 10 proxies for testing..."
+          jq -r '.[0:10] | .[] | "\(.ip):\(.port)"' /tmp/proxies.json > /tmp/proxies.txt
 
-          for PROXY in $(jq -r '.data[] | "\(.ip):\(.port)"' /tmp/proxies.json); do
-            echo "Trying proxy: $PROXY"
-            if curl --fail --retry 3 --retry-delay 5 --max-time 15 \
-                -x "http://$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-              echo "✅ Successfully downloaded using proxy: $PROXY"
-              echo "PROXY=$PROXY" >> $GITHUB_ENV
+          echo "Testing up to 10 proxies..."
+          URL_TO_TEST="https://httpbin.org/ip"
+          WORKING_PROXY=""
+
+          while read PROXY; do
+            echo "Testing proxy: $PROXY"
+            if curl --silent --fail --max-time 10 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null; then
+              echo "✅ Proxy $PROXY works!"
+              WORKING_PROXY="$PROXY"
               break
             else
-              echo "❌ Proxy $PROXY failed, trying next..."
+              echo "❌ Proxy $PROXY failed."
             fi
-          done
+          done < /tmp/proxies.txt
 
-          if [ ! -s "$OUTPUT" ]; then
-            echo "🚨 All proxies failed. Exiting."
+          if [ -z "$WORKING_PROXY" ]; then
+            echo "🚨 No working proxies found. Exiting."
             exit 1
           fi
 
-          echo "✅ M3U fetch completed successfully."
+          echo "Using working proxy: $WORKING_PROXY"
+          echo "PROXY=$WORKING_PROXY" >> $GITHUB_ENV
 
-      # 5. Patch the EXTM3U header with EPG link
+      - name: Fetch M3U via working proxy
+        run: |
+          echo "Fetching M3U via proxy $PROXY..."
+          if curl --fail --retry 3 --retry-delay 5 --max-time 30 \
+              -x "http://$PROXY" -L -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
+            echo "✅ M3U fetched successfully."
+          else
+            echo "🚨 Failed to download M3U."
+            exit 1
+          fi
+
       - name: Patch EXTM3U header
         run: |
-          OUTPUT=${OUTPUT}
           sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' "$OUTPUT"
-          echo "Updated EXTM3U header:"
           head -n 1 "$OUTPUT"
 
-      # 6. Commit and push changes if the file has been updated
       - name: Commit & push if updated
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "$OUTPUT"
-
           if git diff --quiet && git diff --staged --quiet; then
             echo "No changes to commit."
           else
