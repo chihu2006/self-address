@@ -143,3 +143,4 @@ jobs:
           else
             git commit -m "Update catvod.m3u [auto]"
             git push origin HEAD:main
+          fi
