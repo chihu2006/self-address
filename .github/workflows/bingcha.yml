@@ -1,4 +1,4 @@
-name: Fetch BINGCHA M3U via Proxy
+name: Fetch Bingcha M3U via Proxy (Up to 600, Batch Fetch with Retry)
 
 on:
   schedule:
@@ -13,119 +13,113 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Install dependencies
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y curl
-
-      # 3️⃣ Fetch proxies
-      - name: Fetch proxies
-        run: |
-          mkdir -p /tmp/proxies /tmp/verified_proxies
-
-          # SOCKS5
-          curl -s "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks5&timeout=10000&country=all&ssl=all&anonymity=all" -o /tmp/proxies/socks5.txt || echo "Warning: SOCKS5 fetch failed"
-
-          # SOCKS4
-          curl -s "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks4&timeout=10000&country=all&ssl=all&anonymity=all" -o /tmp/proxies/socks4.txt || echo "Warning: SOCKS4 fetch failed"
-
-          # HTTP
-          curl -s "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all" -o /tmp/proxies/http.txt || echo "Warning: HTTP fetch failed"
-
-          echo "✅ Proxies fetched:"
-          echo "   SOCKS5: $(wc -l < /tmp/proxies/socks5.txt)"
-          echo "   SOCKS4: $(wc -l < /tmp/proxies/socks4.txt)"
-          echo "   HTTP:   $(wc -l < /tmp/proxies/http.txt)"
-
-      # 4️⃣ Set variables
       - name: Set environment variables
         run: |
-          echo "URL=https://fy.188766.xyz/?ip=192.168.1.2&proxy=true&lunbo=false&bconly=true" >> $GITHUB_ENV
+          echo "URL=https://fy.188766.xyz/?ip=" >> $GITHUB_ENV
           echo "OUTPUT=bingcha.m3u" >> $GITHUB_ENV
 
-      # 5️⃣ Verify proxies
-      - name: Verify proxies
+      - name: Fetch proxy list
         run: |
-          PROXY_TYPES=("socks5" "socks4" "http")
-          for TYPE in "${PROXY_TYPES[@]}"; do
-            IN_FILE="/tmp/proxies/${TYPE}.txt"
-            OUT_FILE="/tmp/verified_proxies/${TYPE}.txt"
-            > "$OUT_FILE"
-            total=0
-            verified=0
-            failed=0
+          echo "Fetching HTTP proxy list from Proxifly..."
+          PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
+          curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json
 
-            [ -f "$IN_FILE" ] || continue
+          # Extract up to 600 proxies
+          jq -r '.[0:600] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
 
-            echo "🔍 Verifying $TYPE proxies (Total: $(wc -l < "$IN_FILE"))..."
+      - name: Batch validation and fetch
+        run: |
+          set -uo pipefail
+
+          LIGHT_URL="https://www.google.com/generate_204"
+          CONNECT_URL="https://www.google.com/generate_204"
+          OUTPUT_FILE="$OUTPUT"
+
+          BATCH_SIZE=50
+          TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt)
+          BATCHES=$(( (TOTAL_PROXIES + BATCH_SIZE - 1) / BATCH_SIZE ))
+          FETCH_SUCCESS=false
+
+          for ((i=0; i<BATCHES; i++)); do
+            echo "Processing batch $((i+1)) of $BATCHES"
+            START=$(( i * BATCH_SIZE + 1 ))
+            END=$(( START + BATCH_SIZE - 1 ))
+
+            sed -n "${START},${END}p" /tmp/test_proxies.txt > /tmp/batch.txt
+
+            # Phase 1: light test
+            LIGHT_OK_FILE="/tmp/light_ok.txt"
+            > "$LIGHT_OK_FILE"
+
             while read -r PROXY; do
-              [ -z "$PROXY" ] && continue
-              total=$((total+1))
-              case "$TYPE" in
-                socks5) PREFIX="socks5h://";;
-                socks4) PREFIX="socks4a://";;
-                http)   PREFIX="http://";;
-              esac
-
-              if curl -s --max-time 3000 -x "$PREFIX$PROXY" -I https://www.google.com > /dev/null 2>&1; then
-                echo "$PROXY" >> "$OUT_FILE"
-                verified=$((verified+1))
+              echo "[Light] Testing proxy: $PROXY"
+              if curl --silent --fail --max-time 5 -x "http://$PROXY" "$LIGHT_URL" > /dev/null 2>&1; then
+                echo "$PROXY" >> "$LIGHT_OK_FILE"
+                echo "✅ Light OK: $PROXY"
               else
-                failed=$((failed+1))
+                echo "❌ Light failed: $PROXY"
               fi
-            done < "$IN_FILE"
+              sleep 0.3
+            done < /tmp/batch.txt
 
-            echo "✅ $TYPE verified: $verified/$total, failed: $failed"
+            # Phase 2: CONNECT test
+            BATCH_WORKING="/tmp/batch_working.txt"
+            > "$BATCH_WORKING"
+
+            while read -r PROXY; do
+              echo "[CONNECT] Testing proxy: $PROXY"
+              if curl --silent --fail --head --max-time 10 -x "http://$PROXY" "$CONNECT_URL" > /dev/null 2>&1; then
+                echo "$PROXY" >> "$BATCH_WORKING"
+                echo "✅ CONNECT OK: $PROXY"
+              else
+                echo "❌ CONNECT failed: $PROXY"
+              fi
+              sleep 0.5
+            done < "$LIGHT_OK_FILE"
+
+            if [ ! -s "$BATCH_WORKING" ]; then
+              echo "No valid proxies in this batch, moving to next batch."
+              continue
+            fi
+
+            # Fetch using validated batch proxies sequentially
+            while [ -s "$BATCH_WORKING" ]; do
+              PROXY=$(head -n1 "$BATCH_WORKING")
+              echo "Trying proxy for fetch: $PROXY"
+
+              if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT_FILE}.tmp" "$URL"; then
+                echo "✅ Successfully fetched via $PROXY"
+                mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
+                echo "PROXY=$PROXY" >> $GITHUB_ENV
+                FETCH_SUCCESS=true
+                break 2  # exit both fetch loop and batch loop
+              else
+                echo "❌ Failed with proxy $PROXY, removing from batch"
+                sed -i '1d' "$BATCH_WORKING"  # remove first proxy
+                rm -f "${OUTPUT_FILE}.tmp" || true
+              fi
+            done
+
+            echo "All proxies in this batch exhausted, moving to next batch."
           done
 
-      # 6️⃣ Fetch M3U with verified proxies
-      - name: Fetch M3U via verified proxies
-        run: |
-          success=false
-          PROXY_TYPES=("socks5" "socks4" "http")
-
-          for TYPE in "${PROXY_TYPES[@]}"; do
-            FILE="/tmp/verified_proxies/${TYPE}.txt"
-            [ -f "$FILE" ] || continue
-
-            echo "🚀 Trying $TYPE proxies..."
-            while read -r PROXY; do
-              [ -z "$PROXY" ] && continue
-              case "$TYPE" in
-                socks5) PREFIX="socks5h://";;
-                socks4) PREFIX="socks4a://";;
-                http)   PREFIX="http://";;
-              esac
-
-              echo "→ Trying $TYPE proxy $PROXY"
-              if curl -sS --max-time 25 -x "$PREFIX$PROXY" -A "curl/8.13.0" -o "$OUTPUT" "$URL"; then
-                if grep -q -m1 '^#EXTM3U' "$OUTPUT"; then
-                  echo "✅ Success with $TYPE proxy $PROXY"
-                  success=true
-                  break 2
-                else
-                  echo "⚠️ Not a valid M3U, skipping..."
-                fi
-              else
-                echo "❌ Proxy failed: $PROXY"
-              fi
-            done < "$FILE"
-          done
-
-          if [ "$success" != true ]; then
-            echo "❌ All proxies failed to fetch M3U."
+          if [ "$FETCH_SUCCESS" = false ]; then
+            echo "🚨 All batches exhausted, unable to fetch M3U."
             exit 1
           fi
 
-      # 7️⃣ Commit & push updated M3U
-      - name: Commit & push
-        if: success()
+      - name: Commit & push if updated
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add "$OUTPUT"
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update bingcha.m3u [$(date -u '+%Y-%m-%d %H:%M:%S')]"
-          git push origin HEAD:main
+
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update catvod.m3u [auto]"
+            git push origin HEAD:main
+          fi
