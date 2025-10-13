@@ -30,8 +30,8 @@ jobs:
           PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
           curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json
 
-          echo "Testing proxies (max 20) to find 10 working..."
-          jq -r '.[0:20] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
+          echo "Testing proxies (max 100) to find 10 working..."
+          jq -r '.[0:100] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
 
           URL_TO_TEST="https://httpbin.org/ip"
           WORKING_PROXIES=()
