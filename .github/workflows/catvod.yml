@@ -1,4 +1,4 @@
-name: Fetch CatVod M3U via Proxy (Validate 150, Use all valid, No Retry)
+name: Fetch CatVod M3U via Proxy (Validate up to 600 sequential, Use all valid, No Retry)
 
 on:
   schedule:
@@ -21,43 +21,81 @@ jobs:
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
-      - name: Fetch and validate proxies (sequential, up to 150)
+      - name: Fetch proxy list
         run: |
-          set -uo pipefail
-
           echo "Fetching HTTP proxy list from Proxifly..."
           PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
           curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json
 
-          echo "Selecting first 150 proxies for testing..."
-          jq -r '.[0:150] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
+          # Extract up to 600 proxies
+          jq -r '.[0:600] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
 
-          echo "Testing proxies one by one (timeout 5s each)..."
-          URL_TO_TEST="https://api.ipify.org"
+      - name: Validate proxies in batches of 50 (sequential)
+        run: |
+          set -uo pipefail
+
+          LIGHT_URL="https://www.google.com/generate_204"
+          CONNECT_URL="https://www.google.com/generate_204"
           WORKING_FILE="/tmp/working_proxies.txt"
           > "$WORKING_FILE"
 
-          while read -r PROXY; do
-            if curl --silent --fail --max-time 5 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null 2>&1; then
-              echo "$PROXY" >> "$WORKING_FILE"
-              echo "✅ Proxy $PROXY works"
+          BATCH_SIZE=50
+          TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt)
+          BATCHES=$(( (TOTAL_PROXIES + BATCH_SIZE - 1) / BATCH_SIZE ))
+
+          for ((i=0; i<BATCHES; i++)); do
+            echo "Processing batch $((i+1)) of $BATCHES"
+            START=$(( i * BATCH_SIZE + 1 ))
+            END=$(( START + BATCH_SIZE - 1 ))
+
+            sed -n "${START},${END}p" /tmp/test_proxies.txt > /tmp/batch.txt
+
+            # Phase 1: light test
+            LIGHT_OK_FILE="/tmp/light_ok.txt"
+            > "$LIGHT_OK_FILE"
+
+            while read -r PROXY; do
+              echo "[Light] Testing proxy: $PROXY"
+              if curl --silent --fail --max-time 5 -x "http://$PROXY" "$LIGHT_URL" > /dev/null 2>&1; then
+                echo "$PROXY" >> "$LIGHT_OK_FILE"
+                echo "✅ Light OK: $PROXY"
+              else
+                echo "❌ Light failed: $PROXY"
+              fi
+              sleep 0.3
+            done < /tmp/batch.txt
+
+            # Phase 2: CONNECT test
+            while read -r PROXY; do
+              echo "[CONNECT] Testing proxy: $PROXY"
+              if curl --silent --fail --head --max-time 10 -x "http://$PROXY" "$CONNECT_URL" > /dev/null 2>&1; then
+                echo "$PROXY" >> "$WORKING_FILE"
+                echo "✅ CONNECT OK: $PROXY"
+              else
+                echo "❌ CONNECT failed: $PROXY"
+              fi
+              sleep 0.5
+            done < "$LIGHT_OK_FILE"
+
+            # If any working proxies found, stop testing further batches
+            if [ -s "$WORKING_FILE" ]; then
+              echo "✅ Found working proxies, stopping batch testing."
+              break
             else
-              echo "❌ Proxy $PROXY failed"
+              echo "No valid proxies in this batch, moving to next batch."
             fi
-          done < /tmp/test_proxies.txt
+          done
 
           if [ ! -s "$WORKING_FILE" ]; then
-            echo "🚨 No working proxies found!"
+            echo "🚨 No working proxies found in any batch!"
             exit 1
           fi
 
-          echo "✅ Working proxies found (total: $(wc -l < $WORKING_FILE)) :"
+          echo "Working proxies found:"
           cat "$WORKING_FILE"
-
-          # Export all working proxies (comma separated) to env
           echo "PROXY_LIST=$(paste -sd, $WORKING_FILE)" >> $GITHUB_ENV
 
-      - name: Fetch M3U using all validated proxies (sequential, no retry per proxy)
+      - name: Fetch M3U using validated proxies (sequential, no retry)
         run: |
           set -uo pipefail
 
@@ -67,7 +105,6 @@ jobs:
 
           for PROXY in "${PROXIES[@]}"; do
             echo "Trying proxy: $PROXY"
-            # No retries for each proxy; timeout 5s; VLC user-agent
             if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT}.tmp" "${URL}"; then
               echo "✅ Successfully fetched via $PROXY"
               mv "${OUTPUT}.tmp" "${OUTPUT}"
@@ -106,4 +143,3 @@ jobs:
           else
             git commit -m "Update catvod.m3u [auto]"
             git push origin HEAD:main
-          fi
