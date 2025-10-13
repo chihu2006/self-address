@@ -21,7 +21,7 @@ jobs:
           echo "URL=https://live.catvod.com/tv.m3u" >> $GITHUB_ENV
           echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
 
-      - name: Fetch and validate proxies (parallel, up to 150)
+      - name: Fetch and validate proxies (sequential, up to 150)
         run: |
           set -uo pipefail
 
@@ -32,31 +32,19 @@ jobs:
           echo "Selecting first 150 proxies for testing..."
           jq -r '.[0:150] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
 
-          echo "Testing proxies in parallel (timeout 5s each)..."
+          echo "Testing proxies one by one (timeout 5s each)..."
           URL_TO_TEST="https://api.ipify.org"
           WORKING_FILE="/tmp/working_proxies.txt"
           > "$WORKING_FILE"
 
-          # Tunable concurrency - don't spawn too many background jobs in CI
-          MAX_PARALLEL=50
-          COUNT=0
-
           while read -r PROXY; do
-            (
-              if curl --silent --fail --max-time 5 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null 2>&1; then
-                echo "$PROXY" >> "$WORKING_FILE"
-                echo "✅ Proxy $PROXY works"
-              else
-                echo "❌ Proxy $PROXY failed"
-              fi
-            ) &
-
-            ((COUNT++))
-            if (( COUNT % MAX_PARALLEL == 0 )); then
-              wait
+            if curl --silent --fail --max-time 5 -x "http://$PROXY" "$URL_TO_TEST" > /dev/null 2>&1; then
+              echo "$PROXY" >> "$WORKING_FILE"
+              echo "✅ Proxy $PROXY works"
+            else
+              echo "❌ Proxy $PROXY failed"
             fi
           done < /tmp/test_proxies.txt
-          wait
 
           if [ ! -s "$WORKING_FILE" ]; then
             echo "🚨 No working proxies found!"
@@ -118,4 +106,3 @@ jobs:
           else
             git commit -m "Update catvod.m3u [auto]"
             git push origin HEAD:main
-          fi
