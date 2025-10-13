@@ -1,0 +1,130 @@
+name: Fetch CatVod M3U via Proxy (Up to 600, Batch Fetch with Retry)
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Daily at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-m3u:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set environment variables
+        run: |
+          echo "URL=https://iptv.catvod.com/tv.m3u" >> $GITHUB_ENV
+          echo "OUTPUT=catvod.m3u" >> $GITHUB_ENV
+
+      - name: Fetch proxy list
+        run: |
+          echo "Fetching HTTP proxy list from Proxifly..."
+          PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
+          curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json
+
+          # Extract up to 600 proxies
+          jq -r '.[0:600] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
+
+      - name: Batch validation and fetch
+        run: |
+          set -uo pipefail
+
+          LIGHT_URL="https://www.google.com/generate_204"
+          CONNECT_URL="https://www.google.com/generate_204"
+          OUTPUT_FILE="$OUTPUT"
+
+          BATCH_SIZE=50
+          TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt)
+          BATCHES=$(( (TOTAL_PROXIES + BATCH_SIZE - 1) / BATCH_SIZE ))
+          FETCH_SUCCESS=false
+
+          for ((i=0; i<BATCHES; i++)); do
+            echo "Processing batch $((i+1)) of $BATCHES"
+            START=$(( i * BATCH_SIZE + 1 ))
+            END=$(( START + BATCH_SIZE - 1 ))
+
+            sed -n "${START},${END}p" /tmp/test_proxies.txt > /tmp/batch.txt
+
+            # Phase 1: light test
+            LIGHT_OK_FILE="/tmp/light_ok.txt"
+            > "$LIGHT_OK_FILE"
+
+            while read -r PROXY; do
+              echo "[Light] Testing proxy: $PROXY"
+              if curl --silent --fail --max-time 5 -x "http://$PROXY" "$LIGHT_URL" > /dev/null 2>&1; then
+                echo "$PROXY" >> "$LIGHT_OK_FILE"
+                echo "✅ Light OK: $PROXY"
+              else
+                echo "❌ Light failed: $PROXY"
+              fi
+              sleep 0.3
+            done < /tmp/batch.txt
+
+            # Phase 2: CONNECT test
+            BATCH_WORKING="/tmp/batch_working.txt"
+            > "$BATCH_WORKING"
+
+            while read -r PROXY; do
+              echo "[CONNECT] Testing proxy: $PROXY"
+              if curl --silent --fail --head --max-time 10 -x "http://$PROXY" "$CONNECT_URL" > /dev/null 2>&1; then
+                echo "$PROXY" >> "$BATCH_WORKING"
+                echo "✅ CONNECT OK: $PROXY"
+              else
+                echo "❌ CONNECT failed: $PROXY"
+              fi
+              sleep 0.5
+            done < "$LIGHT_OK_FILE"
+
+            if [ ! -s "$BATCH_WORKING" ]; then
+              echo "No valid proxies in this batch, moving to next batch."
+              continue
+            fi
+
+            # Fetch using validated batch proxies sequentially
+            while [ -s "$BATCH_WORKING" ]; do
+              PROXY=$(head -n1 "$BATCH_WORKING")
+              echo "Trying proxy for fetch: $PROXY"
+
+              if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT_FILE}.tmp" "$URL"; then
+                echo "✅ Successfully fetched via $PROXY"
+                mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
+                echo "PROXY=$PROXY" >> $GITHUB_ENV
+                FETCH_SUCCESS=true
+                break 2  # exit both fetch loop and batch loop
+              else
+                echo "❌ Failed with proxy $PROXY, removing from batch"
+                sed -i '1d' "$BATCH_WORKING"  # remove first proxy
+                rm -f "${OUTPUT_FILE}.tmp" || true
+              fi
+            done
+
+            echo "All proxies in this batch exhausted, moving to next batch."
+          done
+
+          if [ "$FETCH_SUCCESS" = false ]; then
+            echo "🚨 All batches exhausted, unable to fetch M3U."
+            exit 1
+          fi
+
+      - name: Patch EXTM3U header
+        run: |
+          sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' "$OUTPUT"
+          head -n 1 "$OUTPUT"
+
+      - name: Commit & push if updated
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$OUTPUT"
+
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update catvod.m3u [auto]"
+            git push origin HEAD:main
+          fi
