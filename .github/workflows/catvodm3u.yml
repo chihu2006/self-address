@@ -1,4 +1,4 @@
-name: Fetch CatVod M3U via Proxy (Up to 600, Batch Fetch with Retry)
+name: Fetch Bingcha M3U via Proxy (Up to 600, Batch Fetch with Retry)
 
 on:
   schedule:
@@ -38,7 +38,7 @@ jobs:
           CONNECT_URL="https://www.google.com/generate_204"
           OUTPUT_FILE="$OUTPUT"
 
-          BATCH_SIZE=20
+          BATCH_SIZE=50
           TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt)
           BATCHES=$(( (TOTAL_PROXIES + BATCH_SIZE - 1) / BATCH_SIZE ))
           FETCH_SUCCESS=false
@@ -90,9 +90,7 @@ jobs:
               PROXY=$(head -n1 "$BATCH_WORKING")
               echo "Trying proxy for fetch: $PROXY"
 
-              if curl --fail --max-time 5 -x "http://$PROXY" -L \
-                -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" \
-                -o "${OUTPUT_FILE}.tmp" "$URL"; then
+              if curl --fail --max-time 5 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT_FILE}.tmp" "$URL"; then
                 echo "✅ Successfully fetched via $PROXY"
                 mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
                 echo "PROXY=$PROXY" >> $GITHUB_ENV
@@ -112,11 +110,6 @@ jobs:
             echo "🚨 All batches exhausted, unable to fetch M3U."
             exit 1
           fi
-
-      - name: Patch EXTM3U header
-        run: |
-          sed -i '1s|^#EXTM3U.*|#EXTM3U x-tvg-url="https://epg.catvod.com/epg.xml"|' "$OUTPUT"
-          head -n 1 "$OUTPUT"
 
       - name: Commit & push if updated
         run: |
