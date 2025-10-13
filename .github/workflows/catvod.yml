@@ -90,7 +90,7 @@ jobs:
               PROXY=$(head -n1 "$BATCH_WORKING")
               echo "Trying proxy for fetch: $PROXY"
 
-              if curl --fail --max-time 10 -x "http://$PROXY" -L -A "Mozilla/5.0" -o "${OUTPUT_FILE}.tmp" "$URL"; then
+              if curl --fail --max-time 10 -x "http://$PROXY" -L -A "OkHttp" -o "${OUTPUT_FILE}.tmp" "$URL"; then
                 echo "✅ Successfully fetched via $PROXY"
                 mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
                 echo "PROXY=$PROXY" >> $GITHUB_ENV
