@@ -1,4 +1,4 @@
-name: Fetch CatVod JSON via Proxy (Up to 600, Batch Fetch with Retry)
+name: Fetch CatVod JSON via Proxy (Save full response)
 
 on:
   schedule:
@@ -11,115 +11,211 @@ permissions:
 jobs:
   fetch-json:
     runs-on: ubuntu-latest
+    env:
+      # Default names — can be overridden by earlier step or repo secrets
+      URL: https://tvbox.catvod.com/catvod.json
+      OUTPUT_BODY: catvod.json
+      OUTPUT_HEADERS: catvod.json.headers
+      OUTPUT_STATUS: catvod.json.status
+      OUTPUT_META: catvod.json.meta
+      # Example TV-box / OkHttp values; replace with real values or secrets
+      OKHTTP_UA: "okhttp/4.47"
+      TVBOX_UA: "okhttp/4.47 (Linux; Android 9; TVBox)"
+      APP_VERSION: "4.47"
+      PLATFORM: "android-tv"
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set environment variables
+      - name: Set environment variables (secrets safe)
         run: |
-          echo "URL=https://tvbox.catvod.com/catvod.json" >> $GITHUB_ENV
-          echo "OUTPUT=catvod.json" >> $GITHUB_ENV
+          # If you have a token or device id, store them as GitHub Secrets and reference them here.
+          # Example: ${{ secrets.CATVOD_AUTH }} and ${{ secrets.DEVICE_ID }}
+          echo "AUTH_TOKEN=${{ secrets.CATVOD_AUTH || '' }}" >> $GITHUB_ENV
+          echo "DEV_ID=${{ secrets.DEVICE_ID || 'unknown-device' }}" >> $GITHUB_ENV
+          # Ensure we have the URL and filenames in the env in case they were overridden above
+          echo "URL=${URL}" >> $GITHUB_ENV
+          echo "OUTPUT_BODY=${OUTPUT_BODY}" >> $GITHUB_ENV
+          echo "OUTPUT_HEADERS=${OUTPUT_HEADERS}" >> $GITHUB_ENV
+          echo "OUTPUT_STATUS=${OUTPUT_STATUS}" >> $GITHUB_ENV
+          echo "OUTPUT_META=${OUTPUT_META}" >> $GITHUB_ENV
 
       - name: Fetch proxy list
         run: |
           echo "Fetching HTTP proxy list from Proxifly..."
           PROXY_LIST_URL="https://cdn.jsdelivr.net/gh/proxifly/free-proxy-list@main/proxies/protocols/http/data.json"
-          curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json
+          curl -s "$PROXY_LIST_URL" -o /tmp/all_proxies.json || (echo "Failed to download proxy list" && exit 1)
 
-          # Extract up to 600 proxies
+          # Extract up to 600 proxies in ip:port format
           jq -r '.[0:600] | .[] | "\(.ip):\(.port)"' /tmp/all_proxies.json > /tmp/test_proxies.txt
+          echo "Proxies saved to /tmp/test_proxies.txt (count: $(wc -l < /tmp/test_proxies.txt))"
 
-      - name: Batch validation and fetch
+      - name: Batch validation and fetch (mimic TV box; save everything)
         run: |
           set -uo pipefail
 
           LIGHT_URL="https://www.google.com/generate_204"
           CONNECT_URL="https://www.google.com/generate_204"
-          OUTPUT_FILE="$OUTPUT"
+
+          OUTPUT_BODY="$OUTPUT_BODY"
+          OUTPUT_HEADERS="$OUTPUT_HEADERS"
+          OUTPUT_STATUS="$OUTPUT_STATUS"
+          OUTPUT_META="$OUTPUT_META"
 
           BATCH_SIZE=50
-          TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt)
+          TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt || echo 0)
+          if [ "$TOTAL_PROXIES" -eq 0 ]; then
+            echo "No proxies available. Exiting."
+            exit 1
+          fi
           BATCHES=$(( (TOTAL_PROXIES + BATCH_SIZE - 1) / BATCH_SIZE ))
           FETCH_SUCCESS=false
 
-          for ((i=0; i<BATCHES; i++)); do
+          for ((i=0;i<BATCHES;i++)); do
             echo "Processing batch $((i+1)) of $BATCHES"
             START=$(( i * BATCH_SIZE + 1 ))
             END=$(( START + BATCH_SIZE - 1 ))
-
             sed -n "${START},${END}p" /tmp/test_proxies.txt > /tmp/batch.txt
 
-            # Phase 1: light test
+            # Phase 1: light test (fast connectivity)
             LIGHT_OK_FILE="/tmp/light_ok.txt"
             > "$LIGHT_OK_FILE"
-
             while read -r PROXY; do
-              echo "[Light] Testing proxy: $PROXY"
+              echo "[Light] Testing $PROXY"
               if curl --silent --fail --max-time 5 -x "http://$PROXY" "$LIGHT_URL" > /dev/null 2>&1; then
                 echo "$PROXY" >> "$LIGHT_OK_FILE"
                 echo "✅ Light OK: $PROXY"
               else
                 echo "❌ Light failed: $PROXY"
               fi
-              sleep 0.3
+              sleep 0.2
             done < /tmp/batch.txt
 
-            # Phase 2: CONNECT test
+            # Phase 2: HEAD/CONNECT test (longer)
             BATCH_WORKING="/tmp/batch_working.txt"
             > "$BATCH_WORKING"
-
             while read -r PROXY; do
-              echo "[CONNECT] Testing proxy: $PROXY"
+              echo "[CONNECT] Testing $PROXY"
               if curl --silent --fail --head --max-time 10 -x "http://$PROXY" "$CONNECT_URL" > /dev/null 2>&1; then
                 echo "$PROXY" >> "$BATCH_WORKING"
                 echo "✅ CONNECT OK: $PROXY"
               else
                 echo "❌ CONNECT failed: $PROXY"
               fi
-              sleep 0.5
+              sleep 0.4
             done < "$LIGHT_OK_FILE"
 
             if [ ! -s "$BATCH_WORKING" ]; then
-              echo "No valid proxies in this batch, moving to next batch."
+              echo "No valid proxies in this batch, moving on."
               continue
             fi
 
-            # Fetch using validated batch proxies sequentially
+            # Fetch with validated proxies: mimic TV-box/OkHttp, save full response
             while [ -s "$BATCH_WORKING" ]; do
               PROXY=$(head -n1 "$BATCH_WORKING")
-              echo "Trying proxy for fetch: $PROXY"
+              echo "Attempting fetch via proxy: $PROXY"
 
-              if curl --fail --max-time 10 -x "http://$PROXY" -L -A "OkHttp" -o "${OUTPUT_FILE}.tmp" "$URL"; then
-                echo "✅ Successfully fetched via $PROXY"
-                mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
+              # Temporary files
+              TMP_BODY="${OUTPUT_BODY}.tmp"
+              TMP_HEADERS="${OUTPUT_HEADERS}.tmp"
+              TMP_STATUS="${OUTPUT_STATUS}.tmp"
+
+              # Use curl to save headers to file (-D), body to file (-o), write status code to TMP_STATUS
+              # -L follow redirects, --compressed accept gzip/deflate/br, --fail avoided because we want to save bodies even on 4xx/5xx
+              # We still capture exit status and HTTP code.
+              HTTP_CODE=$(curl -sS --max-time 25 -x "http://$PROXY" -L --compressed \
+                -H "User-Agent: ${TVBOX_UA}" \
+                -H "Accept: */*" \
+                -H "Accept-Encoding: gzip, deflate, br" \
+                -H "Connection: keep-alive" \
+                -H "X-App-Version: ${APP_VERSION}" \
+                -H "X-Platform: ${PLATFORM}" \
+                -H "X-Device-ID: ${DEV_ID}" \
+                $( [ -n "${AUTH_TOKEN}" ] && printf -- '-H "Authorization: Bearer %s" ' "${AUTH_TOKEN}" || printf "" ) \
+                -D - -o "$TMP_BODY" "$URL" 2>/dev/null | awk 'NR==1{print $2}' || true )
+
+              # If the previous pipeline didn't produce HTTP_CODE via awk (some servers), try write-out fallback
+              if [ -z "$HTTP_CODE" ] || ! [[ "$HTTP_CODE" =~ ^[0-9]{3}$ ]]; then
+                # Re-run with write-out for reliable HTTP code but discard output headers/body (should be rare)
+                HTTP_CODE=$(curl -sS --max-time 25 -x "http://$PROXY" -L --compressed \
+                  -H "User-Agent: ${TVBOX_UA}" \
+                  -H "Accept: */*" \
+                  -H "Accept-Encoding: gzip, deflate, br" \
+                  -H "Connection: keep-alive" \
+                  -H "X-App-Version: ${APP_VERSION}" \
+                  -H "X-Platform: ${PLATFORM}" \
+                  -H "X-Device-ID: ${DEV_ID}" \
+                  $( [ -n "${AUTH_TOKEN}" ] && printf -- '-H "Authorization: Bearer %s" ' "${AUTH_TOKEN}" || printf "" ) \
+                  -o /dev/null -w "%{http_code}" "$URL" 2>/dev/null || echo "000")
+              fi
+
+              # Capture response headers properly (we re-run small curl with -I if necessary)
+              # Attempt to get full headers to TMP_HEADERS using -D - again (re-run quickly)
+              curl -sS --max-time 10 -x "http://$PROXY" -I -L \
+                -H "User-Agent: ${TVBOX_UA}" \
+                -H "Accept: */*" \
+                -H "Accept-Encoding: gzip, deflate, br" \
+                -H "Connection: keep-alive" \
+                -H "X-App-Version: ${APP_VERSION}" \
+                -H "X-Platform: ${PLATFORM}" \
+                -H "X-Device-ID: ${DEV_ID}" \
+                $( [ -n "${AUTH_TOKEN}" ] && printf -- '-H "Authorization: Bearer %s" ' "${AUTH_TOKEN}" || printf "" ) \
+                -o "$TMP_HEADERS" "$URL" 2>/dev/null || true
+
+              # Save status and metadata: HTTP code, proxy used, timestamp
+              echo "$HTTP_CODE" > "$TMP_STATUS"
+              printf "fetched_at: %s\nproxy: %s\nhttp_code: %s\n" "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" "$PROXY" "$HTTP_CODE" > "${OUTPUT_META}.tmp"
+
+              # If body exists, move to outputs; keep raw form so nothing is lost
+              if [ -s "$TMP_BODY" ] || [ -s "$TMP_HEADERS" ]; then
+                mv -f "$TMP_BODY" "$OUTPUT_BODY"
+                mv -f "$TMP_HEADERS" "$OUTPUT_HEADERS"
+                mv -f "$TMP_STATUS" "$OUTPUT_STATUS"
+                mv -f "${OUTPUT_META}.tmp" "$OUTPUT_META"
+                echo "✅ Saved response body -> $OUTPUT_BODY"
+                echo "✅ Saved response headers -> $OUTPUT_HEADERS"
+                echo "✅ Saved response status -> $OUTPUT_STATUS"
+                echo "✅ Saved metadata -> $OUTPUT_META"
                 echo "PROXY=$PROXY" >> $GITHUB_ENV
                 FETCH_SUCCESS=true
-                break 2  # exit both fetch loop and batch loop
+                break 2
               else
-                echo "❌ Failed with proxy $PROXY, removing from batch"
-                sed -i '1d' "$BATCH_WORKING"  # remove first proxy
-                rm -f "${OUTPUT_FILE}.tmp" || true
+                echo "❌ No response body/headers via proxy $PROXY — removing this proxy from batch."
+                sed -i '1d' "$BATCH_WORKING"
+                rm -f "$TMP_BODY" "$TMP_HEADERS" "$TMP_STATUS" "${OUTPUT_META}.tmp" || true
               fi
             done
 
-            echo "All proxies in this batch exhausted, moving to next batch."
+            echo "Batch exhausted, moving to next batch."
           done
 
           if [ "$FETCH_SUCCESS" = false ]; then
-            echo "🚨 All batches exhausted, unable to fetch JSON."
+            echo "🚨 All batches exhausted — unable to fetch any response."
             exit 1
           fi
+
+      - name: Show saved files (first lines)
+        run: |
+          echo "---- HEADERS ----"
+          head -n 50 "$OUTPUT_HEADERS" || true
+          echo "---- BODY (first 200 chars) ----"
+          head -c 200 "$OUTPUT_BODY" || true
+          echo
+          echo "---- STATUS ----"
+          cat "$OUTPUT_STATUS" || true
+          echo "---- META ----"
+          cat "$OUTPUT_META" || true
 
       - name: Commit & push if updated
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add "$OUTPUT"
+          git add "$OUTPUT_BODY" "$OUTPUT_HEADERS" "$OUTPUT_STATUS" "$OUTPUT_META" || true
 
           if git diff --quiet && git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Update catvod.json [auto]"
+            git commit -m "Update catvod response [auto]"
             git push origin HEAD:main
           fi
