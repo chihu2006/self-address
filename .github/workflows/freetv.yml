@@ -1,105 +1,54 @@
-name: Fetch & Verify freetv M3U (ffprobe IPTV Check)
+name: Verify IPTV streams
 
 on:
-  schedule:
-    - cron: "0 0 * * *"  # daily at midnight UTC
   workflow_dispatch:
-
-permissions:
-  contents: write
+  schedule:
+    - cron: "0 */6 * * *"
 
 jobs:
-  fetch-and-check:
+  verify:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Checkout repo
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Set variables
-      - name: Set variables
-        run: |
-          echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
-          echo "RAW_DIR=rawaddress" >> $GITHUB_ENV
-          echo "RAW_FILE=freetv.m3u" >> $GITHUB_ENV
-          echo "FAILED_FILE=verified_freetv.m3u" >> $GITHUB_ENV
+      - name: Install ffmpeg
+        run: sudo apt-get install -y ffmpeg
 
-      # 3. Fetch M3U
-      - name: Fetch M3U
-        run: |
-          mkdir -p $RAW_DIR
-          echo "Fetching M3U from $URL..."
-          for i in {1..5}; do
-            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o "$RAW_DIR/$RAW_FILE" "$URL" && break
-            echo "Attempt $i failed, retrying..."
-            sleep 5
-          done
-
-          if [ ! -s "$RAW_DIR/$RAW_FILE" ]; then
-            echo "❌ Error: Downloaded file is empty or incomplete."
-            exit 1
-          fi
-
-          echo "✅ M3U fetched successfully."
-
-      # 4. IPTV verification using ffprobe
-      - name: Verify IPTV streams with ffprobe
+      - name: Run IPTV checker
         run: |
           echo "🔍 Verifying IPTV streams using ffprobe..."
-          RAW_PATH="$RAW_DIR/$RAW_FILE"
-          FAILED_PATH="$RAW_DIR/$FAILED_FILE"
-          > "$FAILED_PATH"
 
-          # Copy header
-          awk '/^#EXTM3U/ { print $0 }' "$RAW_PATH" > "$FAILED_PATH"
+          input="rawaddress/freetv.m3u"
+          verified="rawaddress/verified_freetv.m3u"
+          failed="rawaddress/failed_freetv.m3u"
 
-          TOTAL=$(grep -c '^http' "$RAW_PATH" || true)
-          COUNT=0
-          FAILED=0
-          WORKING=0
+          mkdir -p rawaddress
+          touch "$verified" "$failed"
 
-          # Pair EXTINF and URLs
-          awk 'NR==FNR{if(/^#EXTINF/){title=$0}else if(/^http/){print title"\n"$0}}' "$RAW_PATH" "$RAW_PATH" | while read -r line; do
-            if [[ "$line" == \#EXTINF* ]]; then
-              INFO="$line"
-            elif [[ "$line" == http* ]]; then
-              COUNT=$((COUNT+1))
-              echo ""
-              echo "[$COUNT/$TOTAL] Checking stream: $line"
+          i=0
+          while read -r url; do
+            [[ -z "$url" || "$url" =~ ^# ]] && continue
+            ((i++))
+            echo "[$i] Checking stream: $url"
 
-              START=$(date +%s)
-              # ffprobe will timeout after 10s, no actual download
-              if timeout 10 ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 "$line" > /dev/null 2>&1; then
-                END=$(date +%s)
-                ELAPSED=$((END - START))
-                echo "✅ OK (responded in ${ELAPSED}s)"
-                WORKING=$((WORKING+1))
-              else
-                END=$(date +%s)
-                ELAPSED=$((END - START))
-                echo "❌ FAILED (no response in ${ELAPSED}s)"
-                echo "$INFO" >> "$FAILED_PATH"
-                echo "$line" >> "$FAILED_PATH"
-                FAILED=$((FAILED+1))
-              fi
+            if timeout 15s ffprobe -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" > /dev/null 2>&1; then
+              echo "✅ OK ($url)"
+              echo "$url" >> "$verified"
+            else
+              echo "❌ FAILED ($url)"
+              echo "$url" >> "$failed"
             fi
-          done
+          done < "$input"
 
-          echo ""
-          echo "===== 📊 IPTV CHECK SUMMARY ====="
-          echo "Total URLs checked: $TOTAL"
-          echo "Working channels:   $WORKING"
-          echo "Failed channels:    $FAILED"
-          echo "==============================="
-          echo "❌ Failed channels saved to: $FAILED_PATH"
+          echo "✅ Verification done: $(wc -l < "$verified") passed, $(wc -l < "$failed") failed."
 
-      # 5. Commit & push if updated
-      - name: Commit & push
+      - name: Commit results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add rawaddress/freetv.m3u rawaddress/verified_freetv.m3u
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update freetv.m3u and failed verified_freetv.m3u"
-          git push origin HEAD:main
+
+          git add rawaddress/freetv.m3u rawaddress/verified_freetv.m3u rawaddress/failed_freetv.m3u
+          git commit -m "Update freetv.m3u verification results" || echo "No changes to commit"
+          git push
           fi
