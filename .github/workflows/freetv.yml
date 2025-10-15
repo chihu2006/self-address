@@ -1,45 +1,71 @@
-name: Verify IPTV streams
+name: Fetch & Verify IPTV M3U
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 0 * * *"  # daily at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  verify:
+  fetch-and-verify:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      # 1. Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install ffmpeg
-        run: sudo apt-get install -y ffmpeg
-
-      - name: Run IPTV checker (verbose)
+      # 2. Set environment variables
+      - name: Set variables
         run: |
-          set +e  # don't stop on first error
-          echo "🔍 Verifying IPTV streams using ffprobe (verbose mode)..."
+          echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
+          echo "OUTPUT=rawaddress/freetv.m3u" >> $GITHUB_ENV
+          echo "FAILED_OUTPUT=rawaddress/failed_freetv.m3u" >> $GITHUB_ENV
 
-          # Paths
-          input="rawaddress/freetv.m3u"
-          verified="rawaddress/verified_freetv.m3u"
-          failed="rawaddress/failed_freetv.m3u"
+      # 3. Create rawaddress folder
+      - name: Prepare folder
+        run: mkdir -p rawaddress
 
-          # Check if input exists
+      # 4. Fetch M3U using curl
+      - name: Fetch M3U via curl
+        run: |
+          echo "Fetching M3U..."
+          for i in {1..5}; do
+            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
+            echo "Attempt $i failed, retrying..."
+            sleep 5
+          done
+
+          if [ ! -s $OUTPUT ]; then
+            echo "Error: Downloaded file is empty or incomplete."
+            exit 1
+          fi
+
+          echo "M3U fetch completed successfully."
+
+      # 5. Install ffmpeg for ffprobe
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      # 6. Verify IPTV streams and save failed streams
+      - name: Verify IPTV streams
+        run: |
+          set +e
+          echo "🔍 Verifying IPTV streams using ffprobe..."
+
+          input="$OUTPUT"
+          failed="$FAILED_OUTPUT"
+
           if [ ! -f "$input" ]; then
             echo "❌ Input file not found: $input"
             exit 0
           fi
 
-          mkdir -p rawaddress
-          : > "$verified"
           : > "$failed"
-
-          echo "Checking ffprobe installation..."
-          ffprobe -version || (echo "⚠️ ffprobe missing — installing ffmpeg..." && sudo apt-get update && sudo apt-get install -y ffmpeg)
-
-          echo "Starting stream validation..."
           i=0
+          failed_count=0
 
           while IFS= read -r url; do
             [[ -z "$url" || "$url" =~ ^# ]] && continue
@@ -48,33 +74,38 @@ jobs:
             echo ""
             echo "[$i] Checking: $url"
 
-          # Capture verbose ffprobe output
-            output=$(timeout 15s ffprobe -hide_banner -loglevel info -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" 2>&1)
+            start=$(date +%s.%N)
+            output=$(timeout 15s ffprobe -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" 2>&1)
             status=$?
+            end=$(date +%s.%N)
 
             if [ $status -eq 0 ]; then
-              echo "✅ OK — Stream is accessible"
-              echo "$url" >> "$verified"
+              response_time=$(echo "$end - $start" | bc)
+              echo "✅ OK — Stream works (response time: ${response_time}s)"
             else
               echo "❌ FAILED — status=$status"
               echo "🧾 ffprobe output:"
               echo "$output"
+              # Save failed streams only
               echo "$url" >> "$failed"
+              echo "response_time=-1"
+              ((failed_count++))
             fi
           done < "$input"
 
           echo ""
-          echo "✅ Verification complete!"
-          echo "   Verified: $(wc -l < "$verified")"
-          echo "   Failed:   $(wc -l < "$failed")"
+          echo "🎯 Verification complete!"
+          echo "   Failed (response_time=-1): $failed_count"
+          echo "   Total checked: $i"
+          echo "   Saved failed streams to: $failed"
           exit 0
 
-
-      - name: Commit results
+      # 7. Commit & push updated M3U and failed streams
+      - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add rawaddress/freetv.m3u rawaddress/verified_freetv.m3u rawaddress/failed_freetv.m3u
-          git commit -m "Update freetv.m3u verification results" || echo "No changes to commit"
-          git push
+          git add $OUTPUT $FAILED_OUTPUT
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update freetv.m3u and failed_freetv.m3u"
+          git push origin HEAD:main
+          fi
