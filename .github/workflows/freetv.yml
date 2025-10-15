@@ -47,28 +47,33 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 5. Install iptv-checker
+      # 5. Install ffmpeg (ffprobe)
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      # 6. Install iptv-checker
       - name: Install iptv-checker
         run: npm install -g iptv-checker
 
-      # 6. Extract top N channels
+      # 7. Extract top N channels
       - name: Extract top channels
         run: |
           grep -v '^#' "$OUTPUT" | grep -v '^$' | head -n $CHANNEL_LIMIT > "$TOP_FILE" || true
           count=$(wc -l < "$TOP_FILE")
           echo "✅ Extracted $count channels for verification."
 
-      # 7. Verify top channels using iptv-checker
+      # 8. Verify top channels using iptv-checker
       - name: Verify top channels with iptv-checker
         run: |
           input="$TOP_FILE"
           failed="$FAILED_OUTPUT"
           : > "$failed"
           total=$(wc -l < "$input")
-
           echo "🔍 Verifying top $total channels using iptv-checker..."
 
-          # Run iptv-checker on the file and capture failed streams
+          # Run iptv-checker on the file, save failed streams, and show live log
           iptv-checker "$input" | tee >(grep "FAILED" > "$failed")
 
           failed_count=$(wc -l < "$failed" || echo 0)
@@ -79,7 +84,7 @@ jobs:
           echo "   Failed: $failed_count"
           echo "   Failed streams saved to: $failed"
 
-      # 8. Commit & push
+      # 9. Commit & push
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
