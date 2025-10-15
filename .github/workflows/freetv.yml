@@ -1,4 +1,4 @@
-name: Fetch & Verify freetv M3U (Failed Only, with Logs)
+name: Fetch & Verify freetv M3U (ffprobe IPTV Check)
 
 on:
   schedule:
@@ -9,15 +9,15 @@ permissions:
   contents: write
 
 jobs:
-  fetch-and-filter-failed:
+  fetch-and-check:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
+      # 1. Checkout repo
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Set environment variables
+      # 2. Set variables
       - name: Set variables
         run: |
           echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
@@ -43,15 +43,15 @@ jobs:
 
           echo "✅ M3U fetched successfully."
 
-      # 4. Speed test & log results
-      - name: Verify and collect failed streams
+      # 4. IPTV verification using ffprobe
+      - name: Verify IPTV streams with ffprobe
         run: |
-          echo "🔍 Verifying stream URLs..."
+          echo "🔍 Verifying IPTV streams using ffprobe..."
           RAW_PATH="$RAW_DIR/$RAW_FILE"
           FAILED_PATH="$RAW_DIR/$FAILED_FILE"
           > "$FAILED_PATH"
 
-          # Copy header if present
+          # Copy header
           awk '/^#EXTM3U/ { print $0 }' "$RAW_PATH" > "$FAILED_PATH"
 
           TOTAL=$(grep -c '^http' "$RAW_PATH" || true)
@@ -59,25 +59,26 @@ jobs:
           FAILED=0
           WORKING=0
 
-          # Pair #EXTINF with next URL and test each
+          # Pair EXTINF and URLs
           awk 'NR==FNR{if(/^#EXTINF/){title=$0}else if(/^http/){print title"\n"$0}}' "$RAW_PATH" "$RAW_PATH" | while read -r line; do
             if [[ "$line" == \#EXTINF* ]]; then
               INFO="$line"
             elif [[ "$line" == http* ]]; then
               COUNT=$((COUNT+1))
-              echo "[$COUNT/$TOTAL] Testing: $line"
+              echo ""
+              echo "[$COUNT/$TOTAL] Checking stream: $line"
 
-              # Run HTTP test with timeout (5s)
-              START_TIME=$(date +%s%3N)
-              HTTP_CODE=$(curl -m 5 -s -o /dev/null -w "%{http_code}" "$line" || echo "000")
-              END_TIME=$(date +%s%3N)
-              ELAPSED=$((END_TIME - START_TIME))
-
-              if echo "$HTTP_CODE" | grep -qE '^2..$'; then
-                echo "✅ OK [$HTTP_CODE] (${ELAPSED}ms)"
+              START=$(date +%s)
+              # ffprobe will timeout after 10s, no actual download
+              if timeout 10 ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 "$line" > /dev/null 2>&1; then
+                END=$(date +%s)
+                ELAPSED=$((END - START))
+                echo "✅ OK (responded in ${ELAPSED}s)"
                 WORKING=$((WORKING+1))
               else
-                echo "❌ FAILED [$HTTP_CODE] (${ELAPSED}ms)"
+                END=$(date +%s)
+                ELAPSED=$((END - START))
+                echo "❌ FAILED (no response in ${ELAPSED}s)"
                 echo "$INFO" >> "$FAILED_PATH"
                 echo "$line" >> "$FAILED_PATH"
                 FAILED=$((FAILED+1))
@@ -86,12 +87,12 @@ jobs:
           done
 
           echo ""
-          echo "===== 📊 SUMMARY ====="
+          echo "===== 📊 IPTV CHECK SUMMARY ====="
           echo "Total URLs checked: $TOTAL"
           echo "Working channels:   $WORKING"
           echo "Failed channels:    $FAILED"
-          echo "======================"
-          echo "❌ Failed results saved to: $FAILED_PATH"
+          echo "==============================="
+          echo "❌ Failed channels saved to: $FAILED_PATH"
 
       # 5. Commit & push if updated
       - name: Commit & push
