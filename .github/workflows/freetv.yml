@@ -45,13 +45,18 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 5. Install IPTV checker
-      - name: Install IPTV checker
+      # 5. Install ffprobe
+      - name: Install ffprobe
         run: |
-          python3 -m pip install --upgrade pip
-          pip install iptv-checker
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
 
-      # 6. Verify IPTV streams using IPTV checker
+      # 6. Install iptv-checker
+      - name: Install iptv-checker
+        run: |
+          npm install -g iptv-checker
+
+      # 7. Verify IPTV streams using iptv-checker
       - name: Verify IPTV streams
         run: |
           set -e
@@ -78,7 +83,7 @@ jobs:
           echo "   Total streams checked: $total_count"
           echo "   Failed streams saved to: $failed"
 
-      # 7. Commit & push updated M3U and failed streams
+      # 8. Commit & push updated M3U and failed streams
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
