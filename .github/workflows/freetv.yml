@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
+      # 1. Checkout repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
@@ -51,42 +51,32 @@ jobs:
       - name: Install iptv-checker
         run: npm install -g iptv-checker
 
-      # 6. Extract top N channels for iptv-checker
+      # 6. Extract top N channels
       - name: Extract top channels
         run: |
-          grep -v '^#' "$OUTPUT" | grep -v '^$' | head -n $CHANNEL_LIMIT > "$TOP_FILE"
+          grep -v '^#' "$OUTPUT" | grep -v '^$' | head -n $CHANNEL_LIMIT > "$TOP_FILE" || true
           count=$(wc -l < "$TOP_FILE")
           echo "✅ Extracted $count channels for verification."
 
-      # 7. Verify top channels using iptv-checker with progress logging
-      - name: Verify top channels with progress
+      # 7. Verify top channels using iptv-checker
+      - name: Verify top channels with iptv-checker
         run: |
           input="$TOP_FILE"
           failed="$FAILED_OUTPUT"
           : > "$failed"
           total=$(wc -l < "$input")
-          i=0
 
-          echo "🔍 Starting verification of $total channels using iptv-checker..."
+          echo "🔍 Verifying top $total channels using iptv-checker..."
 
-          while IFS= read -r url; do
-            ((i++))
-            echo "[$i/$total] Checking: $url"
-            output=$(timeout 15s iptv-checker "$url" 2>&1)
-            status=$?
-            if [ $status -eq 0 ]; then
-              echo "✅ OK — Stream works"
-            else
-              echo "❌ FAILED — status=$status"
-              echo "$output"
-              echo "$url" >> "$failed"
-            fi
-          done < "$input"
+          # Run iptv-checker on the file and capture failed streams
+          iptv-checker "$input" | tee >(grep "FAILED" > "$failed")
+
+          failed_count=$(wc -l < "$failed" || echo 0)
 
           echo ""
           echo "🎯 Verification complete!"
           echo "   Total checked: $total"
-          echo "   Failed: $(wc -l < "$failed")"
+          echo "   Failed: $failed_count"
           echo "   Failed streams saved to: $failed"
 
       # 8. Commit & push
