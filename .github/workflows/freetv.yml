@@ -45,60 +45,38 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 5. Install ffmpeg for ffprobe
-      - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      # 5. Install IPTV checker
+      - name: Install IPTV checker
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install iptv-checker
 
-      # 6. Verify IPTV streams and save failed streams
+      # 6. Verify IPTV streams using IPTV checker
       - name: Verify IPTV streams
         run: |
-          set +e
-          echo "🔍 Verifying IPTV streams using ffprobe..."
-
+          set -e
+          echo "🔍 Verifying IPTV streams using iptv-checker..."
+          
           input="$OUTPUT"
           failed="$FAILED_OUTPUT"
 
           if [ ! -f "$input" ]; then
             echo "❌ Input file not found: $input"
-            exit 0
+            exit 1
           fi
 
           : > "$failed"
-          i=0
-          failed_count=0
 
-          while IFS= read -r url; do
-            [[ -z "$url" || "$url" =~ ^# ]] && continue
-            ((i++))
+          iptv-checker --input "$input" --output "$failed" --timeout 15 --max-connections 10 --quiet
 
-            echo ""
-            echo "[$i] Checking: $url"
-
-            start=$(date +%s.%N)
-            output=$(timeout 15s ffprobe -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" 2>&1)
-            status=$?
-            end=$(date +%s.%N)
-
-            if [ $status -eq 0 ]; then
-              response_time=$(echo "$end - $start" | bc)
-              echo "✅ OK — Stream works (response time: ${response_time}s)"
-            else
-              echo "❌ FAILED — status=$status"
-              echo "🧾 ffprobe output:"
-              echo "$output"
-              # Save failed streams only
-              echo "$url" >> "$failed"
-              echo "response_time=-1"
-              ((failed_count++))
-            fi
-          done < "$input"
+          failed_count=$(wc -l < "$failed" || echo 0)
+          total_count=$(grep -v '^#' "$input" | grep -v '^$' | wc -l)
 
           echo ""
           echo "🎯 Verification complete!"
-          echo "   Failed (response_time=-1): $failed_count"
-          echo "   Total checked: $i"
-          echo "   Saved failed streams to: $failed"
-          exit 0
+          echo "   Failed streams: $failed_count"
+          echo "   Total streams checked: $total_count"
+          echo "   Failed streams saved to: $failed"
 
       # 7. Commit & push updated M3U and failed streams
       - name: Commit & push
