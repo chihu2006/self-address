@@ -55,7 +55,7 @@ jobs:
       - name: Install iptv-checker
         run: npm install -g iptv-checker
 
-      # 7. Verify IPTV streams using iptv-checker
+      # 7. Verify IPTV streams using iptv-checker with real-time logging
       - name: Verify IPTV streams
         run: |
           set -e
@@ -71,8 +71,8 @@ jobs:
 
           : > "$failed"
 
-          # Run iptv-checker and extract failed streams
-          iptv-checker "$input" | grep "FAILED" > "$failed"
+          # Real-time logging while saving failed streams
+          iptv-checker "$input" | tee >(grep "FAILED" > "$failed")
 
           failed_count=$(wc -l < "$failed" || echo 0)
           total_count=$(grep -v '^#' "$input" | grep -v '^$' | wc -l)
