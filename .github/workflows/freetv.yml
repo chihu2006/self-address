@@ -1,4 +1,4 @@
-name: Fetch & Verify IPTV M3U
+name: Fetch & Verify IPTV M3U (Top N Channels)
 
 on:
   schedule:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
+      # 1. Checkout repo
       - name: Checkout repo
         uses: actions/checkout@v4
 
@@ -23,12 +23,14 @@ jobs:
           echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
           echo "OUTPUT=rawaddress/freetv.m3u" >> $GITHUB_ENV
           echo "FAILED_OUTPUT=rawaddress/failed_freetv.m3u" >> $GITHUB_ENV
+          echo "TOP_FILE=rawaddress/top_channels.m3u" >> $GITHUB_ENV
+          echo "CHANNEL_LIMIT=200" >> $GITHUB_ENV
 
-      # 3. Create rawaddress folder
+      # 3. Prepare folder
       - name: Prepare folder
         run: mkdir -p rawaddress
 
-      # 4. Fetch M3U using curl
+      # 4. Fetch M3U
       - name: Fetch M3U via curl
         run: |
           echo "Fetching M3U..."
@@ -45,58 +47,49 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 5. Install ffprobe
-      - name: Install ffprobe
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+      # 5. Install iptv-checker
+      - name: Install iptv-checker
+        run: npm install -g iptv-checker
 
-      # 6. Verify IPTV streams with detailed logging
-      - name: Verify IPTV streams
+      # 6. Extract top N channels for iptv-checker
+      - name: Extract top channels
         run: |
-          input="$OUTPUT"
+          grep -v '^#' "$OUTPUT" | grep -v '^$' | head -n $CHANNEL_LIMIT > "$TOP_FILE"
+          count=$(wc -l < "$TOP_FILE")
+          echo "✅ Extracted $count channels for verification."
+
+      # 7. Verify top channels using iptv-checker with progress logging
+      - name: Verify top channels with progress
+        run: |
+          input="$TOP_FILE"
           failed="$FAILED_OUTPUT"
           : > "$failed"
+          total=$(wc -l < "$input")
           i=0
-          failed_count=0
 
-          echo "🔍 Starting detailed IPTV verification..."
-
-          # Disable exit-on-error so ffprobe failures don't stop the loop
-          set +e
+          echo "🔍 Starting verification of $total channels using iptv-checker..."
 
           while IFS= read -r url; do
-            [[ -z "$url" || "$url" =~ ^# ]] && continue
             ((i++))
-            echo ""
-            echo "[$i] Checking: $url"
-            start=$(date +%s.%N)
-            output=$(timeout 15s ffprobe -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" 2>&1)
+            echo "[$i/$total] Checking: $url"
+            output=$(timeout 15s iptv-checker "$url" 2>&1)
             status=$?
-            end=$(date +%s.%N)
-            response_time=$(echo "$end - $start" | bc)
-
             if [ $status -eq 0 ]; then
-              echo "✅ OK — Stream works (response time: ${response_time}s)"
+              echo "✅ OK — Stream works"
             else
-              echo "❌ FAILED — status=$status (response_time=-1)"
-              echo "🧾 ffprobe output:"
+              echo "❌ FAILED — status=$status"
               echo "$output"
               echo "$url" >> "$failed"
-              ((failed_count++))
             fi
           done < "$input"
 
           echo ""
           echo "🎯 Verification complete!"
-          echo "   Total checked: $i"
-          echo "   Failed: $failed_count"
+          echo "   Total checked: $total"
+          echo "   Failed: $(wc -l < "$failed")"
           echo "   Failed streams saved to: $failed"
 
-          # Re-enable exit-on-error
-          set -e
-
-      # 7. Commit & push updated M3U and failed streams
+      # 8. Commit & push
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
