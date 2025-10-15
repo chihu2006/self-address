@@ -57,10 +57,12 @@ jobs:
       - name: Install iptv-checker
         run: npm install -g iptv-checker
 
-      # 7. Extract top N channels
+      # 7. Extract top N channels (preserve M3U header)
       - name: Extract top channels
         run: |
-          grep -v '^#' "$OUTPUT" | grep -v '^$' | head -n $CHANNEL_LIMIT > "$TOP_FILE" || true
+          # Preserve #EXTM3U header
+          head -n 1 "$OUTPUT" > "$TOP_FILE"
+          grep -v '^#' "$OUTPUT" | grep -v '^$' | head -n $CHANNEL_LIMIT >> "$TOP_FILE"
           count=$(wc -l < "$TOP_FILE")
           echo "✅ Extracted $count channels for verification."
 
@@ -73,7 +75,7 @@ jobs:
           total=$(wc -l < "$input")
           echo "🔍 Verifying top $total channels using iptv-checker..."
 
-          # Run iptv-checker on the file, save failed streams, and show live log
+          # Run iptv-checker on the playlist file
           iptv-checker "$input" | tee >(grep "FAILED" > "$failed")
 
           failed_count=$(wc -l < "$failed" || echo 0)
@@ -92,4 +94,3 @@ jobs:
           git add $OUTPUT $FAILED_OUTPUT
           git diff --quiet && git diff --staged --quiet || git commit -m "Update freetv.m3u and failed_freetv.m3u"
           git push origin HEAD:main
-          fi
