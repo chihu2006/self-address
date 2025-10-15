@@ -45,7 +45,7 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 5. Install ffprobe
+      # 5. Install ffprobe (required by iptv-checker)
       - name: Install ffprobe
         run: |
           sudo apt-get update
@@ -53,8 +53,7 @@ jobs:
 
       # 6. Install iptv-checker
       - name: Install iptv-checker
-        run: |
-          npm install -g iptv-checker
+        run: npm install -g iptv-checker
 
       # 7. Verify IPTV streams using iptv-checker
       - name: Verify IPTV streams
@@ -72,7 +71,8 @@ jobs:
 
           : > "$failed"
 
-          iptv-checker --input "$input" --output "$failed" --timeout 15 --max-connections 10 --quiet
+          # Run iptv-checker and extract failed streams
+          iptv-checker "$input" | grep "FAILED" > "$failed"
 
           failed_count=$(wc -l < "$failed" || echo 0)
           total_count=$(grep -v '^#' "$input" | grep -v '^$' | wc -l)
