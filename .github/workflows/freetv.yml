@@ -45,45 +45,53 @@ jobs:
 
           echo "M3U fetch completed successfully."
 
-      # 5. Install ffprobe (required by iptv-checker)
+      # 5. Install ffprobe
       - name: Install ffprobe
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      # 6. Install iptv-checker
-      - name: Install iptv-checker
-        run: npm install -g iptv-checker
-
-      # 7. Verify IPTV streams using iptv-checker with real-time logging
+      # 6. Verify IPTV streams with detailed logging
       - name: Verify IPTV streams
         run: |
           set -e
-          echo "🔍 Verifying IPTV streams using iptv-checker..."
-          
           input="$OUTPUT"
           failed="$FAILED_OUTPUT"
-
-          if [ ! -f "$input" ]; then
-            echo "❌ Input file not found: $input"
-            exit 1
-          fi
-
           : > "$failed"
+          i=0
+          failed_count=0
 
-          # Real-time logging while saving failed streams
-          iptv-checker "$input" | tee >(grep "FAILED" > "$failed")
+          echo "🔍 Starting detailed IPTV verification..."
 
-          failed_count=$(wc -l < "$failed" || echo 0)
-          total_count=$(grep -v '^#' "$input" | grep -v '^$' | wc -l)
+          while IFS= read -r url; do
+            [[ -z "$url" || "$url" =~ ^# ]] && continue
+            ((i++))
+            echo ""
+            echo "[$i] Checking: $url"
+            start=$(date +%s.%N)
+            output=$(timeout 15s ffprobe -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" 2>&1)
+            status=$?
+            end=$(date +%s.%N)
+            response_time=$(echo "$end - $start" | bc)
+
+            if [ $status -eq 0 ]; then
+              echo "✅ OK — Stream works (response time: ${response_time}s)"
+            else
+              echo "❌ FAILED — status=$status (response_time=-1)"
+              echo "🧾 ffprobe output:"
+              echo "$output"
+              echo "$url" >> "$failed"
+              ((failed_count++))
+            fi
+          done < "$input"
 
           echo ""
           echo "🎯 Verification complete!"
-          echo "   Failed streams: $failed_count"
-          echo "   Total streams checked: $total_count"
+          echo "   Total checked: $i"
+          echo "   Failed: $failed_count"
           echo "   Failed streams saved to: $failed"
 
-      # 8. Commit & push updated M3U and failed streams
+      # 7. Commit & push updated M3U and failed streams
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
