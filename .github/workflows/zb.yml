@@ -2,8 +2,8 @@ name: Update and Fix zb.txt to merged.m3u
 
 on:
   schedule:
-    - cron: "0 */6 * * *"  # Runs every 6 hours
-  workflow_dispatch:        # Allow manual run
+    - cron: "0 */6 * * *"  # every 6 hours
+  workflow_dispatch:
 
 jobs:
   update:
@@ -19,31 +19,31 @@ jobs:
           python-version: "3.x"
 
       - name: Install dependencies
-        run: |
-          pip install requests chardet
+        run: pip install requests chardet
 
       - name: Fetch and fix zb.txt
         run: |
+          python - <<'EOF'
           import requests, chardet, os
 
           url = "http://47.120.41.246:8899/zb.txt"
           r = requests.get(url, timeout=20)
           raw = r.content
-          
-          # Try to detect encoding (fallback to ISO-8859-1 if it's garbled UTF-8)
+
+          # Detect encoding
           det = chardet.detect(raw)
           enc = det['encoding'] or 'ISO-8859-1'
           try:
               text = raw.decode(enc)
           except:
               text = raw.decode('ISO-8859-1')
-          
-          # Attempt to repair UTF-8 double-encoding (common case)
+
+          # Try to repair UTF-8 double encoding
           try:
               fixed = text.encode('latin1').decode('utf-8')
           except:
-              fixed = text  # Already fine
-          
+              fixed = text
+
           # Convert to M3U format
           lines = [l.strip() for l in fixed.splitlines() if l.strip()]
           m3u = ["#EXTM3U"]
@@ -56,6 +56,9 @@ jobs:
           with open("merged.m3u", "w", encoding="utf-8") as f:
               f.write("\n".join(m3u))
 
+          print("✅ Created merged.m3u successfully.")
+          EOF
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
@@ -64,4 +67,6 @@ jobs:
             git add merged.m3u
             git commit -m "Update merged.m3u from zb.txt"
             git push
+          else
+            echo "No changes to commit."
           fi
