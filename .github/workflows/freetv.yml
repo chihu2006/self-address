@@ -15,33 +15,60 @@ jobs:
       - name: Install ffmpeg
         run: sudo apt-get install -y ffmpeg
 
-      - name: Run IPTV checker
+      - name: Run IPTV checker (verbose)
         run: |
-          echo "🔍 Verifying IPTV streams using ffprobe..."
+          set +e  # don't stop on first error
+          echo "🔍 Verifying IPTV streams using ffprobe (verbose mode)..."
 
+          # Paths
           input="rawaddress/freetv.m3u"
           verified="rawaddress/verified_freetv.m3u"
           failed="rawaddress/failed_freetv.m3u"
 
-          mkdir -p rawaddress
-          touch "$verified" "$failed"
+          # Check if input exists
+          if [ ! -f "$input" ]; then
+            echo "❌ Input file not found: $input"
+            exit 0
+          fi
 
+          mkdir -p rawaddress
+          : > "$verified"
+          : > "$failed"
+
+          echo "Checking ffprobe installation..."
+          ffprobe -version || (echo "⚠️ ffprobe missing — installing ffmpeg..." && sudo apt-get update && sudo apt-get install -y ffmpeg)
+
+          echo "Starting stream validation..."
           i=0
-          while read -r url; do
+
+          while IFS= read -r url; do
             [[ -z "$url" || "$url" =~ ^# ]] && continue
             ((i++))
-            echo "[$i] Checking stream: $url"
 
-            if timeout 15s ffprobe -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" > /dev/null 2>&1; then
-              echo "✅ OK ($url)"
+            echo ""
+            echo "[$i] Checking: $url"
+
+          # Capture verbose ffprobe output
+            output=$(timeout 15s ffprobe -hide_banner -loglevel info -v error -show_entries stream=codec_type -of default=nw=1:nk=1 "$url" 2>&1)
+            status=$?
+
+            if [ $status -eq 0 ]; then
+              echo "✅ OK — Stream is accessible"
               echo "$url" >> "$verified"
             else
-              echo "❌ FAILED ($url)"
+              echo "❌ FAILED — status=$status"
+              echo "🧾 ffprobe output:"
+              echo "$output"
               echo "$url" >> "$failed"
             fi
           done < "$input"
 
-          echo "✅ Verification done: $(wc -l < "$verified") passed, $(wc -l < "$failed") failed."
+          echo ""
+          echo "✅ Verification complete!"
+          echo "   Verified: $(wc -l < "$verified")"
+          echo "   Failed:   $(wc -l < "$failed")"
+          exit 0
+
 
       - name: Commit results
         run: |
@@ -51,4 +78,3 @@ jobs:
           git add rawaddress/freetv.m3u rawaddress/verified_freetv.m3u rawaddress/failed_freetv.m3u
           git commit -m "Update freetv.m3u verification results" || echo "No changes to commit"
           git push
-          fi
