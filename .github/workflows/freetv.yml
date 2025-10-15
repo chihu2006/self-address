@@ -54,7 +54,6 @@ jobs:
       # 6. Verify IPTV streams with detailed logging
       - name: Verify IPTV streams
         run: |
-          set -e
           input="$OUTPUT"
           failed="$FAILED_OUTPUT"
           : > "$failed"
@@ -62,6 +61,9 @@ jobs:
           failed_count=0
 
           echo "🔍 Starting detailed IPTV verification..."
+
+          # Disable exit-on-error so ffprobe failures don't stop the loop
+          set +e
 
           while IFS= read -r url; do
             [[ -z "$url" || "$url" =~ ^# ]] && continue
@@ -90,6 +92,9 @@ jobs:
           echo "   Total checked: $i"
           echo "   Failed: $failed_count"
           echo "   Failed streams saved to: $failed"
+
+          # Re-enable exit-on-error
+          set -e
 
       # 7. Commit & push updated M3U and failed streams
       - name: Commit & push
