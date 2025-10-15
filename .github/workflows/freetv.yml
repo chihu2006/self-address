@@ -1,4 +1,4 @@
-name: Fetch & Verify freetv M3U (Failed Only)
+name: Fetch & Verify freetv M3U (Failed Only, with Logs)
 
 on:
   schedule:
@@ -37,16 +37,16 @@ jobs:
           done
 
           if [ ! -s "$RAW_DIR/$RAW_FILE" ]; then
-            echo "Error: Downloaded file is empty or incomplete."
+            echo "❌ Error: Downloaded file is empty or incomplete."
             exit 1
           fi
 
           echo "✅ M3U fetched successfully."
 
-      # 4. Speed test & save failed channels
+      # 4. Speed test & log results
       - name: Verify and collect failed streams
         run: |
-          echo "Verifying stream URLs..."
+          echo "🔍 Verifying stream URLs..."
           RAW_PATH="$RAW_DIR/$RAW_FILE"
           FAILED_PATH="$RAW_DIR/$FAILED_FILE"
           > "$FAILED_PATH"
@@ -57,7 +57,9 @@ jobs:
           TOTAL=$(grep -c '^http' "$RAW_PATH" || true)
           COUNT=0
           FAILED=0
+          WORKING=0
 
+          # Pair #EXTINF with next URL and test each
           awk 'NR==FNR{if(/^#EXTINF/){title=$0}else if(/^http/){print title"\n"$0}}' "$RAW_PATH" "$RAW_PATH" | while read -r line; do
             if [[ "$line" == \#EXTINF* ]]; then
               INFO="$line"
@@ -65,10 +67,17 @@ jobs:
               COUNT=$((COUNT+1))
               echo "[$COUNT/$TOTAL] Testing: $line"
 
-              # Run curl test (5s timeout)
+              # Run HTTP test with timeout (5s)
+              START_TIME=$(date +%s%3N)
               HTTP_CODE=$(curl -m 5 -s -o /dev/null -w "%{http_code}" "$line" || echo "000")
+              END_TIME=$(date +%s%3N)
+              ELAPSED=$((END_TIME - START_TIME))
 
-              if ! echo "$HTTP_CODE" | grep -qE '^2..$'; then
+              if echo "$HTTP_CODE" | grep -qE '^2..$'; then
+                echo "✅ OK [$HTTP_CODE] (${ELAPSED}ms)"
+                WORKING=$((WORKING+1))
+              else
+                echo "❌ FAILED [$HTTP_CODE] (${ELAPSED}ms)"
                 echo "$INFO" >> "$FAILED_PATH"
                 echo "$line" >> "$FAILED_PATH"
                 FAILED=$((FAILED+1))
@@ -76,8 +85,13 @@ jobs:
             fi
           done
 
-          echo "❌ Verification complete: $FAILED / $TOTAL failed channels saved."
-          echo "Saved as $FAILED_PATH"
+          echo ""
+          echo "===== 📊 SUMMARY ====="
+          echo "Total URLs checked: $TOTAL"
+          echo "Working channels:   $WORKING"
+          echo "Failed channels:    $FAILED"
+          echo "======================"
+          echo "❌ Failed results saved to: $FAILED_PATH"
 
       # 5. Commit & push if updated
       - name: Commit & push
