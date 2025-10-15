@@ -1,4 +1,4 @@
-name: Fetch freetv M3U
+name: Fetch & Verify freetv M3U (Failed Only)
 
 on:
   schedule:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  fetch-m3u:
+  fetch-and-filter-failed:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,31 +21,70 @@ jobs:
       - name: Set variables
         run: |
           echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
-          echo "OUTPUT=freetv.m3u" >> $GITHUB_ENV
+          echo "RAW_DIR=rawaddress" >> $GITHUB_ENV
+          echo "RAW_FILE=freetv.m3u" >> $GITHUB_ENV
+          echo "FAILED_FILE=verified_freetv.m3u" >> $GITHUB_ENV
 
-      # 3. Fetch M3U using curl (no proxy)
-      - name: Fetch M3U via curl
+      # 3. Fetch M3U
+      - name: Fetch M3U
         run: |
-          echo "Fetching M3U directly..."
+          mkdir -p $RAW_DIR
+          echo "Fetching M3U from $URL..."
           for i in {1..5}; do
-            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
+            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o "$RAW_DIR/$RAW_FILE" "$URL" && break
             echo "Attempt $i failed, retrying..."
             sleep 5
           done
 
-          # Check if file is non-empty
-          if [ ! -s $OUTPUT ]; then
+          if [ ! -s "$RAW_DIR/$RAW_FILE" ]; then
             echo "Error: Downloaded file is empty or incomplete."
             exit 1
           fi
 
-          echo "M3U fetch completed successfully."
+          echo "✅ M3U fetched successfully."
 
-      # 4. Commit & push if freetv.m3u updated
+      # 4. Speed test & save failed channels
+      - name: Verify and collect failed streams
+        run: |
+          echo "Verifying stream URLs..."
+          RAW_PATH="$RAW_DIR/$RAW_FILE"
+          FAILED_PATH="$RAW_DIR/$FAILED_FILE"
+          > "$FAILED_PATH"
+
+          # Copy header if present
+          awk '/^#EXTM3U/ { print $0 }' "$RAW_PATH" > "$FAILED_PATH"
+
+          TOTAL=$(grep -c '^http' "$RAW_PATH" || true)
+          COUNT=0
+          FAILED=0
+
+          awk 'NR==FNR{if(/^#EXTINF/){title=$0}else if(/^http/){print title"\n"$0}}' "$RAW_PATH" "$RAW_PATH" | while read -r line; do
+            if [[ "$line" == \#EXTINF* ]]; then
+              INFO="$line"
+            elif [[ "$line" == http* ]]; then
+              COUNT=$((COUNT+1))
+              echo "[$COUNT/$TOTAL] Testing: $line"
+
+              # Run curl test (5s timeout)
+              HTTP_CODE=$(curl -m 5 -s -o /dev/null -w "%{http_code}" "$line" || echo "000")
+
+              if ! echo "$HTTP_CODE" | grep -qE '^2..$'; then
+                echo "$INFO" >> "$FAILED_PATH"
+                echo "$line" >> "$FAILED_PATH"
+                FAILED=$((FAILED+1))
+              fi
+            fi
+          done
+
+          echo "❌ Verification complete: $FAILED / $TOTAL failed channels saved."
+          echo "Saved as $FAILED_PATH"
+
+      # 5. Commit & push if updated
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add $OUTPUT
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update freetv.m3u"
+          git add rawaddress/freetv.m3u rawaddress/verified_freetv.m3u
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update freetv.m3u and failed verified_freetv.m3u"
           git push origin HEAD:main
+          fi
