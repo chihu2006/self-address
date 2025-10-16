@@ -1,0 +1,10 @@
+
+Total: 0
+Online: 0
+Offline: 0
+Duplicates: 0
+
+🎯 Verification complete!
+   Total checked: 200
+   Failed: 0
+   Failed list saved to: rawaddress/failed_freetv.m3u
