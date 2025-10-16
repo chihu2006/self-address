@@ -3,14 +3,10 @@ name: Fetch and Test M3U Channels
 on:
   workflow_dispatch:
     inputs:
-      start_index:
-        description: 'Start channel number (inclusive)'
+      range:
+        description: 'Channel range (e.g. 1-50)'
         required: true
-        default: 1
-      end_index:
-        description: 'End channel number (inclusive)'
-        required: true
-        default: 20
+        default: '1-20'
       commit_changes:
         description: 'Commit processed M3U files back to repo? (true/false)'
         required: false
@@ -42,7 +38,7 @@ jobs:
 
       - name: Run channel test and categorization
         run: |
-          python speedtest/fetch_and_test_channels.py ${{ github.event.inputs.start_index }} ${{ github.event.inputs.end_index }}
+          python speedtest/fetch_and_test_channels.py "${{ github.event.inputs.range }}"
 
       - name: Upload processed M3U files
         uses: actions/upload-artifact@v4
