@@ -3,10 +3,18 @@ name: Fetch and Test M3U Channels
 on:
   workflow_dispatch:
     inputs:
-      num_channels:
-        description: 'Number of channels to test (e.g., 50-100)'
+      start_index:
+        description: 'Start channel number (inclusive)'
         required: true
-        default: 50
+        default: 1
+      end_index:
+        description: 'End channel number (inclusive)'
+        required: true
+        default: 20
+      commit_changes:
+        description: 'Commit processed M3U files back to repo? (true/false)'
+        required: false
+        default: 'true'
 
 jobs:
   fetch-and-test:
@@ -14,38 +22,39 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install m3u8 requests
+          pip install requests
 
       - name: Fetch M3U file
         run: |
-          mkdir -p ./rawaddress
-          curl -s -o ./rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
-          echo "M3U file saved to ./rawaddress/freetv.m3u"
+          mkdir -p rawaddress
+          curl -s -o rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
+          echo "✅ M3U file fetched to rawaddress/freetv.m3u"
 
-      - name: Test channels
+      - name: Run channel test and categorization
         run: |
-          python ./speedtest/fetch_and_test_channels.py ${{ github.event.inputs.num_channels }}
+          python speedtest/fetch_and_test_channels.py ${{ github.event.inputs.start_index }} ${{ github.event.inputs.end_index }}
 
       - name: Upload processed M3U files
         uses: actions/upload-artifact@v4
         with:
-          name: processed-m3u-files
-          path: ./processed_freetv_address/
-      
+          name: processed_m3u_files
+          path: processed_freetv_address/*.m3u
+
       - name: Commit processed M3U files back to repo
+        if: ${{ github.event.inputs.commit_changes == 'true' }}
         run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add ./processed_freetv_address/*.m3u
-          git commit -m "Add processed M3U files from workflow" || echo "No changes to commit"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add processed_freetv_address/*.m3u
+          git commit -m "Add processed M3U files (auto-generated)" || echo "No changes to commit"
           git push
