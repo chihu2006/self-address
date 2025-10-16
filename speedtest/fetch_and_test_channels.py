@@ -5,7 +5,7 @@ import re
 import time
 import requests
 from requests.exceptions import RequestException
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 
 # === Config ===
 M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
@@ -25,9 +25,18 @@ VLC_HEADERS = {
     "Range": f"bytes=0-{READ_BYTES-1}",
 }
 
-# === Parse input range ===
-START_INDEX = int(sys.argv[1]) if len(sys.argv) > 1 else 1
-END_INDEX = int(sys.argv[2]) if len(sys.argv) > 2 else 20
+# === Parse input ===
+def parse_range(arg):
+    match = re.match(r"(\d+)\s*-\s*(\d+)", arg)
+    if not match:
+        raise ValueError("Range must be in format start-end, e.g. 1-50")
+    start, end = int(match.group(1)), int(match.group(2))
+    if start > end:
+        start, end = end, start
+    return start, end
+
+RANGE_INPUT = sys.argv[1] if len(sys.argv) > 1 else "1-20"
+START_INDEX, END_INDEX = parse_range(RANGE_INPUT)
 
 # === Read M3U file ===
 def read_m3u(file_path):
@@ -53,14 +62,7 @@ def read_m3u(file_path):
 
 # === Probe URL ===
 def probe_url(url):
-    res = {
-        "url": url,
-        "status": None,
-        "elapsed": None,
-        "bytes": 0,
-        "error": None,
-        "preview": None,
-    }
+    res = {"url": url, "status": None, "elapsed": None, "bytes": 0, "error": None}
     try:
         t0 = time.time()
         r = requests.get(url, headers=VLC_HEADERS, timeout=TIMEOUT, stream=True, allow_redirects=True)
@@ -69,7 +71,6 @@ def probe_url(url):
         if r.status_code in (200, 206):
             data = r.raw.read(READ_BYTES)
             res["bytes"] = len(data)
-            res["preview"] = data[:64].hex()
         r.close()
     except RequestException as e:
         res["error"] = str(e)
@@ -104,21 +105,19 @@ def categorize(extinf, url, probe):
 def main():
     entries = read_m3u(M3U_FILE)
     selected = entries[START_INDEX - 1:END_INDEX]
-    print(f"Testing channels {START_INDEX}–{END_INDEX} ({len(selected)} total)")
+    print(f"Testing channels {START_INDEX}–{END_INDEX} ({len(selected)} total)\n")
 
     categorized = {"playable": [], "no_real_content": [], "not_valid": []}
 
     for idx, (extinf, url) in enumerate(selected, start=START_INDEX):
-        print(f"\n[{idx}] Testing: {url}")
+        print(f"[{idx}] Checking: {url}")
         seg_probe = probe_first_segment(url)
-        if seg_probe.get("segment_url"):
-            print(f"  First segment: {seg_probe['segment_url']}")
-        print(f"  Status: {seg_probe.get('status')} Bytes: {seg_probe.get('bytes')} Error: {seg_probe.get('error')}")
+        print(f"  → Status: {seg_probe.get('status')}, Bytes: {seg_probe.get('bytes')}, Error: {seg_probe.get('error')}")
         category = categorize(extinf, url, seg_probe)
         categorized[category].append((extinf, url))
         time.sleep(SLEEP_BETWEEN)
 
-    # Write categorized M3Us
+    # Write categorized M3U files
     for cat, items in categorized.items():
         out_file = os.path.join(OUT_DIR, f"{cat}.m3u")
         with open(out_file, "w", encoding="utf-8") as f:
