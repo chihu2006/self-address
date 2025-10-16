@@ -1,19 +1,11 @@
 #!/usr/bin/env python3
-"""
-Fetch and probe TV channels:
-
-- For .m3u8 URLs: fetch the first segment only.
-- For direct streams: probe normally.
-- Logs real-time latency, status, and grabbed bytes.
-"""
-
 import sys
 import os
 import re
 import time
 import requests
 from requests.exceptions import RequestException
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin
 
 NUM_CHANNELS = int(sys.argv[1]) if len(sys.argv) > 1 else 20
 M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
@@ -37,12 +29,17 @@ DEFAULT_HEADERS = {
 }
 
 PROXIES = None
-if os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy") or \
-   os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy"):
+if os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy") or os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy"):
     PROXIES = {
         "http": os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy"),
         "https": os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy"),
     }
+
+OUTPUT_FOLDER = "processed_freetv_address"
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+PLAYABLE_FILE = os.path.join(OUTPUT_FOLDER, "playable.m3u")
+NO_CONTENT_FILE = os.path.join(OUTPUT_FOLDER, "no_real_content.m3u")
+NOT_VALID_FILE = os.path.join(OUTPUT_FOLDER, "not_valid.m3u")
 
 def read_m3u(file_path, max_items):
     if not os.path.isfile(file_path):
@@ -54,6 +51,7 @@ def read_m3u(file_path, max_items):
     while i < len(lines) and len(channels) < max_items:
         ln = lines[i]
         if ln.startswith("#EXTINF"):
+            extinf = ln
             m = re.search(r",(.+)$", ln)
             name = m.group(1).strip() if m else f"Channel {len(channels)+1}"
             i += 1
@@ -61,12 +59,11 @@ def read_m3u(file_path, max_items):
                 i += 1
             if i < len(lines):
                 url = lines[i]
-                channels.append({"name": name, "url": url})
+                channels.append({"name": name, "url": url, "extinf": extinf})
         i += 1
     return channels
 
 def probe_url(url, headers, timeout_head=HEAD_TIMEOUT, timeout_get=GET_TIMEOUT):
-    """Probe a URL using HEAD + small GET; return status, latency, and bytes."""
     result = {
         "final_url": None,
         "status_head": None,
@@ -100,49 +97,68 @@ def probe_url(url, headers, timeout_head=HEAD_TIMEOUT, timeout_get=GET_TIMEOUT):
         session.close()
     return result
 
-def probe_first_segment(final_url, headers):
-    """Fetch first segment from a .m3u8 playlist and probe it."""
+def probe_hls_first_segment(m3u8_url, headers):
+    """Fetch .m3u8, extract first segment URL, probe it for bytes/latency."""
     try:
-        r = requests.get(final_url, headers=headers, timeout=GET_TIMEOUT, proxies=PROXIES)
+        r = requests.get(m3u8_url, headers=headers, timeout=GET_TIMEOUT, proxies=PROXIES)
         r.raise_for_status()
-        lines = r.text.splitlines()
-        first_segment = next((urljoin(final_url, ln.strip()) for ln in lines if ln.strip() and not ln.startswith("#")), None)
+        content = r.text.splitlines()
+        first_segment = None
+        for line in content:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                first_segment = urljoin(m3u8_url, line)
+                break
         if first_segment:
-            seg_res = probe_url(first_segment, headers)
-            seg_res["segment_url"] = first_segment
-            return seg_res
+            seg_probe = probe_url(first_segment, headers)
+            seg_probe["segment_url"] = first_segment
+            return seg_probe
     except Exception as e:
         return {"error": str(e), "segment_url": None}
     return {"segment_url": None}
 
-def probe_channel(channel, uas_list):
-    """Probe channel: first segment for .m3u8, direct probe otherwise."""
+def attempt_probe_with_uas(channel, uas_list):
     for ua in uas_list:
         hdrs = DEFAULT_HEADERS.copy()
         hdrs["User-Agent"] = ua
+        from urllib.parse import urlparse
         parsed = urlparse(channel["url"])
         if parsed.scheme and parsed.netloc:
             hdrs["Referer"] = f"{parsed.scheme}://{parsed.netloc}/"
 
-        try:
-            # Resolve final URL
-            r = requests.head(channel["url"], headers=hdrs, allow_redirects=True, timeout=HEAD_TIMEOUT, proxies=PROXIES)
-            final_url = r.url
-        except Exception as e:
-            return {"error": str(e)}
-
-        # For .m3u8, probe first segment only
-        if final_url.endswith(".m3u8"):
-            seg_res = probe_first_segment(final_url, hdrs)
-            if seg_res:
-                seg_res["used_ua"] = ua
-                return seg_res
-        else:
-            # Direct stream
-            res = probe_url(final_url, hdrs)
+        res = probe_url(channel["url"], hdrs)
+        if res.get("status_get") in (200, 206) and res.get("grabbed_bytes_len", 0) > 0:
             res["used_ua"] = ua
+            # If .m3u8, also probe first segment
+            if channel["url"].endswith(".m3u8"):
+                seg_res = probe_hls_first_segment(channel["url"], hdrs)
+                res["first_segment"] = seg_res
             return res
-    return {"error": "Failed to probe"}
+    res["used_ua"] = uas_list[0] if uas_list else None
+    return res
+
+def categorize_channel(probe):
+    """Categorize based on grabbed bytes preview (pattern from your test)."""
+    b = probe.get("grabbed_bytes_preview") or ""
+    # Playable patterns: gzip header (1f8b08), or some other known playable hex
+    if b.startswith("1f8b08") or probe.get("status_get") in (200, 206) and probe.get("grabbed_bytes_len",0) >= 200:
+        return "playable"
+    # Valid but no content: readable playlist-like content (starts with 23 45 58 54 ... "#EXTM3U")
+    elif b.startswith("23455854"):  # hex of "#EXT"
+        return "no_real_content"
+    else:
+        return "not_valid"
+
+def append_to_m3u(category, channel):
+    """Append the EXTINF and URL to the corresponding file."""
+    file_map = {
+        "playable": PLAYABLE_FILE,
+        "no_real_content": NO_CONTENT_FILE,
+        "not_valid": NOT_VALID_FILE
+    }
+    target_file = file_map.get(category)
+    with open(target_file, "a", encoding="utf-8") as f:
+        f.write(f"{channel['extinf']}\n{channel['url']}\n")
 
 def main():
     channels = read_m3u(M3U_FILE, NUM_CHANNELS)
@@ -151,7 +167,7 @@ def main():
     for idx, ch in enumerate(channels, start=1):
         print(f"[{idx}/{len(channels)}] {ch['name']}")
         print(f"    Original URL: {ch['url']}")
-        probe = probe_channel(ch, VLC_UAS)
+        probe = attempt_probe_with_uas(ch, VLC_UAS)
 
         print(f"    Used UA: {probe.get('used_ua')}")
         print(f"    Final URL: {probe.get('final_url')}")
@@ -162,10 +178,17 @@ def main():
             print(f"    GET elapsed: {probe['elapsed_get']:.3f}s")
         if probe.get("grabbed_bytes_len"):
             print(f"    Grabbed bytes: {probe['grabbed_bytes_len']} preview(hex): {probe['grabbed_bytes_preview']}")
-        if "segment_url" in probe:
-            print(f"    First segment URL: {probe.get('segment_url')}")
+        if "first_segment" in probe and probe["first_segment"]:
+            seg = probe["first_segment"]
+            print(f"    First segment URL: {seg.get('segment_url')}")
+            print(f"      Segment status: {seg.get('status_get')} bytes: {seg.get('grabbed_bytes_len')}")
         if probe.get("error"):
             print(f"    ERROR: {probe['error']}")
+
+        # Categorize and save
+        category = categorize_channel(probe)
+        append_to_m3u(category, ch)
+        print(f"    Categorized as: {category}")
         print("-" * 72)
         time.sleep(0.25)
 
