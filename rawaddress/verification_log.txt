@@ -1,10 +1,17 @@
+🔍 Verifying top 50 channels...
+----------------------------------------
 
-Total: 0
-Online: 0
-Offline: 0
+
+Total: 50
+Online: 48
+Offline: 2
 Duplicates: 0
 
+----------------------------------------
+
 🎯 Verification complete!
-   Total checked: 200
-   Failed: 0
+   Total checked: 50
+   Failed/Timeout: 0
+0
    Failed list saved to: rawaddress/failed_freetv.m3u
+----------------------------------------
