@@ -2,7 +2,7 @@ name: Fetch & Verify IPTV M3U (Detailed)
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # daily at midnight UTC
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -13,50 +13,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Set variables
       - name: Set variables
         run: |
           echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
           echo "OUTPUT=rawaddress/freetv.m3u" >> $GITHUB_ENV
+          echo "TEMP_FILE=rawaddress/test_channels.m3u" >> $GITHUB_ENV
           echo "CHANNEL_LIMIT=50" >> $GITHUB_ENV
           echo "FAILED_OUTPUT=rawaddress/failed_freetv.m3u" >> $GITHUB_ENV
           echo "LOG_FILE=rawaddress/verification_log.json" >> $GITHUB_ENV
-          echo "TEMP_FILE=rawaddress/test_channels.m3u" >> $GITHUB_ENV
 
-      # 3. Prepare folder
       - name: Prepare folder
         run: mkdir -p rawaddress
 
-      # 4. Fetch M3U
-      - name: Fetch M3U via curl
+      - name: Fetch M3U
         run: |
-          for i in {1..5}; do
-            curl -L -A "Chrome/140.0.0.0" -o "$OUTPUT" "$URL" && break
-            sleep 5
-          done
+          curl -L -A "Chrome/140.0.0.0" -o "$OUTPUT" "$URL"
           if [ ! -s "$OUTPUT" ]; then
             echo "❌ Downloaded file is empty."
             exit 1
           fi
-          echo "✅ M3U fetched."
 
-      # 5. Install dependencies
-      - name: Install ffmpeg & jq
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg jq
 
-      # 6. Extract top N channels
-      - name: Extract top channels
+      - name: Extract top N channels
         run: |
           echo "#EXTM3U" > "$TEMP_FILE"
           awk '/^#EXTINF/{print;getline;print}' "$OUTPUT" | head -n $((CHANNEL_LIMIT * 2)) >> "$TEMP_FILE"
 
-      # 7. Detailed verification
       - name: Verify channels (detailed)
         run: |
           input="$TEMP_FILE"
@@ -68,10 +57,14 @@ jobs:
           echo "[" > "$log"
           first=true
 
-          grep '^http' "$input" | while read -r url; do
-            start=$(date +%s%3N)  # milliseconds
-            ffprobe -v error -show_streams -show_format "$url" -timeout 5000000 >/dev/null 2>&1
+          # Extract only URLs (every 2nd line in M3U)
+          awk 'NR % 2 == 0 {print}' "$input" | while read -r url; do
+            start=$(date +%s%3N)
+
+            # Timeout 10 seconds for ffprobe
+            timeout 10 ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height -show_entries format=bit_rate -of default=nokey=1:noprint_wrappers=1 "$url" >/tmp/ffprobe_output.txt 2>/dev/null
             ret=$?
+
             end=$(date +%s%3N)
             duration=$((end - start))
 
@@ -82,26 +75,26 @@ jobs:
               echo "$url" >> "$failed"
             fi
 
-            # Get stream info safely
-            codec=$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height -of default=nokey=1:noprint_wrappers=1 "$url" 2>/dev/null | paste -s -d ',' -)
-            bitrate=$(ffprobe -v error -show_entries format=bit_rate -of default=nokey=1:noprint_wrappers=1 "$url" 2>/dev/null || echo "unknown")
+            # Safely get codec info and bitrate
+            codec=$(head -n 3 /tmp/ffprobe_output.txt | paste -s -d ',' - || echo "unknown")
+            bitrate=$(tail -n 1 /tmp/ffprobe_output.txt || echo "unknown")
 
-            # Write JSON entry
+            # JSON formatting with printf
             if [ "$first" = true ]; then
               first=false
             else
               echo "," >> "$log"
             fi
 
-            echo "{
-  \"url\": \"$url\",
-  \"status\": \"$status\",
-  \"response_time_ms\": $duration,
-  \"video_info\": \"$codec\",
-  \"bitrate\": \"$bitrate\"
-}" >> "$log"
+            printf '{
+  "url": "%s",
+  "status": "%s",
+  "response_time_ms": %d,
+  "video_info": "%s",
+  "bitrate": "%s"
+}' "$url" "$status" "$duration" "$codec" "$bitrate" >> "$log"
 
-            # Also print live progress
+            # Live progress
             echo "$status: $url ($duration ms, $codec, bitrate=$bitrate)"
           done
 
