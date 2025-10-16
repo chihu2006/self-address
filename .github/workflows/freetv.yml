@@ -2,7 +2,7 @@ name: Fetch & Verify IPTV M3U (Top N Channels)
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # daily at midnight UTC
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -58,7 +58,7 @@ jobs:
       - name: Install iptv-checker
         run: npm install -g iptv-checker
 
-      # 7. Extract top N channels (preserve M3U header)
+      # 7. Extract top N channels (preserve header)
       - name: Extract top channels
         run: |
           head -n 1 "$OUTPUT" > "$TOP_FILE"
@@ -66,8 +66,8 @@ jobs:
           count=$(grep -c '^http' "$TOP_FILE" || echo 0)
           echo "✅ Extracted $count channels for verification."
 
-      # 8. Verify top channels using iptv-checker and log results
-      - name: Verify top channels with iptv-checker
+      # 8. Verify channels and log results
+      - name: Verify channels and save log
         run: |
           input="$TOP_FILE"
           failed="$FAILED_OUTPUT"
@@ -77,18 +77,30 @@ jobs:
 
           total=$(grep -c '^http' "$input" || echo 0)
           echo "🔍 Verifying $total channels..." | tee -a "$log"
+          echo "----------------------------------------" | tee -a "$log"
 
-          iptv-checker "$input" 2>&1 | tee "$log" | grep "FAILED" > "$failed" || true
+          # Run iptv-checker in JSON mode for structured output
+          iptv-checker "$input" --json > temp_results.json
 
-          failed_count=$(wc -l < "$failed" || echo 0)
+          # Log all results with status and timeout
+          jq -r '.[] | "Channel: \(.channel.name // "Unknown")\nURL: \(.channel.url)\nOK: \(.status.ok)\nTimeout: \(.status.timeout)\n-----"' temp_results.json | tee -a "$log"
+
+          # Extract failed ones (ok == false) and save to failed file
+          jq -r '.[] | select(.status.ok == false) | .channel.url' temp_results.json > "$failed"
+
+          failed_count=$(grep -c '^http' "$failed" || echo 0)
 
           echo "" | tee -a "$log"
           echo "🎯 Verification complete!" | tee -a "$log"
           echo "   Total checked: $total" | tee -a "$log"
           echo "   Failed: $failed_count" | tee -a "$log"
           echo "   Failed list saved to: $failed" | tee -a "$log"
+          echo "----------------------------------------" | tee -a "$log"
 
-      # 9. Commit & push results
+          # Cleanup
+          rm temp_results.json
+
+      # 9. Commit & push
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
