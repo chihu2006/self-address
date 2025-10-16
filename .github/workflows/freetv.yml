@@ -1,0 +1,87 @@
+name: Fetch & Verify IPTV M3U (Top N Channels)
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set variables
+        run: |
+          echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
+          echo "OUTPUT=rawaddress/freetv.m3u" >> $GITHUB_ENV
+          echo "FAILED_OUTPUT=rawaddress/failed_freetv.m3u" >> $GITHUB_ENV
+          echo "TOP_FILE=rawaddress/top_channels.m3u" >> $GITHUB_ENV
+          echo "CHANNEL_LIMIT=200" >> $GITHUB_ENV
+
+      - name: Prepare folder
+        run: mkdir -p rawaddress
+
+      - name: Fetch M3U via curl
+        run: |
+          echo "Fetching M3U..."
+          for i in {1..5}; do
+            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o $OUTPUT $URL && break
+            echo "Attempt $i failed, retrying..."
+            sleep 5
+          done
+
+          if [ ! -s $OUTPUT ]; then
+            echo "❌ Error: Downloaded file is empty or incomplete."
+            exit 1
+          fi
+
+          echo "✅ M3U fetch completed successfully."
+
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install iptv-checker
+        run: npm install -g iptv-checker
+
+      - name: Extract top channels
+        run: |
+          head -n 1 "$OUTPUT" > "$TOP_FILE"
+          grep -v '^#' "$OUTPUT" | grep -v '^$' | head -n $CHANNEL_LIMIT >> "$TOP_FILE"
+          count=$(grep -c '^http' "$TOP_FILE" || echo 0)
+          echo "✅ Extracted $count channels for verification."
+
+      - name: Verify top channels with iptv-checker
+        run: |
+          input="$TOP_FILE"
+          failed="$FAILED_OUTPUT"
+          : > "$failed"
+
+          total=$(grep -c '^http' "$input" || echo 0)
+          echo "🔍 Verifying $total channels..."
+
+          # Run iptv-checker and capture FAILED entries
+          iptv-checker "$input" | tee /dev/stdout | grep "FAILED" > "$failed" || true
+
+          failed_count=$(wc -l < "$failed" || echo 0)
+
+          echo ""
+          echo "🎯 Verification complete!"
+          echo "   Total checked: $total"
+          echo "   Failed: $failed_count"
+          echo "   Failed streams saved to: $failed"
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add $OUTPUT $FAILED_OUTPUT
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update freetv.m3u and failed_freetv.m3u"
+          git push origin HEAD:main
