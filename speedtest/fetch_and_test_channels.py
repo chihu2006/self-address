@@ -2,9 +2,9 @@
 """
 Fetch and probe TV channels:
 
-- Resolve the final URL of each channel.
-- Probe it (HEAD + small GET for latency/bytes).
-- If the final URL is a .m3u8, fetch the first segment and probe it.
+- For .m3u8 URLs: fetch the first segment only.
+- For direct streams: probe normally.
+- Logs real-time latency, status, and grabbed bytes.
 """
 
 import sys
@@ -100,25 +100,23 @@ def probe_url(url, headers, timeout_head=HEAD_TIMEOUT, timeout_get=GET_TIMEOUT):
         session.close()
     return result
 
-def probe_first_segment_if_m3u8(final_url, headers):
-    """If final URL is .m3u8, fetch the first segment and probe it."""
-    if not final_url.endswith(".m3u8"):
-        return None
+def probe_first_segment(final_url, headers):
+    """Fetch first segment from a .m3u8 playlist and probe it."""
     try:
         r = requests.get(final_url, headers=headers, timeout=GET_TIMEOUT, proxies=PROXIES)
         r.raise_for_status()
         lines = r.text.splitlines()
         first_segment = next((urljoin(final_url, ln.strip()) for ln in lines if ln.strip() and not ln.startswith("#")), None)
         if first_segment:
-            seg_probe = probe_url(first_segment, headers)
-            seg_probe["segment_url"] = first_segment
-            return seg_probe
+            seg_res = probe_url(first_segment, headers)
+            seg_res["segment_url"] = first_segment
+            return seg_res
     except Exception as e:
         return {"error": str(e), "segment_url": None}
     return {"segment_url": None}
 
-def probe_final_address(channel, uas_list):
-    """Probe only the final URL and optionally its first HLS segment."""
+def probe_channel(channel, uas_list):
+    """Probe channel: first segment for .m3u8, direct probe otherwise."""
     for ua in uas_list:
         hdrs = DEFAULT_HEADERS.copy()
         hdrs["User-Agent"] = ua
@@ -126,13 +124,25 @@ def probe_final_address(channel, uas_list):
         if parsed.scheme and parsed.netloc:
             hdrs["Referer"] = f"{parsed.scheme}://{parsed.netloc}/"
 
-        res = probe_url(channel["url"], hdrs)
-        res["used_ua"] = ua
-        seg_res = probe_first_segment_if_m3u8(res.get("final_url"), hdrs)
-        if seg_res:
-            res["first_segment"] = seg_res
-        return res
-    return res
+        try:
+            # Resolve final URL
+            r = requests.head(channel["url"], headers=hdrs, allow_redirects=True, timeout=HEAD_TIMEOUT, proxies=PROXIES)
+            final_url = r.url
+        except Exception as e:
+            return {"error": str(e)}
+
+        # For .m3u8, probe first segment only
+        if final_url.endswith(".m3u8"):
+            seg_res = probe_first_segment(final_url, hdrs)
+            if seg_res:
+                seg_res["used_ua"] = ua
+                return seg_res
+        else:
+            # Direct stream
+            res = probe_url(final_url, hdrs)
+            res["used_ua"] = ua
+            return res
+    return {"error": "Failed to probe"}
 
 def main():
     channels = read_m3u(M3U_FILE, NUM_CHANNELS)
@@ -141,7 +151,7 @@ def main():
     for idx, ch in enumerate(channels, start=1):
         print(f"[{idx}/{len(channels)}] {ch['name']}")
         print(f"    Original URL: {ch['url']}")
-        probe = probe_final_address(ch, VLC_UAS)
+        probe = probe_channel(ch, VLC_UAS)
 
         print(f"    Used UA: {probe.get('used_ua')}")
         print(f"    Final URL: {probe.get('final_url')}")
@@ -152,10 +162,8 @@ def main():
             print(f"    GET elapsed: {probe['elapsed_get']:.3f}s")
         if probe.get("grabbed_bytes_len"):
             print(f"    Grabbed bytes: {probe['grabbed_bytes_len']} preview(hex): {probe['grabbed_bytes_preview']}")
-        if "first_segment" in probe and probe["first_segment"]:
-            seg = probe["first_segment"]
-            print(f"    First segment URL: {seg.get('segment_url')}")
-            print(f"      Segment status: {seg.get('status_get')} bytes: {seg.get('grabbed_bytes_len')}")
+        if "segment_url" in probe:
+            print(f"    First segment URL: {probe.get('segment_url')}")
         if probe.get("error"):
             print(f"    ERROR: {probe['error']}")
         print("-" * 72)
