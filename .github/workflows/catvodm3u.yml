@@ -1,8 +1,6 @@
 name: Fetch CatVod M3U via Proxy (Up to 600, Batch Fetch with Retry)
 
 on:
-  schedule:
-    - cron: "0 0 * * *"  # Daily at midnight UTC
   workflow_dispatch:
 
 permissions:
