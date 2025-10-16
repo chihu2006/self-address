@@ -1,15 +1,15 @@
-name: Fetch & Verify IPTV M3U (Top N Channels)
+name: Fetch & Verify IPTV M3U (Detailed)
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Run daily at midnight UTC
+    - cron: "0 0 * * *"  # daily at midnight UTC
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  fetch-and-verify:
+  fetch-and-verify-detailed:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,87 +17,92 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Set environment variables
+      # 2. Set variables
       - name: Set variables
         run: |
           echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
           echo "OUTPUT=rawaddress/freetv.m3u" >> $GITHUB_ENV
-          echo "TEST_FILE=rawaddress/test_channels.m3u" >> $GITHUB_ENV
+          echo "CHANNEL_LIMIT=50" >> $GITHUB_ENV
           echo "FAILED_OUTPUT=rawaddress/failed_freetv.m3u" >> $GITHUB_ENV
-          echo "LOG_FILE=rawaddress/verification_log.txt" >> $GITHUB_ENV
-          echo "CHANNEL_LIMIT=50" >> $GITHUB_ENV   # Change this number to test more channels later
+          echo "LOG_FILE=rawaddress/verification_log.json" >> $GITHUB_ENV
+          echo "TEMP_FILE=rawaddress/test_channels.m3u" >> $GITHUB_ENV
 
-      # 3. Prepare output directory
+      # 3. Prepare folder
       - name: Prepare folder
         run: mkdir -p rawaddress
 
       # 4. Fetch M3U
       - name: Fetch M3U via curl
         run: |
-          echo "Fetching M3U from $URL..."
           for i in {1..5}; do
-            curl --fail --retry 5 --retry-delay 5 -L -A "Chrome/140.0.0.0" -o "$OUTPUT" "$URL" && break
-            echo "Attempt $i failed, retrying..."
+            curl -L -A "Chrome/140.0.0.0" -o "$OUTPUT" "$URL" && break
             sleep 5
           done
-
           if [ ! -s "$OUTPUT" ]; then
-            echo "❌ Error: Downloaded file is empty or incomplete."
+            echo "❌ Downloaded file is empty."
             exit 1
           fi
-          echo "✅ M3U fetched successfully."
+          echo "✅ M3U fetched."
 
       # 5. Install dependencies
-      - name: Install ffmpeg & iptv-checker
+      - name: Install ffmpeg & jq
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
-          npm install -g iptv-checker
+          sudo apt-get install -y ffmpeg jq
 
-      # 6. Extract top N channels for testing
-      - name: Extract top N channels
+      # 6. Extract top N channels
+      - name: Extract top channels
         run: |
-          echo "#EXTM3U" > "$TEST_FILE"
-          awk '/^#EXTINF/{print;getline;print}' "$OUTPUT" | head -n $((CHANNEL_LIMIT * 2)) >> "$TEST_FILE"
-          count=$(grep -c '^http' "$TEST_FILE" || echo 0)
-          echo "✅ Extracted $count channels for verification."
+          echo "#EXTM3U" > "$TEMP_FILE"
+          awk '/^#EXTINF/{print;getline;print}' "$OUTPUT" | head -n $((CHANNEL_LIMIT * 2)) >> "$TEMP_FILE"
 
-      # 7. Verify selected channels
-      - name: Verify top channels and save log
+      # 7. Detailed verification
+      - name: Verify channels (detailed)
         run: |
-          input="$TEST_FILE"
+          input="$TEMP_FILE"
           failed="$FAILED_OUTPUT"
           log="$LOG_FILE"
           : > "$failed"
           : > "$log"
 
-          total=$(grep -c '^http' "$input" || echo 0)
-          echo "🔍 Verifying top $total channels..." | tee -a "$log"
-          echo "----------------------------------------" | tee -a "$log"
+          echo "[" > "$log"
+          first=true
 
-          # Run iptv-checker and save output
-          iptv-checker "$input" 2>&1 | tee -a "$log"
+          grep '^http' "$input" | while read -r url; do
+            start=$(date +%s%3N)  # milliseconds
+            ffprobe -v error -show_streams -show_format "$url" -timeout 5000000 >/dev/null 2>&1
+            ret=$?
+            end=$(date +%s%3N)
+            duration=$((end - start))
 
-          echo "" | tee -a "$log"
-          echo "----------------------------------------" | tee -a "$log"
+            if [ $ret -eq 0 ]; then
+              status="OK"
+            else
+              status="FAILED"
+              echo "$url" >> "$failed"
+            fi
 
-          # Extract failed or timeout URLs
-          grep -E '^(FAILED|TIMEOUT)' "$log" | awk '{print $NF}' > "$failed" || true
+            # Get stream info safely
+            codec=$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,width,height -of default=nokey=1:noprint_wrappers=1 "$url" 2>/dev/null | paste -s -d ',' -)
+            bitrate=$(ffprobe -v error -show_entries format=bit_rate -of default=nokey=1:noprint_wrappers=1 "$url" 2>/dev/null || echo "unknown")
 
-          failed_count=$(grep -c '^http' "$failed" || echo 0)
+            # Write JSON entry
+            if [ "$first" = true ]; then
+              first=false
+            else
+              echo "," >> "$log"
+            fi
 
-          echo "" | tee -a "$log"
-          echo "🎯 Verification complete!" | tee -a "$log"
-          echo "   Total checked: $total" | tee -a "$log"
-          echo "   Failed/Timeout: $failed_count" | tee -a "$log"
-          echo "   Failed list saved to: $failed" | tee -a "$log"
-          echo "----------------------------------------" | tee -a "$log"
+            echo "{
+  \"url\": \"$url\",
+  \"status\": \"$status\",
+  \"response_time_ms\": $duration,
+  \"video_info\": \"$codec\",
+  \"bitrate\": \"$bitrate\"
+}" >> "$log"
 
-      # 8. Commit & push results
-      - name: Commit & push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add $OUTPUT $TEST_FILE $FAILED_OUTPUT $LOG_FILE
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update IPTV verification results"
-          git push origin HEAD:main
+            # Also print live progress
+            echo "$status: $url ($duration ms, $codec, bitrate=$bitrate)"
+          done
+
+          echo "]" >> "$log"
