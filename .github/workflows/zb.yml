@@ -2,7 +2,7 @@ name: Update and Fix zb.txt to merged.m3u
 
 on:
   schedule:
-    - cron: "0 */6 * * *"  # every 6 hours
+    - cron: "0 0 * * *"  # daily at midnight UTC
   workflow_dispatch:
 
 jobs:
