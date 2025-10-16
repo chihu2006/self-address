@@ -1,161 +1,47 @@
-#!/usr/bin/env python3
-import sys
-import os
-import re
-import time
 import requests
-from requests.exceptions import RequestException
 from urllib.parse import urljoin
 
-NUM_CHANNELS = int(sys.argv[1]) if len(sys.argv) > 1 else 20
-M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
-READ_BYTES = 1024
-HEAD_TIMEOUT = 8
-GET_TIMEOUT = 12
-
-VLC_UAS = [
-    "VLC/3.0.18 LibVLC/3.0.18",
-    "VLC/3.0.16 LibVLC/3.0.16",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
-]
-
-DEFAULT_HEADERS = {
-    "Accept": "*/*",
-    "Connection": "keep-alive",
-    "Icy-MetaData": "1",
-    "Referer": "https://freetv.fun/",
-    "Range": f"bytes=0-{READ_BYTES-1}",
-}
-
-PROXIES = None
-if os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy") or os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy"):
-    PROXIES = {
-        "http": os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy"),
-        "https": os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy"),
-    }
-
-def read_m3u(file_path, max_items):
-    if not os.path.isfile(file_path):
-        raise FileNotFoundError(f"M3U file not found: {file_path}")
-    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-        lines = [ln.strip() for ln in f if ln.strip()]
-    channels = []
-    i = 0
-    while i < len(lines) and len(channels) < max_items:
-        ln = lines[i]
-        if ln.startswith("#EXTINF"):
-            m = re.search(r",(.+)$", ln)
-            name = m.group(1).strip() if m else f"Channel {len(channels)+1}"
-            i += 1
-            while i < len(lines) and lines[i].startswith("#"):
-                i += 1
-            if i < len(lines):
-                url = lines[i]
-                channels.append({"name": name, "url": url})
-        i += 1
-    return channels
-
-def probe_url(url, headers, timeout_head=HEAD_TIMEOUT, timeout_get=GET_TIMEOUT):
-    result = {
-        "final_url": None,
-        "status_head": None,
-        "status_get": None,
-        "elapsed_head": None,
-        "elapsed_get": None,
-        "grabbed_bytes_len": 0,
-        "grabbed_bytes_preview": None,
-        "error": None,
-    }
-    session = requests.Session()
+def test_m3u8_playable(m3u8_url):
     try:
-        t0 = time.time()
-        head = session.head(url, headers=headers, timeout=timeout_head, allow_redirects=True, proxies=PROXIES)
-        result["elapsed_head"] = time.time() - t0
-        result["status_head"] = head.status_code
-        result["final_url"] = head.url
+        # Step 1: Fetch the m3u8 playlist
+        response = requests.get(m3u8_url, timeout=10)
+        if response.status_code != 200:
+            print(f"Failed to fetch playlist: {response.status_code}")
+            return False
 
-        t1 = time.time()
-        get = session.get(head.url, headers=headers, timeout=timeout_get, stream=True, allow_redirects=True, proxies=PROXIES)
-        result["elapsed_get"] = time.time() - t1
-        result["status_get"] = get.status_code
-        result["final_url"] = get.url
-        if get.status_code in (200, 206):
-            chunk = get.raw.read(READ_BYTES) or b""
-            result["grabbed_bytes_len"] = len(chunk)
-            result["grabbed_bytes_preview"] = chunk[:64].hex()
-    except RequestException as e:
-        result["error"] = str(e)
-    finally:
-        session.close()
-    return result
+        content = response.text
+        if not content.startswith("#EXTM3U"):
+            print("Invalid m3u8 content")
+            return False
 
-def probe_hls_first_segment(m3u8_url, headers):
-    """Fetch .m3u8, extract first segment URL, probe it for bytes/latency."""
-    try:
-        r = requests.get(m3u8_url, headers=headers, timeout=GET_TIMEOUT, proxies=PROXIES)
-        r.raise_for_status()
-        content = r.text.splitlines()
+        # Step 2: Find the first segment
+        lines = content.splitlines()
         first_segment = None
-        for line in content:
-            line = line.strip()
-            if line and not line.startswith("#"):
-                first_segment = urljoin(m3u8_url, line)
+        for i, line in enumerate(lines):
+            if line.strip() and not line.startswith("#"):
+                first_segment = line.strip()
                 break
-        if first_segment:
-            seg_probe = probe_url(first_segment, headers)
-            seg_probe["segment_url"] = first_segment
-            return seg_probe
-    except Exception as e:
-        return {"error": str(e), "segment_url": None}
-    return {"segment_url": None}
 
-def attempt_probe_with_uas(channel, uas_list):
-    for ua in uas_list:
-        hdrs = DEFAULT_HEADERS.copy()
-        hdrs["User-Agent"] = ua
-        from urllib.parse import urlparse
-        parsed = urlparse(channel["url"])
-        if parsed.scheme and parsed.netloc:
-            hdrs["Referer"] = f"{parsed.scheme}://{parsed.netloc}/"
+        if not first_segment:
+            print("No media segments found in playlist")
+            return False
 
-        res = probe_url(channel["url"], hdrs)
-        if res.get("status_get") in (200, 206) and res.get("grabbed_bytes_len", 0) > 0:
-            res["used_ua"] = ua
-            # If .m3u8, also probe first segment
-            if channel["url"].endswith(".m3u8"):
-                seg_res = probe_hls_first_segment(channel["url"], hdrs)
-                res["first_segment"] = seg_res
-            return res
-    res["used_ua"] = uas_list[0] if uas_list else None
-    return res
+        # Handle relative URLs
+        first_segment_url = urljoin(m3u8_url, first_segment)
 
-def main():
-    channels = read_m3u(M3U_FILE, NUM_CHANNELS)
-    print(f"Found {len(channels)} channels. Probing each...\n")
+        # Step 3: Fetch the first segment
+        seg_resp = requests.get(first_segment_url, timeout=10, stream=True)
+        if seg_resp.status_code == 200 and seg_resp.content:
+            print(f"Playable! First segment fetched: {first_segment_url}")
+            return True
+        else:
+            print(f"Failed to fetch first segment: {seg_resp.status_code}")
+            return False
 
-    for idx, ch in enumerate(channels, start=1):
-        print(f"[{idx}/{len(channels)}] {ch['name']}")
-        print(f"    Original URL: {ch['url']}")
-        probe = attempt_probe_with_uas(ch, VLC_UAS)
+    except requests.RequestException as e:
+        print(f"Error fetching playlist or segment: {e}")
+        return False
 
-        print(f"    Used UA: {probe.get('used_ua')}")
-        print(f"    Final URL: {probe.get('final_url')}")
-        print(f"    HEAD status: {probe.get('status_head')}  GET status: {probe.get('status_get')}")
-        if probe.get("elapsed_head"):
-            print(f"    HEAD elapsed: {probe['elapsed_head']:.3f}s")
-        if probe.get("elapsed_get"):
-            print(f"    GET elapsed: {probe['elapsed_get']:.3f}s")
-        if probe.get("grabbed_bytes_len"):
-            print(f"    Grabbed bytes: {probe['grabbed_bytes_len']} preview(hex): {probe['grabbed_bytes_preview']}")
-        if "first_segment" in probe and probe["first_segment"]:
-            seg = probe["first_segment"]
-            print(f"    First segment URL: {seg.get('segment_url')}")
-            print(f"      Segment status: {seg.get('status_get')} bytes: {seg.get('grabbed_bytes_len')}")
-        if probe.get("error"):
-            print(f"    ERROR: {probe['error']}")
-        print("-" * 72)
-        time.sleep(0.25)
-
-if __name__ == "__main__":
-    main()
+# Example usage:
+channel_url = "https://example.com/live/stream.m3u8"
+test_m3u8_playable(channel_url)
