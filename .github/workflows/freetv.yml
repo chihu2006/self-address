@@ -1,4 +1,4 @@
-name: Fetch & Verify IPTV M3U
+name: Fetch & Verify IPTV M3U (Top N Channels)
 
 on:
   schedule:
@@ -22,8 +22,10 @@ jobs:
         run: |
           echo "URL=https://freetv.fun/test_channels_banned_cn_new.m3u" >> $GITHUB_ENV
           echo "OUTPUT=rawaddress/freetv.m3u" >> $GITHUB_ENV
+          echo "TEST_FILE=rawaddress/test_channels.m3u" >> $GITHUB_ENV
           echo "FAILED_OUTPUT=rawaddress/failed_freetv.m3u" >> $GITHUB_ENV
           echo "LOG_FILE=rawaddress/verification_log.txt" >> $GITHUB_ENV
+          echo "CHANNEL_LIMIT=50" >> $GITHUB_ENV   # Change this number to test more channels later
 
       # 3. Prepare output directory
       - name: Prepare folder
@@ -45,36 +47,41 @@ jobs:
           fi
           echo "✅ M3U fetched successfully."
 
-      # 5. Install ffmpeg (for ffprobe dependency)
-      - name: Install ffmpeg
+      # 5. Install dependencies
+      - name: Install ffmpeg & iptv-checker
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
+          npm install -g iptv-checker
 
-      # 6. Install iptv-checker globally
-      - name: Install iptv-checker
-        run: npm install -g iptv-checker
-
-      # 7. Verify all channels and save logs
-      - name: Verify all channels
+      # 6. Extract top N channels for testing
+      - name: Extract top N channels
         run: |
-          input="$OUTPUT"
+          echo "#EXTM3U" > "$TEST_FILE"
+          awk '/^#EXTINF/{print;getline;print}' "$OUTPUT" | head -n $((CHANNEL_LIMIT * 2)) >> "$TEST_FILE"
+          count=$(grep -c '^http' "$TEST_FILE" || echo 0)
+          echo "✅ Extracted $count channels for verification."
+
+      # 7. Verify selected channels
+      - name: Verify top channels and save log
+        run: |
+          input="$TEST_FILE"
           failed="$FAILED_OUTPUT"
           log="$LOG_FILE"
           : > "$failed"
           : > "$log"
 
           total=$(grep -c '^http' "$input" || echo 0)
-          echo "🔍 Verifying $total channels..." | tee -a "$log"
+          echo "🔍 Verifying top $total channels..." | tee -a "$log"
           echo "----------------------------------------" | tee -a "$log"
 
-          # Run iptv-checker
+          # Run iptv-checker and save output
           iptv-checker "$input" 2>&1 | tee -a "$log"
 
           echo "" | tee -a "$log"
           echo "----------------------------------------" | tee -a "$log"
 
-          # Extract FAILED or TIMEOUT entries
+          # Extract failed or timeout URLs
           grep -E '^(FAILED|TIMEOUT)' "$log" | awk '{print $NF}' > "$failed" || true
 
           failed_count=$(grep -c '^http' "$failed" || echo 0)
@@ -86,11 +93,11 @@ jobs:
           echo "   Failed list saved to: $failed" | tee -a "$log"
           echo "----------------------------------------" | tee -a "$log"
 
-      # 8. Commit & push updated files
+      # 8. Commit & push results
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add $OUTPUT $FAILED_OUTPUT $LOG_FILE
+          git add $OUTPUT $TEST_FILE $FAILED_OUTPUT $LOG_FILE
           git diff --quiet && git diff --staged --quiet || git commit -m "Update IPTV verification results"
           git push origin HEAD:main
