@@ -1,47 +1,39 @@
 import requests
-from urllib.parse import urljoin
 
-def test_m3u8_playable(m3u8_url):
+def is_playable(m3u8_url):
     try:
-        # Step 1: Fetch the m3u8 playlist
-        response = requests.get(m3u8_url, timeout=10)
-        if response.status_code != 200:
-            print(f"Failed to fetch playlist: {response.status_code}")
+        # Fetch the .m3u8 playlist
+        resp = requests.get(m3u8_url, timeout=10)
+        if resp.status_code != 200:
             return False
-
-        content = response.text
-        if not content.startswith("#EXTM3U"):
-            print("Invalid m3u8 content")
-            return False
-
-        # Step 2: Find the first segment
-        lines = content.splitlines()
-        first_segment = None
-        for i, line in enumerate(lines):
-            if line.strip() and not line.startswith("#"):
-                first_segment = line.strip()
+        
+        lines = resp.text.splitlines()
+        # Find the first segment URL (skip lines starting with #)
+        segment_url = None
+        for line in lines:
+            if line and not line.startswith('#'):
+                segment_url = line
                 break
-
-        if not first_segment:
-            print("No media segments found in playlist")
+        
+        if not segment_url:
             return False
-
-        # Handle relative URLs
-        first_segment_url = urljoin(m3u8_url, first_segment)
-
-        # Step 3: Fetch the first segment
-        seg_resp = requests.get(first_segment_url, timeout=10, stream=True)
-        if seg_resp.status_code == 200 and seg_resp.content:
-            print(f"Playable! First segment fetched: {first_segment_url}")
-            return True
-        else:
-            print(f"Failed to fetch first segment: {seg_resp.status_code}")
-            return False
-
-    except requests.RequestException as e:
-        print(f"Error fetching playlist or segment: {e}")
+        
+        # Make the segment URL absolute if needed
+        if not segment_url.startswith('http'):
+            if m3u8_url.endswith('/'):
+                segment_url = m3u8_url + segment_url
+            else:
+                segment_url = '/'.join(m3u8_url.split('/')[:-1]) + '/' + segment_url
+        
+        # Test the first segment
+        seg_resp = requests.get(segment_url, timeout=10)
+        return seg_resp.status_code == 200
+    except Exception:
         return False
 
-# Example usage:
-channel_url = "https://example.com/live/stream.m3u8"
-test_m3u8_playable(channel_url)
+# Example usage
+final_m3u8_url = "https://example.com/stream/playlist.m3u8"
+if is_playable(final_m3u8_url):
+    print("Playable ✅")
+else:
+    print("Not playable ❌")
