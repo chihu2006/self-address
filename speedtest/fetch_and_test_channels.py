@@ -11,10 +11,13 @@ from requests.exceptions import RequestException, Timeout
 
 # === Config ===
 M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
+CTV_FILE = os.path.join("rawaddress", "freetv_ctv.m3u")
 OUT_DIR = os.path.join("processed_freetv_address")
+CSV_FILE = os.path.join("speedtest", "test_result.csv")
 os.makedirs(OUT_DIR, exist_ok=True)
+os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
 
-READ_BYTES = 188 * 20  # 20 TS packets (~3760 bytes) or more
+READ_BYTES = 188*20
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 5
 CHANNEL_MAX_TIME = 25
@@ -64,10 +67,6 @@ def read_m3u(path):
 
 # === Helpers ===
 def is_valid_mpegts(data: bytes, min_packets=5) -> bool:
-    """
-    Check if the first `min_packets` MPEG-TS packets start with sync byte 0x47.
-    Default is 5 packets (~940 bytes).
-    """
     packet_size = 188
     if len(data) < packet_size * min_packets:
         return False
@@ -75,7 +74,6 @@ def is_valid_mpegts(data: bytes, min_packets=5) -> bool:
         if data[i*packet_size] != 0x47:
             return False
     return True
-
 
 def extract_resolution(text):
     match = re.search(r"RESOLUTION=(\d+)x(\d+)", text)
@@ -95,53 +93,38 @@ def extract_resolution(text):
         return f"{match.group(1)}p"
     return None
 
-
-def probe_variant_or_segment(url, depth=0, url_chain=None):
-    """Recursively follow .m3u8 playlists until a real media segment (.ts/.m4s/.mp4) is found"""
-    if url_chain is None:
-        url_chain = []
-
-    url_chain.append(url)
-
+def probe_variant_or_segment(url, depth=0):
     if depth > MAX_PLAYLIST_DEPTH:
-        return None, "Too many nested playlists", url_chain
+        return None, "Too many nested playlists", [url]
 
     try:
         r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
         r.raise_for_status()
         text = r.text
     except Exception as e:
-        return None, f"fetch error: {e}", url_chain
+        return None, f"fetch error: {e}", [url]
+
+    url_chain = [url]
 
     if "#EXTM3U" not in text:
         return None, "not a valid m3u8", url_chain
 
-    # --- 1. Variant playlist ---
     variant_lines = re.findall(r"#EXT-X-STREAM-INF[^\n]*\n([^\n]+)", text)
     if variant_lines:
         best_variant = variant_lines[-1].strip()
         next_url = urljoin(url, best_variant)
-        return probe_variant_or_segment(next_url, depth + 1, url_chain)
+        sub_info, err, sub_chain = probe_variant_or_segment(next_url, depth + 1)
+        return sub_info, err, url_chain + sub_chain
 
-    # --- 2. Media segments ---
-    # Prefer lines following #EXTINF
-    extinf_segments = re.findall(r"(?m)^#EXTINF[^\n]*\n([^\n#]+)", text)
-    if extinf_segments:
-        first_seg = urljoin(url, extinf_segments[0].strip())
-        resolution = extract_resolution(text)
-        return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
+    segments = re.findall(r"(?m)^[^#].+\.(ts|m4s|mp4)$", text)
+    if not segments:
+        return None, "no valid segments found", url_chain
 
-    # --- 3. Fallback: any non-comment line that is not .m3u8 ---
-    other_segments = [ln for ln in text.splitlines() if ln and not ln.startswith("#") and not ln.endswith(".m3u8")]
-    if other_segments:
-        first_seg = urljoin(url, other_segments[0].strip())
-        resolution = extract_resolution(text)
-        return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
+    first_seg = urljoin(url, segments[0].strip())
+    resolution = extract_resolution(text)
+    return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
 
-    return None, "no valid segments found", url_chain
-    
 def probe_segment(url):
-    """Probe a single .ts or .m4s segment"""
     try:
         t0 = time.time()
         r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), stream=True)
@@ -163,7 +146,6 @@ def probe_segment(url):
     except Exception as e:
         return {"status": None, "bytes": 0, "elapsed": 0, "content_type": "", "data": b"", "error": str(e)}
 
-
 def categorize(extinf, url, probe_info):
     if not probe_info or probe_info.get("error"):
         return "not_valid", probe_info.get("error", "unknown error")
@@ -172,10 +154,9 @@ def categorize(extinf, url, probe_info):
     data = probe_info.get("data", b"")
     resolution = probe_info.get("resolution")
 
-    # Require status 200/206, enough bytes, valid TS, and a detected resolution
     if (
         status in (200, 206)
-        and len(data) >= 188 * 5  # at least 5 TS packets
+        and len(data) >= 188 * 5
         and is_valid_mpegts(data, min_packets=5)
         and resolution
     ):
@@ -189,14 +170,31 @@ def categorize(extinf, url, probe_info):
 def main():
     entries = read_m3u(M3U_FILE)
     selected = entries[START_INDEX - 1:END_INDEX]
-    total = len(selected)
-    print(f"Testing channels {START_INDEX}–{END_INDEX} ({total} total)\n")
+
+    ctv_entries = []
+    filtered_entries = []
+
+    # Filter .ctv channels
+    for extinf, url in selected:
+        if url.endswith(".ctv"):
+            ctv_entries.append((extinf, url))
+        else:
+            filtered_entries.append((extinf, url))
+
+    # Save .ctv channels
+    with open(CTV_FILE, "w", encoding="utf-8") as f:
+        f.write("#EXTM3U\n")
+        for extinf, url in ctv_entries:
+            f.write(extinf + "\n" + url + "\n")
+    print(f"✅ {len(ctv_entries)} .ctv channels saved to {CTV_FILE}")
 
     categorized = {}
     report_rows = []
     start_time = time.time()
+    total = len(filtered_entries)
+    print(f"Testing {total} non-ctv channels...\n")
 
-    for idx, (extinf, url) in enumerate(selected, start=START_INDEX):
+    for idx, (extinf, url) in enumerate(filtered_entries, start=START_INDEX):
         elapsed_all = time.time() - start_time
         avg_time = elapsed_all / (idx - START_INDEX + 1)
         remaining = total - (idx - START_INDEX + 1)
@@ -231,8 +229,11 @@ def main():
             probe_result["resolution"] = None
 
         cat, reason = categorize(extinf, url, probe_result)
-
-        print(f"  → {cat.upper()} | {reason}\n")
+        print(f"  → {cat.upper()} | {reason}")
+        if probe_result["segment_url"]:
+            print(f"  → Segment tested: {probe_result['segment_url']}")
+        if probe_result["resolution"]:
+            print(f"  → Resolution: {probe_result['resolution']}\n")
 
         categorized.setdefault(cat, []).append((extinf, url))
         report_rows.append({
@@ -246,13 +247,14 @@ def main():
             "elapsed": probe_result.get("elapsed"),
             "error": probe_result.get("error"),
             "resolution": probe_result.get("resolution"),
-            "url_chain": " > ".join(url_chain)  # <-- added this line
+            "url_chain": " > ".join(url_chain),
         })
 
         time.sleep(SLEEP_BETWEEN)
 
     # Write categorized M3U files
-    for cat, items in categorized.items():
+    for cat in ["playable", "not_valid"]:
+        items = categorized.get(cat, [])
         out_file = os.path.join(OUT_DIR, f"{cat}.m3u")
         with open(out_file, "w", encoding="utf-8") as f:
             f.write("#EXTM3U\n")
@@ -260,19 +262,16 @@ def main():
                 f.write(extinf + "\n" + url + "\n")
         print(f"✅ Saved {len(items)} entries to {out_file}")
 
-    # Write CSV report
-    report_file = os.path.join(OUT_DIR, "report_channels.csv")
-    with open(report_file, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=list(report_rows[0].keys()))
-        writer.writeheader()
-        writer.writerows(report_rows)
-    print(f"📄 Detailed report saved to {report_file}")
+    # Write CSV
+    if report_rows:
+        with open(CSV_FILE, "w", newline="", encoding="utf-8") as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=list(report_rows[0].keys()))
+            writer.writeheader()
+            writer.writerows(report_rows)
+        print(f"📄 Detailed report saved to {CSV_FILE}")
 
     total_time = time.time() - start_time
     print(f"\n✅ All done in {total_time:.1f}s ({total} channels tested)")
-    print("Categories summary:")
-    for cat, items in categorized.items():
-        print(f"  {cat}: {len(items)}")
 
 if __name__ == "__main__":
     main()
