@@ -14,12 +14,13 @@ M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
 OUT_DIR = os.path.join("processed_freetv_address")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-READ_BYTES = 1024
+READ_BYTES = 8192           # read more bytes to capture real media
+MIN_SEGMENT_BYTES = 4096    # minimum bytes to consider playable
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 5
-CHANNEL_MAX_TIME = 20
+CHANNEL_MAX_TIME = 25
 SLEEP_BETWEEN = 0.25
-MAX_PLAYLIST_DEPTH = 5  # prevent infinite recursion for nested playlists
+MAX_PLAYLIST_DEPTH = 5
 
 VLC_HEADERS = {
     "User-Agent": "VLC/3.0.18 LibVLC/3.0.18",
@@ -30,7 +31,7 @@ VLC_HEADERS = {
     "Range": f"bytes=0-{READ_BYTES-1}",
 }
 
-# === Parse input ===
+# === Input parsing ===
 def parse_range(arg):
     match = re.match(r"(\d+)\s*-\s*(\d+)", arg)
     if not match:
@@ -41,7 +42,7 @@ def parse_range(arg):
 RANGE_INPUT = sys.argv[1] if len(sys.argv) > 1 else "1-20"
 START_INDEX, END_INDEX = parse_range(RANGE_INPUT)
 
-# === Read M3U file ===
+# === Read M3U ===
 def read_m3u(path):
     if not os.path.isfile(path):
         raise FileNotFoundError(f"M3U file not found: {path}")
@@ -64,10 +65,14 @@ def read_m3u(path):
 
 # === Helpers ===
 def is_valid_mpegts(data: bytes) -> bool:
-    if len(data) < 188:
+    # Check first 3 TS packets (188 bytes each) for sync byte 0x47
+    packet_count = min(3, len(data) // 188)
+    if packet_count < 1:
         return False
-    # Check for MPEG-TS sync byte 0x47 at multiple offsets
-    return any(data[i] == 0x47 for i in range(min(188, len(data))))
+    for i in range(packet_count):
+        if data[i*188] != 0x47:
+            return False
+    return True
 
 def probe_url(url):
     res = {"url": url, "status": None, "elapsed": None, "bytes": 0,
@@ -93,10 +98,6 @@ def probe_url(url):
     return res
 
 def probe_first_segment(m3u_url, depth=0):
-    """
-    Recursively fetch first playable media segment.
-    Returns final URL, status, bytes, content_type, and error info.
-    """
     result = {
         "status": None,
         "bytes": 0,
@@ -113,8 +114,6 @@ def probe_first_segment(m3u_url, depth=0):
         result["error"] = "Max playlist recursion exceeded"
         return result
 
-    start_time = time.time()
-
     try:
         r = requests.get(m3u_url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
         r.raise_for_status()
@@ -124,7 +123,7 @@ def probe_first_segment(m3u_url, depth=0):
         if "#EXT-X-ENDLIST" in text:
             result["ended"] = True
 
-        # Find first non-comment line
+        # First non-comment line
         first_line = None
         for line in text.splitlines():
             line = line.strip()
@@ -141,13 +140,11 @@ def probe_first_segment(m3u_url, depth=0):
         result["final_url"] = segment_url
 
         if segment_url.endswith(".m3u8"):
-            # Recurse into nested playlist
             nested_res = probe_first_segment(segment_url, depth + 1)
-            # Update result with final segment info
             nested_res["final_url"] = nested_res.get("final_url", segment_url)
             return nested_res
 
-        # Otherwise, fetch first bytes of media segment
+        # Fetch actual media segment
         seg_res = probe_url(segment_url)
         seg_res["final_url"] = segment_url
         return seg_res
@@ -178,14 +175,11 @@ def categorize(extinf, url, probe):
         if ended:
             reason = "playlist ended (#EXT-X-ENDLIST)"
             return "ended_playlist", reason
-        if len(data) == 0:
-            reason = "no data in first segment"
-            return "no_real_content", reason
-        if "video" in content_type or "mpeg" in content_type or is_valid_mpegts(data):
-            reason = f"status={status}, type={content_type or 'mpegts'}, bytes={len(data)}"
-            return "playable", reason
-        reason = f"non-video content-type ({content_type})"
-        return "non_video_content", reason
+        if len(data) < MIN_SEGMENT_BYTES or not is_valid_mpegts(data):
+            reason = f"segment too small or invalid MPEG-TS ({len(data)} bytes)"
+            return "not_valid", reason
+        reason = f"status={status}, type={content_type or 'mpegts'}, bytes={len(data)}"
+        return "playable", reason
 
     reason = f"invalid status {status} or error {probe.get('error')}"
     return "not_valid", reason
@@ -212,7 +206,6 @@ def main():
         print(f"▶️ [{idx}/{END_INDEX}] Checking: {url}")
         print(f"   Estimated remaining: ~{eta_min}m {eta_sec}s")
 
-        # Per-channel timeout using signal
         def timeout_handler(signum, frame):
             raise TimeoutError("Channel max time exceeded")
         signal.signal(signal.SIGALRM, timeout_handler)
