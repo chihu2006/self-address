@@ -92,25 +92,55 @@ def probe_url(url):
 
 
 def probe_first_segment(m3u_url):
-    """If URL is an HLS playlist, fetch first segment; otherwise probe the URL directly."""
-    try:
-        if not m3u_url.endswith(".m3u8"):
-            # Not an HLS playlist, probe directly
-            return probe_url(m3u_url)
+    """
+    Fetch the playlist and the first media segment.
+    Returns probe result dict with keys:
+      - status
+      - bytes
+      - data
+      - content_type
+      - segment_url
+      - ended: True if playlist contains #EXT-X-ENDLIST
+    """
+    result = {
+        "status": None,
+        "bytes": 0,
+        "data": b"",
+        "content_type": "",
+        "segment_url": None,
+        "error": None,
+        "ended": False
+    }
 
+    try:
         r = requests.get(m3u_url, headers=VLC_HEADERS, timeout=TIMEOUT)
         r.raise_for_status()
-        for line in r.text.splitlines():
+        result["status"] = r.status_code
+        result["content_type"] = r.headers.get("Content-Type", "")
+        text = r.text
+
+        # Detect if playlist has ended
+        if "#EXT-X-ENDLIST" in text:
+            result["ended"] = True
+
+        # If not HLS or static file, probe directly
+        if not m3u_url.endswith(".m3u8"):
+            return probe_url(m3u_url)
+
+        # Find first media segment
+        for line in text.splitlines():
             line = line.strip()
             if line and not line.startswith("#"):
                 seg_url = urljoin(m3u_url, line)
-                seg_res = probe_url(seg_url)
-                seg_res["segment_url"] = seg_url
-                return seg_res
-    except Exception as e:
-        return {"error": str(e), "segment_url": None}
-    return {"segment_url": None}
+                result.update(probe_url(seg_url))
+                result["segment_url"] = seg_url
+                break
 
+        return result
+
+    except Exception as e:
+        result["error"] = str(e)
+        return result
 
 def is_valid_mpegts(data):
     """Check if data appears to be MPEG-TS with 0x47 sync bytes every 188 bytes."""
@@ -130,11 +160,21 @@ def is_valid_mpegts(data):
 
 
 def categorize(extinf, url, probe):
+    """
+    Categorize a channel based on:
+    - playlist & first segment response
+    - content-type
+    - MPEG-TS check
+    - ended streams
+    """
     status = probe.get("status")
     data = probe.get("data", b"")
     content_type = probe.get("content_type", "").lower()
+    ended = probe.get("ended", False)
 
     if status in (200, 206):
+        if ended:
+            return "ended_playlist"
         if len(data) == 0:
             return "no_real_content"
         if "video" in content_type or "mpeg" in content_type or is_valid_mpegts(data):
@@ -143,7 +183,6 @@ def categorize(extinf, url, probe):
             return "non_video_content"
     else:
         return "not_valid"
-
 
 # === Main process ===
 def main():
@@ -160,6 +199,7 @@ def main():
             f"  → Status: {seg_probe.get('status')}, "
             f"Bytes: {seg_probe.get('bytes')}, "
             f"Type: {seg_probe.get('content_type')}, "
+            f"Ended: {seg_probe.get('ended')}, "
             f"Error: {seg_probe.get('error')}"
         )
         category = categorize(extinf, url, seg_probe)
