@@ -147,6 +147,13 @@ def probe_segment(url):
         return {"status": None, "bytes": 0, "elapsed": 0, "content_type": "", "data": b"", "error": str(e)}
 
 def categorize(extinf, url, probe_info):
+    """
+    Only mark as playable if:
+    1. HTTP status is 200 or 206
+    2. Data length is enough for multiple TS packets (>= 5*188 bytes)
+    3. MPEG-TS sync bytes check passes
+    4. Resolution can be determined (from EXT-X-STREAM-INF or RESOLUTION tag)
+    """
     if not probe_info or probe_info.get("error"):
         return "not_valid", probe_info.get("error", "unknown error")
 
@@ -154,17 +161,18 @@ def categorize(extinf, url, probe_info):
     data = probe_info.get("data", b"")
     resolution = probe_info.get("resolution")
 
-    if (
-        status in (200, 206)
-        and len(data) >= 188 * 5
-        and is_valid_mpegts(data, min_packets=5)
-        and resolution
-    ):
-        return "playable", f"status={status}, bytes={len(data)}, resolution={resolution}"
-    elif status in (200, 206):
-        return "not_valid", f"status={status} but segment invalid ({len(data)} bytes), resolution={resolution}"
+    # Check minimum TS packet length
+    min_packets = 5
+    min_bytes = min_packets * 188
+
+    if status in (200, 206) and len(data) >= min_bytes:
+        if is_valid_mpegts(data, min_packets=min_packets) and resolution:
+            return "playable", f"status={status}, bytes={len(data)}, resolution={resolution}"
+        else:
+            # Data fetched, but either invalid TS packets or no resolution info
+            return "not_valid", f"status={status}, invalid segment or unknown resolution ({len(data)} bytes)"
     else:
-        return "not_valid", f"status={status}, error={probe_info.get('error')}"
+        return "not_valid", f"status={status}, error={probe_info.get('error')}, bytes={len(data)}"
 
 # === Main ===
 def main():
