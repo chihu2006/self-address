@@ -6,16 +6,16 @@ import time
 import csv
 import requests
 import signal
-from requests.exceptions import RequestException, Timeout
 from urllib.parse import urljoin
+from requests.exceptions import RequestException, Timeout
 
 # === Config ===
 M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
 OUT_DIR = os.path.join("processed_freetv_address")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-READ_BYTES = 8192           # read more bytes to capture real media
-MIN_SEGMENT_BYTES = 4096    # minimum bytes to consider playable
+READ_BYTES = 8192
+MIN_SEGMENT_BYTES = 4096
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 5
 CHANNEL_MAX_TIME = 25
@@ -31,6 +31,15 @@ VLC_HEADERS = {
     "Range": f"bytes=0-{READ_BYTES-1}",
 }
 
+# === Quality inference thresholds ===
+BITRATE_RESOLUTION_MAP = [
+    (2500, "1080p"),
+    (1200, "720p"),
+    (700, "480p"),
+    (400, "360p"),
+    (200, "240p"),
+]
+
 # === Input parsing ===
 def parse_range(arg):
     match = re.match(r"(\d+)\s*-\s*(\d+)", arg)
@@ -41,6 +50,163 @@ def parse_range(arg):
 
 RANGE_INPUT = sys.argv[1] if len(sys.argv) > 1 else "1-20"
 START_INDEX, END_INDEX = parse_range(RANGE_INPUT)
+
+# === Helpers ===
+def is_valid_mpegts(data: bytes) -> bool:
+    packet_count = min(3, len(data) // 188)
+    if packet_count < 1:
+        return False
+    for i in range(packet_count):
+        if data[i * 188] != 0x47:
+            return False
+    return True
+
+def extract_resolution_from_text(text):
+    match = re.search(r"RESOLUTION=(\d+)x(\d+)", text, re.IGNORECASE)
+    if match:
+        w, h = map(int, match.groups())
+        if h >= 1000: return "1080p"
+        if h >= 700: return "720p"
+        if h >= 500: return "480p"
+        if h >= 350: return "360p"
+        return f"{w}x{h}"
+
+    match = re.search(r"(\d{3,4})[pP](?!\w)", text)
+    if match:
+        return f"{match.group(1)}p"
+
+    match = re.search(r"(\d{3,4})x(\d{3,4})", text)
+    if match:
+        w, h = map(int, match.groups())
+        if h >= 1000: return "1080p"
+        if h >= 700: return "720p"
+        if h >= 500: return "480p"
+        if h >= 350: return "360p"
+        return f"{w}x{h}"
+    return None
+
+def infer_resolution_from_bitrate(bitrate_kbps):
+    for limit, res in BITRATE_RESOLUTION_MAP:
+        if bitrate_kbps >= limit:
+            return res
+    return "low"
+
+def probe_url(url):
+    res = {
+        "url": url, "status": None, "elapsed": None, "bytes": 0,
+        "data": b"", "content_type": "", "error": None, "final_url": url
+    }
+    try:
+        t0 = time.time()
+        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), stream=True)
+        res["status"] = r.status_code
+        res["content_type"] = r.headers.get("Content-Type", "")
+        data = b""
+        for chunk in r.iter_content(chunk_size=512):
+            data += chunk
+            if len(data) >= READ_BYTES:
+                break
+        res["bytes"] = len(data)
+        res["data"] = data
+        res["elapsed"] = time.time() - t0
+        r.close()
+    except Timeout as e:
+        res["error"] = f"Timeout: {e}"
+    except RequestException as e:
+        res["error"] = str(e)
+    return res
+
+# === Core logic ===
+def probe_first_segment(m3u_url, depth=0):
+    result = {
+        "status": None, "bytes": 0, "data": b"", "content_type": "",
+        "segment_url": None, "final_url": m3u_url, "error": None,
+        "ended": False, "elapsed": None, "segments_tested": 0,
+        "valid_segments": 0, "manifest_valid": False,
+        "continuity_ok": True, "has_extinf": False,
+        "avg_segment_duration": None, "segment_count": 0,
+        "bitrate_kbps": 0, "resolution": None, "encrypted": False
+    }
+
+    if depth > MAX_PLAYLIST_DEPTH:
+        result["error"] = "Max playlist recursion exceeded"
+        return result
+
+    try:
+        r = requests.get(m3u_url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
+        r.raise_for_status()
+        text = r.text
+        result["status"] = r.status_code
+        result["content_type"] = r.headers.get("Content-Type", "")
+        result["manifest_valid"] = "#EXTM3U" in text
+        result["has_extinf"] = "#EXTINF" in text
+        result["ended"] = "#EXT-X-ENDLIST" in text
+        result["encrypted"] = "#EXT-X-KEY" in text
+
+        result["resolution"] = extract_resolution_from_text(text)
+
+        lines = [ln.strip() for ln in text.splitlines() if ln.strip() and not ln.startswith("#")]
+        result["segment_count"] = len(lines)
+
+        if not lines:
+            result["error"] = "No segments found"
+            return result
+
+        seg_urls = []
+        for i in range(min(3, len(lines))):
+            seg_url = urljoin(m3u_url, lines[i])
+            seg_urls.append(seg_url)
+
+        total_bytes = 0
+        valid_segments = 0
+        total_elapsed = 0.0
+        for seg_url in seg_urls:
+            seg_res = probe_url(seg_url)
+            result["segment_url"] = seg_url
+            if seg_res["bytes"] >= MIN_SEGMENT_BYTES and is_valid_mpegts(seg_res["data"]):
+                valid_segments += 1
+                total_bytes += seg_res["bytes"]
+                total_elapsed += seg_res["elapsed"] or 0
+        result["segments_tested"] = len(seg_urls)
+        result["valid_segments"] = valid_segments
+
+        if total_elapsed > 0:
+            bitrate_kbps = (total_bytes * 8 / total_elapsed) / 1000
+            result["bitrate_kbps"] = round(bitrate_kbps, 1)
+        if not result.get("resolution"):
+            result["resolution"] = infer_resolution_from_bitrate(result["bitrate_kbps"])
+        result["final_url"] = seg_urls[0] if seg_urls else m3u_url
+        return result
+
+    except Timeout as e:
+        result["error"] = f"Timeout: {e}"
+        return result
+    except RequestException as e:
+        result["error"] = str(e)
+        return result
+    except Exception as e:
+        result["error"] = str(e)
+        return result
+
+def categorize(extinf, url, probe):
+    if probe.get("error"):
+        return "not_valid", probe["error"]
+
+    if probe.get("encrypted"):
+        return "encrypted", "stream encrypted"
+
+    valid_segments = probe.get("valid_segments", 0)
+    if valid_segments == 0:
+        return "not_valid", "no valid TS segments"
+
+    bitrate = probe.get("bitrate_kbps", 0)
+    if bitrate < 300:
+        return "low_quality", f"low bitrate {bitrate} kbps"
+
+    if probe.get("ended"):
+        return "ended_playlist", "#EXT-X-ENDLIST found"
+
+    return "playable", f"{valid_segments}/{probe.get('segments_tested')} segments passed, bitrate={bitrate} kbps"
 
 # === Read M3U ===
 def read_m3u(path):
@@ -62,127 +228,6 @@ def read_m3u(path):
         else:
             i += 1
     return entries
-
-# === Helpers ===
-def is_valid_mpegts(data: bytes) -> bool:
-    # Check first 3 TS packets (188 bytes each) for sync byte 0x47
-    packet_count = min(3, len(data) // 188)
-    if packet_count < 1:
-        return False
-    for i in range(packet_count):
-        if data[i*188] != 0x47:
-            return False
-    return True
-
-def probe_url(url):
-    res = {"url": url, "status": None, "elapsed": None, "bytes": 0,
-           "data": b"", "content_type": "", "error": None, "final_url": url}
-    try:
-        t0 = time.time()
-        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), stream=True)
-        res["status"] = r.status_code
-        res["content_type"] = r.headers.get("Content-Type", "")
-        data = b""
-        for chunk in r.iter_content(chunk_size=512):
-            data += chunk
-            if len(data) >= READ_BYTES:
-                break
-        res["bytes"] = len(data)
-        res["data"] = data
-        res["elapsed"] = time.time() - t0
-        r.close()
-    except Timeout as e:
-        res["error"] = f"Timeout: {str(e)}"
-    except RequestException as e:
-        res["error"] = str(e)
-    return res
-
-def probe_first_segment(m3u_url, depth=0):
-    result = {
-        "status": None,
-        "bytes": 0,
-        "data": b"",
-        "content_type": "",
-        "segment_url": None,
-        "final_url": m3u_url,
-        "error": None,
-        "ended": False,
-        "elapsed": None,
-    }
-
-    if depth > MAX_PLAYLIST_DEPTH:
-        result["error"] = "Max playlist recursion exceeded"
-        return result
-
-    try:
-        r = requests.get(m3u_url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
-        r.raise_for_status()
-        result["status"] = r.status_code
-        result["content_type"] = r.headers.get("Content-Type", "")
-        text = r.text
-        if "#EXT-X-ENDLIST" in text:
-            result["ended"] = True
-
-        # First non-comment line
-        first_line = None
-        for line in text.splitlines():
-            line = line.strip()
-            if line and not line.startswith("#"):
-                first_line = line
-                break
-
-        if not first_line:
-            result["error"] = "No segments found in playlist"
-            return result
-
-        segment_url = urljoin(m3u_url, first_line)
-        result["segment_url"] = segment_url
-        result["final_url"] = segment_url
-
-        if segment_url.endswith(".m3u8"):
-            nested_res = probe_first_segment(segment_url, depth + 1)
-            nested_res["final_url"] = nested_res.get("final_url", segment_url)
-            return nested_res
-
-        # Fetch actual media segment
-        seg_res = probe_url(segment_url)
-        seg_res["final_url"] = segment_url
-        return seg_res
-
-    except Timeout as e:
-        result["error"] = f"Timeout: {str(e)}"
-        return result
-    except RequestException as e:
-        result["error"] = str(e)
-        return result
-    except Exception as e:
-        result["error"] = str(e)
-        return result
-
-def categorize(extinf, url, probe):
-    status = probe.get("status")
-    data = probe.get("data", b"")
-    content_type = probe.get("content_type", "").lower()
-    ended = probe.get("ended", False)
-    final_url = probe.get("final_url")
-    reason = ""
-
-    if final_url.endswith(".m3u8"):
-        reason = "final URL is still a playlist"
-        return "not_valid", reason
-
-    if status in (200, 206):
-        if ended:
-            reason = "playlist ended (#EXT-X-ENDLIST)"
-            return "ended_playlist", reason
-        if len(data) < MIN_SEGMENT_BYTES or not is_valid_mpegts(data):
-            reason = f"segment too small or invalid MPEG-TS ({len(data)} bytes)"
-            return "not_valid", reason
-        reason = f"status={status}, type={content_type or 'mpegts'}, bytes={len(data)}"
-        return "playable", reason
-
-    reason = f"invalid status {status} or error {probe.get('error')}"
-    return "not_valid", reason
 
 # === Main ===
 def main():
@@ -208,6 +253,7 @@ def main():
 
         def timeout_handler(signum, frame):
             raise TimeoutError("Channel max time exceeded")
+
         signal.signal(signal.SIGALRM, timeout_handler)
         signal.alarm(CHANNEL_MAX_TIME)
         try:
@@ -218,11 +264,7 @@ def main():
             signal.alarm(0)
 
         cat, reason = categorize(extinf, url, probe)
-
-        print(f"  → Status: {probe.get('status')}, Bytes: {probe.get('bytes')}, "
-              f"Type: {probe.get('content_type')}, Ended: {probe.get('ended')}, "
-              f"Category: {cat}")
-        print(f"     Reason: {reason}\n")
+        print(f"  → Category: {cat} | {reason}\n")
 
         categorized.setdefault(cat, []).append((extinf, url))
         report_rows.append({
@@ -236,6 +278,16 @@ def main():
             "bytes": probe.get("bytes"),
             "elapsed": probe.get("elapsed"),
             "error": probe.get("error"),
+            "encrypted": probe.get("encrypted"),
+            "segments_tested": probe.get("segments_tested"),
+            "valid_segments": probe.get("valid_segments"),
+            "manifest_valid": probe.get("manifest_valid"),
+            "continuity_ok": probe.get("continuity_ok"),
+            "has_extinf": probe.get("has_extinf"),
+            "avg_segment_duration": probe.get("avg_segment_duration"),
+            "segment_count": probe.get("segment_count"),
+            "bitrate_kbps": probe.get("bitrate_kbps"),
+            "resolution": probe.get("resolution"),
         })
 
         time.sleep(SLEEP_BETWEEN)
@@ -250,12 +302,13 @@ def main():
         print(f"✅ Saved {len(items)} entries to {out_file}")
 
     # Write CSV report
-    report_file = os.path.join(OUT_DIR, "report_channels.csv")
-    with open(report_file, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=list(report_rows[0].keys()))
-        writer.writeheader()
-        writer.writerows(report_rows)
-    print(f"📄 Detailed report saved to {report_file}")
+    if report_rows:
+        report_file = os.path.join(OUT_DIR, "report_channels.csv")
+        with open(report_file, "w", newline="", encoding="utf-8") as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=list(report_rows[0].keys()))
+            writer.writeheader()
+            writer.writerows(report_rows)
+        print(f"📄 Detailed report saved to {report_file}")
 
     total_time = time.time() - start_time
     print(f"\n✅ All done in {total_time:.1f}s ({total} channels tested)")
