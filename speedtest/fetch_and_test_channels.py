@@ -5,6 +5,7 @@ import re
 import time
 import csv
 import requests
+import signal
 from requests.exceptions import RequestException, Timeout
 from urllib.parse import urljoin
 
@@ -13,10 +14,10 @@ M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
 OUT_DIR = os.path.join("processed_freetv_address")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-READ_BYTES = 4096
-CONNECT_TIMEOUT = 10  # connect timeout
-READ_TIMEOUT = 5      # max read timeout per segment
-CHANNEL_MAX_TIME = 20 # max seconds per channel (including playlist + segment)
+READ_BYTES = 1024           # smaller read to avoid blocking
+CONNECT_TIMEOUT = 10        # connect timeout
+READ_TIMEOUT = 5            # read timeout per request
+CHANNEL_MAX_TIME = 20       # max seconds per channel
 SLEEP_BETWEEN = 0.25
 
 VLC_HEADERS = {
@@ -65,23 +66,21 @@ def is_valid_mpegts(data: bytes) -> bool:
     return any(data[i] == 0x47 for i in range(min(188, len(data))))
 
 def probe_url(url):
-    res = {
-        "url": url, "status": None, "elapsed": None, "bytes": 0,
-        "data": b"", "content_type": "", "error": None
-    }
+    res = {"url": url, "status": None, "elapsed": None, "bytes": 0,
+           "data": b"", "content_type": "", "error": None}
     try:
         t0 = time.time()
-        r = requests.get(
-            url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
-            stream=True, allow_redirects=True
-        )
-        res["elapsed"] = time.time() - t0
+        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), stream=True)
         res["status"] = r.status_code
         res["content_type"] = r.headers.get("Content-Type", "")
-        if r.status_code in (200, 206):
-            data = r.raw.read(READ_BYTES)
-            res["bytes"] = len(data)
-            res["data"] = data
+        data = b""
+        for chunk in r.iter_content(chunk_size=512):
+            data += chunk
+            if len(data) >= READ_BYTES:
+                break
+        res["bytes"] = len(data)
+        res["data"] = data
+        res["elapsed"] = time.time() - t0
         r.close()
     except Timeout as e:
         res["error"] = f"Timeout: {str(e)}"
@@ -90,11 +89,8 @@ def probe_url(url):
     return res
 
 def probe_first_segment(m3u_url):
-    """Fetch playlist and first segment with per-channel timeout."""
-    result = {
-        "status": None, "bytes": 0, "data": b"", "content_type": "",
-        "segment_url": None, "error": None, "ended": False, "elapsed": None
-    }
+    result = {"status": None, "bytes": 0, "data": b"", "content_type": "",
+              "segment_url": None, "error": None, "ended": False, "elapsed": None}
     start_time = time.time()
     try:
         r = requests.get(m3u_url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
@@ -104,11 +100,8 @@ def probe_first_segment(m3u_url):
         text = r.text
         if "#EXT-X-ENDLIST" in text:
             result["ended"] = True
-
-        # Not HLS playlist
         if not m3u_url.endswith(".m3u8"):
             return probe_url(m3u_url)
-
         for line in text.splitlines():
             if time.time() - start_time > CHANNEL_MAX_TIME:
                 result["error"] = "Channel max time exceeded"
@@ -175,7 +168,19 @@ def main():
         print(f"▶️ [{idx}/{END_INDEX}] Checking: {url}")
         print(f"   Estimated remaining: ~{eta_min}m {eta_sec}s")
 
-        probe = probe_first_segment(url)
+        # --- Per-channel hard timeout using signal ---
+        def timeout_handler(signum, frame):
+            raise TimeoutError("Channel max time exceeded")
+
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(CHANNEL_MAX_TIME)
+        try:
+            probe = probe_first_segment(url)
+        except TimeoutError:
+            probe = {"status": None, "bytes": 0, "error": "Channel max time exceeded"}
+        finally:
+            signal.alarm(0)  # cancel alarm
+
         cat, reason = categorize(extinf, url, probe)
 
         print(f"  → Status: {probe.get('status')}, Bytes: {probe.get('bytes')}, "
