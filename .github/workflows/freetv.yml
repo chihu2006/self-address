@@ -46,7 +46,7 @@ jobs:
           name: processed_m3u_files
           path: processed_freetv_address/*.m3u
 
-      - name: Upload CSV report
+      - name: Upload detailed CSV report
         uses: actions/upload-artifact@v4
         with:
           name: channel_test_report
