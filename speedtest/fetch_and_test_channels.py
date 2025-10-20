@@ -93,7 +93,7 @@ def extract_resolution(text):
 
 
 def probe_variant_or_segment(url, depth=0, url_chain=None):
-    """Recursively follow .m3u8 playlists until real media segments (.ts/.m4s/.mp4) are found"""
+    """Recursively follow .m3u8 playlists until a real media segment (.ts/.m4s/.mp4) is found"""
     if url_chain is None:
         url_chain = []
 
@@ -112,22 +112,30 @@ def probe_variant_or_segment(url, depth=0, url_chain=None):
     if "#EXTM3U" not in text:
         return None, "not a valid m3u8", url_chain
 
-    # check for variant playlist
+    # --- 1. Variant playlist ---
     variant_lines = re.findall(r"#EXT-X-STREAM-INF[^\n]*\n([^\n]+)", text)
     if variant_lines:
         best_variant = variant_lines[-1].strip()
         next_url = urljoin(url, best_variant)
         return probe_variant_or_segment(next_url, depth + 1, url_chain)
 
-    # segment playlist
-    segments = re.findall(r"(?m)^[^#].+\.(ts|m4s|mp4)$", text)
-    if not segments:
-        return None, "no valid segments found", url_chain
+    # --- 2. Media segments ---
+    # Prefer lines following #EXTINF
+    extinf_segments = re.findall(r"(?m)^#EXTINF[^\n]*\n([^\n#]+)", text)
+    if extinf_segments:
+        first_seg = urljoin(url, extinf_segments[0].strip())
+        resolution = extract_resolution(text)
+        return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
 
-    first_seg = urljoin(url, segments[0].strip())
-    resolution = extract_resolution(text)
-    return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
+    # --- 3. Fallback: any non-comment line that is not .m3u8 ---
+    other_segments = [ln for ln in text.splitlines() if ln and not ln.startswith("#") and not ln.endswith(".m3u8")]
+    if other_segments:
+        first_seg = urljoin(url, other_segments[0].strip())
+        resolution = extract_resolution(text)
+        return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
 
+    return None, "no valid segments found", url_chain
+    
 def probe_segment(url):
     """Probe a single .ts or .m4s segment"""
     try:
