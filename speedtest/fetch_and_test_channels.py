@@ -92,37 +92,41 @@ def extract_resolution(text):
     return None
 
 
-def probe_variant_or_segment(url, depth=0):
+def probe_variant_or_segment(url, depth=0, url_chain=None):
     """Recursively follow .m3u8 playlists until real media segments (.ts/.m4s/.mp4) are found"""
+    if url_chain is None:
+        url_chain = []
+
+    url_chain.append(url)
+
     if depth > MAX_PLAYLIST_DEPTH:
-        return None, "Too many nested playlists"
+        return None, "Too many nested playlists", url_chain
 
     try:
         r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
         r.raise_for_status()
         text = r.text
     except Exception as e:
-        return None, f"fetch error: {e}"
+        return None, f"fetch error: {e}", url_chain
 
     if "#EXTM3U" not in text:
-        return None, "not a valid m3u8"
+        return None, "not a valid m3u8", url_chain
 
     # check for variant playlist
     variant_lines = re.findall(r"#EXT-X-STREAM-INF[^\n]*\n([^\n]+)", text)
     if variant_lines:
         best_variant = variant_lines[-1].strip()
         next_url = urljoin(url, best_variant)
-        return probe_variant_or_segment(next_url, depth + 1)
+        return probe_variant_or_segment(next_url, depth + 1, url_chain)
 
     # segment playlist
     segments = re.findall(r"(?m)^[^#].+\.(ts|m4s|mp4)$", text)
     if not segments:
-        return None, "no valid segments found"
+        return None, "no valid segments found", url_chain
 
     first_seg = urljoin(url, segments[0].strip())
     resolution = extract_resolution(text)
-    return {"segment": first_seg, "resolution": resolution, "manifest": text}, None
-
+    return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
 
 def probe_segment(url):
     """Probe a single .ts or .m4s segment"""
@@ -189,7 +193,7 @@ def main():
         err_msg = None
 
         try:
-            seg_info, err_msg = probe_variant_or_segment(url)
+            seg_info, err_msg, url_chain = probe_variant_or_segment(url)
             if seg_info and "segment" in seg_info:
                 probe_result = probe_segment(seg_info["segment"])
             else:
@@ -222,6 +226,7 @@ def main():
             "elapsed": probe_result.get("elapsed"),
             "error": probe_result.get("error"),
             "resolution": probe_result.get("resolution"),
+            "url_chain": " > ".join(url_chain)  # <-- added this line
         })
 
         time.sleep(SLEEP_BETWEEN)
