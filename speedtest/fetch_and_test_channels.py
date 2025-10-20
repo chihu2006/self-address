@@ -14,7 +14,7 @@ M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
 OUT_DIR = os.path.join("processed_freetv_address")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-READ_BYTES = 8192
+READ_BYTES = 188*10*2
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 5
 CHANNEL_MAX_TIME = 25
