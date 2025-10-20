@@ -14,11 +14,12 @@ M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
 OUT_DIR = os.path.join("processed_freetv_address")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-READ_BYTES = 1024           # smaller read to avoid blocking
-CONNECT_TIMEOUT = 10        # connect timeout
-READ_TIMEOUT = 5            # read timeout per request
-CHANNEL_MAX_TIME = 20       # max seconds per channel
+READ_BYTES = 1024
+CONNECT_TIMEOUT = 10
+READ_TIMEOUT = 5
+CHANNEL_MAX_TIME = 20
 SLEEP_BETWEEN = 0.25
+MAX_PLAYLIST_DEPTH = 5  # prevent infinite recursion for nested playlists
 
 VLC_HEADERS = {
     "User-Agent": "VLC/3.0.18 LibVLC/3.0.18",
@@ -29,17 +30,18 @@ VLC_HEADERS = {
     "Range": f"bytes=0-{READ_BYTES-1}",
 }
 
-# === Helpers ===
+# === Parse input ===
 def parse_range(arg):
     match = re.match(r"(\d+)\s*-\s*(\d+)", arg)
     if not match:
         raise ValueError("Range must be in format start-end, e.g. 1-50")
     start, end = int(match.group(1)), int(match.group(2))
-    return (min(start, end), max(start, end))
+    return min(start, end), max(start, end)
 
 RANGE_INPUT = sys.argv[1] if len(sys.argv) > 1 else "1-20"
 START_INDEX, END_INDEX = parse_range(RANGE_INPUT)
 
+# === Read M3U file ===
 def read_m3u(path):
     if not os.path.isfile(path):
         raise FileNotFoundError(f"M3U file not found: {path}")
@@ -60,14 +62,16 @@ def read_m3u(path):
             i += 1
     return entries
 
+# === Helpers ===
 def is_valid_mpegts(data: bytes) -> bool:
     if len(data) < 188:
         return False
+    # Check for MPEG-TS sync byte 0x47 at multiple offsets
     return any(data[i] == 0x47 for i in range(min(188, len(data))))
 
 def probe_url(url):
     res = {"url": url, "status": None, "elapsed": None, "bytes": 0,
-           "data": b"", "content_type": "", "error": None}
+           "data": b"", "content_type": "", "error": None, "final_url": url}
     try:
         t0 = time.time()
         r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), stream=True)
@@ -88,10 +92,29 @@ def probe_url(url):
         res["error"] = str(e)
     return res
 
-def probe_first_segment(m3u_url):
-    result = {"status": None, "bytes": 0, "data": b"", "content_type": "",
-              "segment_url": None, "error": None, "ended": False, "elapsed": None}
+def probe_first_segment(m3u_url, depth=0):
+    """
+    Recursively fetch first playable media segment.
+    Returns final URL, status, bytes, content_type, and error info.
+    """
+    result = {
+        "status": None,
+        "bytes": 0,
+        "data": b"",
+        "content_type": "",
+        "segment_url": None,
+        "final_url": m3u_url,
+        "error": None,
+        "ended": False,
+        "elapsed": None,
+    }
+
+    if depth > MAX_PLAYLIST_DEPTH:
+        result["error"] = "Max playlist recursion exceeded"
+        return result
+
     start_time = time.time()
+
     try:
         r = requests.get(m3u_url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
         r.raise_for_status()
@@ -100,20 +123,35 @@ def probe_first_segment(m3u_url):
         text = r.text
         if "#EXT-X-ENDLIST" in text:
             result["ended"] = True
-        if not m3u_url.endswith(".m3u8"):
-            return probe_url(m3u_url)
+
+        # Find first non-comment line
+        first_line = None
         for line in text.splitlines():
-            if time.time() - start_time > CHANNEL_MAX_TIME:
-                result["error"] = "Channel max time exceeded"
-                return result
             line = line.strip()
             if line and not line.startswith("#"):
-                seg_url = urljoin(m3u_url, line)
-                seg_res = probe_url(seg_url)
-                result.update(seg_res)
-                result["segment_url"] = seg_url
+                first_line = line
                 break
-        return result
+
+        if not first_line:
+            result["error"] = "No segments found in playlist"
+            return result
+
+        segment_url = urljoin(m3u_url, first_line)
+        result["segment_url"] = segment_url
+        result["final_url"] = segment_url
+
+        if segment_url.endswith(".m3u8"):
+            # Recurse into nested playlist
+            nested_res = probe_first_segment(segment_url, depth + 1)
+            # Update result with final segment info
+            nested_res["final_url"] = nested_res.get("final_url", segment_url)
+            return nested_res
+
+        # Otherwise, fetch first bytes of media segment
+        seg_res = probe_url(segment_url)
+        seg_res["final_url"] = segment_url
+        return seg_res
+
     except Timeout as e:
         result["error"] = f"Timeout: {str(e)}"
         return result
@@ -129,7 +167,12 @@ def categorize(extinf, url, probe):
     data = probe.get("data", b"")
     content_type = probe.get("content_type", "").lower()
     ended = probe.get("ended", False)
+    final_url = probe.get("final_url")
     reason = ""
+
+    if final_url.endswith(".m3u8"):
+        reason = "final URL is still a playlist"
+        return "not_valid", reason
 
     if status in (200, 206):
         if ended:
@@ -143,6 +186,7 @@ def categorize(extinf, url, probe):
             return "playable", reason
         reason = f"non-video content-type ({content_type})"
         return "non_video_content", reason
+
     reason = f"invalid status {status} or error {probe.get('error')}"
     return "not_valid", reason
 
@@ -168,18 +212,17 @@ def main():
         print(f"▶️ [{idx}/{END_INDEX}] Checking: {url}")
         print(f"   Estimated remaining: ~{eta_min}m {eta_sec}s")
 
-        # --- Per-channel hard timeout using signal ---
+        # Per-channel timeout using signal
         def timeout_handler(signum, frame):
             raise TimeoutError("Channel max time exceeded")
-
         signal.signal(signal.SIGALRM, timeout_handler)
         signal.alarm(CHANNEL_MAX_TIME)
         try:
             probe = probe_first_segment(url)
         except TimeoutError:
-            probe = {"status": None, "bytes": 0, "error": "Channel max time exceeded"}
+            probe = {"status": None, "bytes": 0, "error": "Channel max time exceeded", "final_url": url}
         finally:
-            signal.alarm(0)  # cancel alarm
+            signal.alarm(0)
 
         cat, reason = categorize(extinf, url, probe)
 
@@ -195,6 +238,7 @@ def main():
             "reason": reason,
             "url": url,
             "segment_url": probe.get("segment_url"),
+            "final_url": probe.get("final_url"),
             "status": probe.get("status"),
             "bytes": probe.get("bytes"),
             "elapsed": probe.get("elapsed"),
