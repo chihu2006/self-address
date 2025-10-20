@@ -64,14 +64,12 @@ def read_m3u(path):
 
 # === Helpers ===
 def is_valid_mpegts(data: bytes) -> bool:
-    packet_count = min(3, len(data) // 188)
-    if packet_count < 1:
+    if len(data) < 188 * 5:  # check at least 5 packets
         return False
-    for i in range(packet_count):
+    for i in range(5):
         if data[i*188] != 0x47:
             return False
     return True
-
 
 def extract_resolution(text):
     match = re.search(r"RESOLUTION=(\d+)x(\d+)", text)
