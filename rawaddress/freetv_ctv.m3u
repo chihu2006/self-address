@@ -1,0 +1,7 @@
+#EXTM3U
+#EXTINF:-1 tvg-name="ABC 7 NY" tvg-id="" tvg-country="United States" tvg-language="English" tvg-logo="https://epg.pw/media/images/channel/2016/06/22/large/20160622232611202416_43.jpg" group-title="News",[BD]abc
+https://stream1.freetv.fun/abc-1.ctv
+#EXTINF:-1 tvg-name="ABC NEWS" tvg-id="" tvg-country="United States" tvg-language="English" tvg-logo="https://epg.pw/media/uploads/tmp_logo/2017/10/09/20171009012506131666_63.png" group-title="News",[HD]abc news *wj
+https://stream1.freetv.fun/abc-news--wj-1.ctv
+#EXTINF:-1 tvg-name="ABC News USA" tvg-id="" tvg-country="United States" tvg-language="English" tvg-logo="https://epg.pw/media/images/channel/2023/11/05/large/20231105162750790759_52.png" group-title="News",[HD]usa abc
+https://stream1.freetv.fun/usa-abc-1.ctv
