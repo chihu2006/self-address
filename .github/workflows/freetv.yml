@@ -8,7 +8,7 @@ on:
         required: true
         default: '1-20'
       commit_changes:
-        description: 'Commit processed M3U files back to repo? (true/false)'
+        description: 'Commit processed M3U files and CSV back to repo?'
         required: false
         default: 'true'
 
@@ -34,29 +34,17 @@ jobs:
         run: |
           mkdir -p rawaddress
           curl -s -o rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
-          echo "✅ M3U file fetched to rawaddress/freetv.m3u"
+          echo "✅ M3U file fetched"
 
       - name: Run channel test and categorization
         run: |
           python speedtest/fetch_and_test_channels.py "${{ github.event.inputs.range }}"
 
-      - name: Upload processed M3U files
-        uses: actions/upload-artifact@v4
-        with:
-          name: processed_m3u_files
-          path: processed_freetv_address/*.m3u
-
-      - name: Upload detailed CSV report
-        uses: actions/upload-artifact@v4
-        with:
-          name: channel_test_report
-          path: processed_freetv_address/report_channels.csv
-
-      - name: Commit processed M3U files back to repo
+      - name: Commit processed M3U files and CSV back to repo
         if: ${{ github.event.inputs.commit_changes == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add processed_freetv_address/*.m3u
-          git commit -m "Add processed M3U files (auto-generated)" || echo "No changes to commit"
+          git add processed_freetv_address/*.m3u speedtest/test_result.csv rawaddress/freetv_ctv.m3u
+          git commit -m "Update processed M3U files and CSV (auto-generated)" || echo "No changes to commit"
           git push
