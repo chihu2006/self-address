@@ -14,7 +14,7 @@ M3U_FILE = os.path.join("rawaddress", "freetv.m3u")
 OUT_DIR = os.path.join("processed_freetv_address")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-READ_BYTES = 188*10*2
+READ_BYTES = 188 * 20  # 20 TS packets (~3760 bytes) or more
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 5
 CHANNEL_MAX_TIME = 25
@@ -63,13 +63,19 @@ def read_m3u(path):
     return entries
 
 # === Helpers ===
-def is_valid_mpegts(data: bytes) -> bool:
-    if len(data) < 188 * 5:  # check at least 5 packets
+def is_valid_mpegts(data: bytes, min_packets=5) -> bool:
+    """
+    Check if the first `min_packets` MPEG-TS packets start with sync byte 0x47.
+    Default is 5 packets (~940 bytes).
+    """
+    packet_size = 188
+    if len(data) < packet_size * min_packets:
         return False
-    for i in range(5):
-        if data[i*188] != 0x47:
+    for i in range(min_packets):
+        if data[i*packet_size] != 0x47:
             return False
     return True
+
 
 def extract_resolution(text):
     match = re.search(r"RESOLUTION=(\d+)x(\d+)", text)
@@ -164,10 +170,18 @@ def categorize(extinf, url, probe_info):
 
     status = probe_info.get("status")
     data = probe_info.get("data", b"")
-    if status in (200, 206) and len(data) > 1024 and is_valid_mpegts(data):
-        return "playable", f"status={status}, bytes={len(data)}"
+    resolution = probe_info.get("resolution")
+
+    # Require status 200/206, enough bytes, valid TS, and a detected resolution
+    if (
+        status in (200, 206)
+        and len(data) >= 188 * 5  # at least 5 TS packets
+        and is_valid_mpegts(data, min_packets=5)
+        and resolution
+    ):
+        return "playable", f"status={status}, bytes={len(data)}, resolution={resolution}"
     elif status in (200, 206):
-        return "not_valid", f"status={status} but data invalid ({len(data)} bytes)"
+        return "not_valid", f"status={status} but segment invalid ({len(data)} bytes), resolution={resolution}"
     else:
         return "not_valid", f"status={status}, error={probe_info.get('error')}"
 
