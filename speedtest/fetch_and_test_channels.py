@@ -282,4 +282,7 @@ def main():
         print(f"📄 Detailed report saved to {CSV_FILE}")
 
     total_time = time.time() - start_time
-    print(f"\n✅ All done in {total
+    print(f"\n✅ All done in {total_time:.1f}s ({total} channels tested)")
+
+if __name__ == "__main__":
+    main()
