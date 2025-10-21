@@ -103,8 +103,7 @@ def probe_variant_or_segment(url, depth=0, chain=None):
 
     try:
         r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), allow_redirects=True)
-
-       r.raise_for_status()
+        r.raise_for_status()
         text = r.text
     except Exception as e:
         return None, f"fetch error: {e}", chain
@@ -119,7 +118,6 @@ def probe_variant_or_segment(url, depth=0, chain=None):
     if variant_lines:
         next_url = urljoin(url, variant_lines[-1].strip())
         return probe_variant_or_segment(next_url, depth + 1, chain)
-
 
     # Segment playlist
     segments = re.findall(r"(?m)^[^#].+\.(ts|m4s|mp4)$", text)
@@ -156,19 +154,11 @@ def probe_segment(url):
             "data": data,
             "error": None,
         }
-
-except Exception as e:
-    return {"status": None, "bytes": 0, "elapsed": 0, "content_type": "", "data": b"", "error": str(e)}
-
+    except Exception as e:
+        return {"status": None, "bytes": 0, "elapsed": 0, "content_type": "", "data": b"", "error": str(e)}
 
 def categorize(extinf, url, probe_info):
-    """
-    Only mark as playable if:
-    1. HTTP status is 200 or 206
-    2. Data length is enough for multiple TS packets (>= 5*188 bytes)
-    3. MPEG-TS sync bytes check passes
-    4. Resolution can be determined (from EXT-X-STREAM-INF or RESOLUTION tag)
-    """
+    """Categorize channels as playable or not_valid"""
     if not probe_info or probe_info.get("error"):
         return "not_valid", probe_info.get("error", "unknown error")
 
@@ -176,7 +166,6 @@ def categorize(extinf, url, probe_info):
     data = probe_info.get("data", b"")
     resolution = probe_info.get("resolution")
 
-    # Check minimum TS packet length
     min_packets = 5
     min_bytes = min_packets * 188
 
@@ -184,7 +173,6 @@ def categorize(extinf, url, probe_info):
         if is_valid_mpegts(data, min_packets=min_packets) and resolution:
             return "playable", f"status={status}, bytes={len(data)}, resolution={resolution}"
         else:
-            # Data fetched, but either invalid TS packets or no resolution info
             return "not_valid", f"status={status}, invalid segment or unknown resolution ({len(data)} bytes)"
     else:
         return "not_valid", f"status={status}, error={probe_info.get('error')}, bytes={len(data)}"
@@ -237,8 +225,7 @@ def main():
             seg_info, err_msg, url_chain = probe_variant_or_segment(url)
             if seg_info and "segment" in seg_info:
                 probe_result = probe_segment(seg_info["segment"])
-
-          else:
+            else:
                 probe_result = {"status": None, "bytes": 0, "error": err_msg}
         except TimeoutError:
             probe_result = {"status": None, "bytes": 0, "error": "Channel timeout"}
@@ -295,7 +282,4 @@ def main():
         print(f"📄 Detailed report saved to {CSV_FILE}")
 
     total_time = time.time() - start_time
-    print(f"\n✅ All done in {total_time:.1f}s ({total} channels tested)")
-
-if __name__ == "__main__":
-    main()
+    print(f"\n✅ All done in {total
