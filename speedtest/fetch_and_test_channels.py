@@ -93,41 +93,52 @@ def extract_resolution(text):
         return f"{match.group(1)}p"
     return None
 
-def probe_variant_or_segment(url, depth=0):
+def probe_variant_or_segment(url, depth=0, chain=None):
+    """Recursively follow .m3u8 playlists until real media segments are found"""
+    if chain is None:
+        chain = []
+
     if depth > MAX_PLAYLIST_DEPTH:
-        return None, "Too many nested playlists", [url]
+        return None, "Too many nested playlists", chain
 
     try:
-        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT))
+        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), allow_redirects=True)
         r.raise_for_status()
         text = r.text
     except Exception as e:
-        return None, f"fetch error: {e}", [url]
-
-    url_chain = [url]
+        return None, f"fetch error: {e}", chain
 
     if "#EXTM3U" not in text:
-        return None, "not a valid m3u8", url_chain
+        return None, "not a valid m3u8", chain
 
+    chain.append(url)  # track the current playlist URL
+
+    # Variant playlist
     variant_lines = re.findall(r"#EXT-X-STREAM-INF[^\n]*\n([^\n]+)", text)
     if variant_lines:
-        best_variant = variant_lines[-1].strip()
-        next_url = urljoin(url, best_variant)
-        sub_info, err, sub_chain = probe_variant_or_segment(next_url, depth + 1)
-        return sub_info, err, url_chain + sub_chain
+        next_url = urljoin(url, variant_lines[-1].strip())
+        return probe_variant_or_segment(next_url, depth + 1, chain)
 
+    # Segment playlist
     segments = re.findall(r"(?m)^[^#].+\.(ts|m4s|mp4)$", text)
     if not segments:
-        return None, "no valid segments found", url_chain
+        return None, "no valid segments found", chain
 
-    first_seg = urljoin(url, segments[0].strip())
-    resolution = extract_resolution(text)
-    return {"segment": first_seg, "resolution": resolution, "manifest": text}, None, url_chain
+    for seg in segments:
+        seg_url = urljoin(url, seg.strip())
+        probe = probe_segment(seg_url)
+        if probe.get("status") in (200, 206) and len(probe.get("data", b"")) > 1024:
+            resolution = extract_resolution(text)
+            return {"segment": seg_url, "resolution": resolution, "manifest": text}, None, chain
+
+    return None, "all segments invalid or inaccessible", chain
 
 def probe_segment(url):
+    """Probe a single .ts or .m4s segment, follow redirects"""
     try:
         t0 = time.time()
-        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), stream=True)
+        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
+                         stream=True, allow_redirects=True)
         r.raise_for_status()
         data = b""
         for chunk in r.iter_content(chunk_size=512):
