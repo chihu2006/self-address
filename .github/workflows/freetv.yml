@@ -1,50 +1,36 @@
-name: Fetch and Test M3U Channels
+name: FreeTV Channel Test
 
 on:
   workflow_dispatch:
-    inputs:
-      range:
-        description: 'Channel range (e.g. 1-50)'
-        required: true
-        default: '1-20'
-      commit_changes:
-        description: 'Commit processed M3U files and CSV back to repo?'
-        required: false
-        default: 'true'
+  schedule:
+    - cron: "0 2 * * *"  # Runs daily at 02:00 UTC
 
 jobs:
-  fetch-and-test:
+  test_channels:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests
+          pip install requests m3u8
 
-      - name: Fetch M3U file
+      - name: Run channel test
         run: |
-          mkdir -p rawaddress
-          curl -s -o rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
-          echo "✅ M3U file fetched"
+          python speedtest/fetch_and_test_channels.py
 
-      - name: Run channel test and categorization
+      - name: Display summary
         run: |
-          python speedtest/fetch_and_test_channels.py "${{ github.event.inputs.range }}"
-
-      - name: Commit processed M3U files and CSV back to repo
-        if: ${{ github.event.inputs.commit_changes == 'true' }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add processed_freetv_address/*.m3u speedtest/test_result.csv rawaddress/freetv_ctv.m3u
-          git commit -m "Update processed M3U files and CSV (auto-generated)" || echo "No changes to commit"
-          git push
+          echo "Test complete. CSV saved at speedtest/test_result.csv"
+          echo "Playable channels:"
+          tail -n +2 speedtest/test_result.csv | awk -F',' '$2=="playable" {print $4}'
+          echo "Not valid channels:"
+          tail -n +2 speedtest/test_result.csv | awk -F',' '$2=="not_valid" {print $4}'
