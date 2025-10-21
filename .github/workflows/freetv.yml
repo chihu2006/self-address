@@ -7,6 +7,10 @@ on:
         description: 'Channel range (e.g. 1-50)'
         required: true
         default: '150-200'
+      commit_changes:
+        description: 'Commit results back to repo?'
+        required: false
+        default: 'false'
 
 jobs:
   fetch-and-test:
