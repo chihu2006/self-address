@@ -28,8 +28,14 @@ jobs:
 
       - name: Fetch M3U file
         run: |
-           python speedtest/fetch_and_test_channels.py "${{ github.event.inputs.range }}"
-
+           mkdir -p rawaddress
+           curl -s -o rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
+           echo "✅ M3U file fetched"
+           
+      - name: Run channel test and categorization
+        run: |
+          python speedtest/fetch_and_test_channels.py "${{ github.event.inputs.range }}"
+          
       - name: Commit processed M3U files and CSV back to repo
         if: ${{ github.event.inputs.commit_changes == 'true' }}
         run: |
