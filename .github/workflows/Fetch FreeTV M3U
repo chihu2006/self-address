@@ -1,0 +1,24 @@
+name: Fetch FreeTV M3U
+
+on:
+  workflow_dispatch:  # manual trigger
+
+jobs:
+  fetch-m3u:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch M3U file
+        run: |
+          mkdir -p rawaddress
+          curl -L -o rawaddress/freetv.m3u https://freetv.fun/test_channels_all_new.m3u
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add rawaddress/freetv.m3u
+          git commit -m "Update freetv.m3u" || echo "No changes to commit"
+          git push
