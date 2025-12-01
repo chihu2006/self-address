@@ -1,61 +1,42 @@
-name: Fetch and Test M3U Channels
+name: Update M3U and CSV
 
 on:
+  schedule:
+    - cron: '0 2 * * *'  # runs daily at 2:00 UTC
   workflow_dispatch:
-    inputs:
-      range:
-        description: 'Channel range (e.g. 1-50)'
-        required: true
-        default: '1-20'
-      commit_changes:
-        description: 'Commit results back to repo?'
-        required: false
-        default: 'false'
 
 jobs:
-  fetch-and-test:
+  update-files:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # fetch full history to allow rebasing
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install requests m3u8
+          pip install -r requirements.txt
 
-      - name: Fetch M3U file
+      - name: Run script
         run: |
-          mkdir -p rawaddress
-          curl -s -o rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
-          echo "✅ M3U file fetched"
+          python fetch_and_test_channels.py
 
-      - name: Run integrated channel test
-        run: |
-          python speedtest/fetch_and_test_channels.py "${{ github.event.inputs.range }}"
-
-      - name: Upload test artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: m3u-test-results
-          path: |
-            processed_freetv_address/playable.m3u
-            processed_freetv_address/not_valid.m3u
-            rawaddress/freetv_ctv.m3u
-            speedtest/test_result.csv
-
-      - name: Commit processed results to repo
-        if: ${{ github.event.inputs.commit_changes == 'true' }}
+      - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add processed_freetv_address/*.m3u speedtest/*.csv rawaddress/freetv_ctv.m3u
+
+      - name: Fetch, rebase and push
+        run: |
+          git fetch origin main
+          git rebase origin/main
+          git add .
           git commit -m "Auto-update: processed M3U files and CSV reports" || echo "No changes to commit"
-          git push
+          git push origin main
