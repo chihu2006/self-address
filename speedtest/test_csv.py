@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import csv
 import requests
+import os
 
 CTV_FILE = "rawaddress/freetv_ctv.m3u"
 OUTPUT_FILE = "speedtest/ctv_test_result.csv"
@@ -26,9 +27,8 @@ for url in urls:
 
     results.append({"original_url": url, "final_url": final_url, "status": status})
 
-# Write CSV
-import os
 os.makedirs("speedtest", exist_ok=True)
+
 with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
     writer = csv.DictWriter(f, fieldnames=["original_url", "final_url", "status"])
     writer.writeheader()
