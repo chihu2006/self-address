@@ -17,7 +17,7 @@ CSV_FILE = os.path.join("speedtest", "test_result.csv")
 os.makedirs(OUT_DIR, exist_ok=True)
 os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
 
-READ_BYTES = 188*20
+READ_BYTES = 188 * 20
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 5
 CHANNEL_MAX_TIME = 25
@@ -33,7 +33,6 @@ VLC_HEADERS = {
     "Range": f"bytes=0-{READ_BYTES-1}",
 }
 
-# === Input parsing ===
 def parse_range(arg):
     match = re.match(r"(\d+)\s*-\s*(\d+)", arg)
     if not match:
@@ -44,7 +43,6 @@ def parse_range(arg):
 RANGE_INPUT = sys.argv[1] if len(sys.argv) > 1 else "1-20"
 START_INDEX, END_INDEX = parse_range(RANGE_INPUT)
 
-# === Read M3U ===
 def read_m3u(path):
     if not os.path.isfile(path):
         raise FileNotFoundError(f"M3U file not found: {path}")
@@ -65,13 +63,12 @@ def read_m3u(path):
             i += 1
     return entries
 
-# === Helpers ===
 def is_valid_mpegts(data: bytes, min_packets=5) -> bool:
     packet_size = 188
     if len(data) < packet_size * min_packets:
         return False
     for i in range(min_packets):
-        if data[i*packet_size] != 0x47:
+        if data[i * packet_size] != 0x47:
             return False
     return True
 
@@ -79,62 +76,17 @@ def extract_resolution(text):
     match = re.search(r"RESOLUTION=(\d+)x(\d+)", text)
     if match:
         w, h = map(int, match.groups())
-        if h >= 1000:
-            return "1080p"
-        if h >= 700:
-            return "720p"
-        if h >= 480:
-            return "480p"
-        if h >= 360:
-            return "360p"
+        if h >= 1000: return "1080p"
+        if h >= 700: return "720p"
+        if h >= 480: return "480p"
+        if h >= 360: return "360p"
         return f"{w}x{h}"
     match = re.search(r"(\d{3,4})[pP](?!\w)", text)
     if match:
         return f"{match.group(1)}p"
     return None
 
-def probe_variant_or_segment(url, depth=0, chain=None):
-    """Recursively follow .m3u8 playlists until real media segments are found"""
-    if chain is None:
-        chain = []
-
-    if depth > MAX_PLAYLIST_DEPTH:
-        return None, "Too many nested playlists", chain
-
-    try:
-        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), allow_redirects=True)
-        r.raise_for_status()
-        text = r.text
-    except Exception as e:
-        return None, f"fetch error: {e}", chain
-
-    if "#EXTM3U" not in text:
-        return None, "not a valid m3u8", chain
-
-    chain.append(url)  # track the current playlist URL
-
-    # Variant playlist
-    variant_lines = re.findall(r"#EXT-X-STREAM-INF[^\n]*\n([^\n]+)", text)
-    if variant_lines:
-        next_url = urljoin(url, variant_lines[-1].strip())
-        return probe_variant_or_segment(next_url, depth + 1, chain)
-
-    # Segment playlist
-    segments = re.findall(r"(?m)^[^#].+\.(ts|m4s|mp4)$", text)
-    if not segments:
-        return None, "no valid segments found", chain
-
-    for seg in segments:
-        seg_url = urljoin(url, seg.strip())
-        probe = probe_segment(seg_url)
-        if probe.get("status") in (200, 206) and len(probe.get("data", b"")) > 1024:
-            resolution = extract_resolution(text)
-            return {"segment": seg_url, "resolution": resolution, "manifest": text}, None, chain
-
-    return None, "all segments invalid or inaccessible", chain
-
 def probe_segment(url):
-    """Probe a single .ts or .m4s segment, follow redirects"""
     try:
         t0 = time.time()
         r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT),
@@ -157,8 +109,43 @@ def probe_segment(url):
     except Exception as e:
         return {"status": None, "bytes": 0, "elapsed": 0, "content_type": "", "data": b"", "error": str(e)}
 
+def probe_variant_or_segment(url, depth=0, chain=None):
+    if chain is None:
+        chain = []
+    if depth > MAX_PLAYLIST_DEPTH:
+        return None, "Too many nested playlists", chain
+
+    try:
+        r = requests.get(url, headers=VLC_HEADERS, timeout=(CONNECT_TIMEOUT, READ_TIMEOUT), allow_redirects=True)
+        r.raise_for_status()
+        text = r.text
+    except Exception as e:
+        return None, f"fetch error: {e}", chain
+
+    if "#EXTM3U" not in text:
+        return None, "not a valid m3u8", chain
+
+    chain.append(url)
+
+    variant_lines = re.findall(r"#EXT-X-STREAM-INF[^\n]*\n([^\n]+)", text)
+    if variant_lines:
+        next_url = urljoin(url, variant_lines[-1].strip())
+        return probe_variant_or_segment(next_url, depth + 1, chain)
+
+    segments = re.findall(r"(?m)^[^#].+\.(ts|m4s|mp4)$", text)
+    if not segments:
+        return None, "no valid segments found", chain
+
+    for seg in segments:
+        seg_url = urljoin(url, seg.strip())
+        probe = probe_segment(seg_url)
+        if probe.get("status") in (200, 206) and len(probe.get("data", b"")) > 1024:
+            resolution = extract_resolution(text)
+            return {"segment": seg_url, "resolution": resolution, "manifest": text}, None, chain
+
+    return None, "all segments invalid or inaccessible", chain
+
 def categorize(extinf, url, probe_info):
-    """Categorize channels as playable or not_valid"""
     if not probe_info or probe_info.get("error"):
         return "not_valid", probe_info.get("error", "unknown error")
 
@@ -174,10 +161,8 @@ def categorize(extinf, url, probe_info):
             return "playable", f"status={status}, bytes={len(data)}, resolution={resolution}"
         else:
             return "not_valid", f"status={status}, invalid segment or unknown resolution ({len(data)} bytes)"
-    else:
-        return "not_valid", f"status={status}, error={probe_info.get('error')}, bytes={len(data)}"
+    return "not_valid", f"status={status}, error={probe_info.get('error')}, bytes={len(data)}"
 
-# === Main ===
 def main():
     entries = read_m3u(M3U_FILE)
     selected = entries[START_INDEX - 1:END_INDEX]
@@ -185,24 +170,24 @@ def main():
     ctv_entries = []
     filtered_entries = []
 
-    # Filter .ctv channels
     for extinf, url in selected:
         if url.endswith(".ctv"):
             ctv_entries.append((extinf, url))
         else:
             filtered_entries.append((extinf, url))
 
-    # Save .ctv channels
     with open(CTV_FILE, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
         for extinf, url in ctv_entries:
             f.write(extinf + "\n" + url + "\n")
+
     print(f"✅ {len(ctv_entries)} .ctv channels saved to {CTV_FILE}")
 
     categorized = {}
     report_rows = []
     start_time = time.time()
     total = len(filtered_entries)
+
     print(f"Testing {total} non-ctv channels...\n")
 
     for idx, (extinf, url) in enumerate(filtered_entries, start=START_INDEX):
@@ -210,16 +195,16 @@ def main():
         avg_time = elapsed_all / (idx - START_INDEX + 1)
         remaining = total - (idx - START_INDEX + 1)
         eta = remaining * avg_time
+
         print(f"▶️ [{idx}/{END_INDEX}] Checking: {url}  (ETA ~{eta/60:.1f} min)")
 
         def timeout_handler(signum, frame):
             raise TimeoutError("Channel max time exceeded")
+
         signal.signal(signal.SIGALRM, timeout_handler)
         signal.alarm(CHANNEL_MAX_TIME)
 
         probe_result = None
-        seg_info = None
-        err_msg = None
 
         try:
             seg_info, err_msg, url_chain = probe_variant_or_segment(url)
@@ -263,7 +248,6 @@ def main():
 
         time.sleep(SLEEP_BETWEEN)
 
-    # Write categorized M3U files
     for cat in ["playable", "not_valid"]:
         items = categorized.get(cat, [])
         out_file = os.path.join(OUT_DIR, f"{cat}.m3u")
@@ -273,7 +257,6 @@ def main():
                 f.write(extinf + "\n" + url + "\n")
         print(f"✅ Saved {len(items)} entries to {out_file}")
 
-    # Write CSV
     if report_rows:
         with open(CSV_FILE, "w", newline="", encoding="utf-8") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=list(report_rows[0].keys()))
