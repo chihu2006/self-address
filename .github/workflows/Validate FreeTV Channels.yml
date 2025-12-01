@@ -23,7 +23,7 @@ jobs:
 
       - name: Run channel validation
         run: |
-          python scripts/validate_channels.py
+          python rawaddress/speedtest/validate_channels.py
 
       - name: Commit and push CSV
         run: |
