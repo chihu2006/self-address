@@ -27,26 +27,29 @@ jobs:
 
       - name: Install dependencies
         run: |
-           python -m pip install --upgrade pip
-           pip install requests m3u8
-
-          
+          python -m pip install --upgrade pip
+          pip install requests m3u8
 
       - name: Fetch M3U file
         run: |
-           mkdir -p rawaddress
-           curl -s -o rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
-           echo "✅ M3U file fetched"
-           
-      - name: Run channel test and categorization
+          mkdir -p rawaddress
+          curl -s -o rawaddress/freetv.m3u https://freetv.fun/test_channels_banned_cn_new.m3u
+          echo "✅ M3U file fetched"
+
+      - name: Run main channel test
         run: |
           python speedtest/fetch_and_test_channels.py "${{ github.event.inputs.range }}"
-          
-      - name: Commit processed M3U files and CSV back to repo
+
+      - name: Test .ctv channels
+        run: |
+          python speedtest/test_ctv.py
+          echo "✅ .ctv channels tested"
+
+      - name: Commit processed results to repo
         if: ${{ github.event.inputs.commit_changes == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add processed_freetv_address/*.m3u speedtest/test_result.csv rawaddress/freetv_ctv.m3u
-          git commit -m "Update processed M3U files and CSV (auto-generated)" || echo "No changes to commit"
+          git add processed_freetv_address/*.m3u speedtest/*.csv rawaddress/freetv_ctv.m3u
+          git commit -m "Auto-update: processed M3U files and CSV reports" || echo "No changes to commit"
           git push
