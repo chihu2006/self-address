@@ -1,152 +1,127 @@
-//http://iptv.4666888.xyz/FYTV.txt 乱码
-#EXTM3U x-tvg-url="https://live.fanmingming.cn/e.xml"
-#EXTINF:-1 tvg-name="CCTV1 综合" tvg-logo="https://live.fanmingming.cn/tv/CCTV1 综合.png",CCTV1 综合
-http://iptv.4666888.xyz/iptv2A.php?id=cctv1
-#EXTINF:-1 tvg-name="CCTV2 财经" tvg-logo="https://live.fanmingming.cn/tv/CCTV2 财经.png",CCTV2 财经
-http://iptv.4666888.xyz/iptv2A.php?id=cctv2
-#EXTINF:-1 tvg-name="CCTV3 综艺" tvg-logo="https://live.fanmingming.cn/tv/CCTV3 综艺.png",CCTV3 综艺
-http://iptv.4666888.xyz/iptv2A.php?id=cctv3
-#EXTINF:-1 tvg-name="CCTV4 中文国际" tvg-logo="https://live.fanmingming.cn/tv/CCTV4 中文国际.png",CCTV4 中文国际
-http://iptv.4666888.xyz/iptv2A.php?id=cctv4
-#EXTINF:-1 tvg-name="CCTV5 体育" tvg-logo="https://live.fanmingming.cn/tv/CCTV5 体育.png",CCTV5 体育
-http://iptv.4666888.xyz/iptv2A.php?id=cctv5
-#EXTINF:-1 tvg-name="CCTV5+ 体育赛事" tvg-logo="https://live.fanmingming.cn/tv/CCTV5+ 体育赛事.png",CCTV5+ 体育赛事
-http://iptv.4666888.xyz/iptv2A.php?id=cctv5p
-#EXTINF:-1 tvg-name="CCTV6 电影" tvg-logo="https://live.fanmingming.cn/tv/CCTV6 电影.png",CCTV6 电影
-http://iptv.4666888.xyz/iptv2A.php?id=cctv6
-#EXTINF:-1 tvg-name="CCTV7 国防军事" tvg-logo="https://live.fanmingming.cn/tv/CCTV7 国防军事.png",CCTV7 国防军事
-http://iptv.4666888.xyz/iptv2A.php?id=cctv7
-#EXTINF:-1 tvg-name="CCTV8 电视剧" tvg-logo="https://live.fanmingming.cn/tv/CCTV8 电视剧.png",CCTV8 电视剧
-http://iptv.4666888.xyz/iptv2A.php?id=cctv8
-#EXTINF:-1 tvg-name="CCTV9 纪录" tvg-logo="https://live.fanmingming.cn/tv/CCTV9 纪录.png",CCTV9 纪录
-http://iptv.4666888.xyz/iptv2A.php?id=cctv9
-#EXTINF:-1 tvg-name="CCTV10 科教" tvg-logo="https://live.fanmingming.cn/tv/CCTV10 科教.png",CCTV10 科教
-http://iptv.4666888.xyz/iptv2A.php?id=cctv10
-#EXTINF:-1 tvg-name="CCTV11 戏曲" tvg-logo="https://live.fanmingming.cn/tv/CCTV11 戏曲.png",CCTV11 戏曲
-http://iptv.4666888.xyz/iptv2A.php?id=cctv11
-#EXTINF:-1 tvg-name="CCTV12 社会与法" tvg-logo="https://live.fanmingming.cn/tv/CCTV12 社会与法.png",CCTV12 社会与法
-http://iptv.4666888.xyz/iptv2A.php?id=cctv12
-#EXTINF:-1 tvg-name="CCTV13 新闻" tvg-logo="https://live.fanmingming.cn/tv/CCTV13 新闻.png",CCTV13 新闻
-http://iptv.4666888.xyz/iptv2A.php?id=cctv13
-#EXTINF:-1 tvg-name="CCTV14 少儿" tvg-logo="https://live.fanmingming.cn/tv/CCTV14 少儿.png",CCTV14 少儿
-http://iptv.4666888.xyz/iptv2A.php?id=cctv14
-#EXTINF:-1 tvg-name="CCTV15 音乐" tvg-logo="https://live.fanmingming.cn/tv/CCTV15 音乐.png",CCTV15 音乐
-http://iptv.4666888.xyz/iptv2A.php?id=cctv15
-#EXTINF:-1 tvg-name="CCTV16 奥林匹克" tvg-logo="https://live.fanmingming.cn/tv/CCTV16 奥林匹克.png",CCTV16 奥林匹克
-http://iptv.4666888.xyz/iptv2A.php?id=cctv16
-#EXTINF:-1 tvg-name="CCTV17 农业农村" tvg-logo="https://live.fanmingming.cn/tv/CCTV17 农业农村.png",CCTV17 农业农村
-http://iptv.4666888.xyz/iptv2A.php?id=cctv17
-#EXTINF:-1 tvg-name="广东卫视" tvg-logo="https://live.fanmingming.cn/tv/广东卫视.png",广东卫视
-http://iptv.4666888.xyz/iptv2A.php?id=广东卫视
-#EXTINF:-1 tvg-name="深圳卫视" tvg-logo="https://live.fanmingming.cn/tv/深圳卫视.png",深圳卫视
-http://iptv.4666888.xyz/iptv2A.php?id=深圳卫视
-#EXTINF:-1 tvg-name="北京卫视" tvg-logo="https://live.fanmingming.cn/tv/北京卫视.png",北京卫视
-http://iptv.4666888.xyz/iptv2A.php?id=北京卫视
-#EXTINF:-1 tvg-name="天津卫视" tvg-logo="https://live.fanmingming.cn/tv/天津卫视.png",天津卫视
-http://iptv.4666888.xyz/iptv2A.php?id=天津卫视
-#EXTINF:-1 tvg-name="重庆卫视" tvg-logo="https://live.fanmingming.cn/tv/重庆卫视.png",重庆卫视
-http://iptv.4666888.xyz/iptv2A.php?id=重庆卫视
-#EXTINF:-1 tvg-name="东方卫视" tvg-logo="https://live.fanmingming.cn/tv/东方卫视.png",东方卫视
-http://iptv.4666888.xyz/iptv2A.php?id=东方卫视
-#EXTINF:-1 tvg-name="东南卫视" tvg-logo="https://live.fanmingming.cn/tv/东南卫视.png",东南卫视
-http://iptv.4666888.xyz/iptv2A.php?id=东南卫视
-#EXTINF:-1 tvg-name="湖南卫视" tvg-logo="https://live.fanmingming.cn/tv/湖南卫视.png",湖南卫视
-http://iptv.4666888.xyz/iptv2A.php?id=湖南卫视
-#EXTINF:-1 tvg-name="湖北卫视" tvg-logo="https://live.fanmingming.cn/tv/湖北卫视.png",湖北卫视
-http://iptv.4666888.xyz/iptv2A.php?id=湖北卫视
-#EXTINF:-1 tvg-name="江苏卫视" tvg-logo="https://live.fanmingming.cn/tv/江苏卫视.png",江苏卫视
-http://iptv.4666888.xyz/iptv2A.php?id=江苏卫视
-#EXTINF:-1 tvg-name="江西卫视" tvg-logo="https://live.fanmingming.cn/tv/江西卫视.png",江西卫视
-http://iptv.4666888.xyz/iptv2A.php?id=江西卫视
-#EXTINF:-1 tvg-name="河北卫视" tvg-logo="https://live.fanmingming.cn/tv/河北卫视.png",河北卫视
-http://iptv.4666888.xyz/iptv2A.php?id=河北卫视
-#EXTINF:-1 tvg-name="河南卫视" tvg-logo="https://live.fanmingming.cn/tv/河南卫视.png",河南卫视
-http://iptv.4666888.xyz/iptv2A.php?id=河南卫视
-#EXTINF:-1 tvg-name="浙江卫视" tvg-logo="https://live.fanmingming.cn/tv/浙江卫视.png",浙江卫视
-http://iptv.4666888.xyz/iptv2A.php?id=浙江卫视
-#EXTINF:-1 tvg-name="四川卫视" tvg-logo="https://live.fanmingming.cn/tv/四川卫视.png",四川卫视
-http://iptv.4666888.xyz/iptv2A.php?id=四川卫视
-#EXTINF:-1 tvg-name="山东卫视" tvg-logo="https://live.fanmingming.cn/tv/山东卫视.png",山东卫视
-http://iptv.4666888.xyz/iptv2A.php?id=山东卫视
-#EXTINF:-1 tvg-name="海南卫视" tvg-logo="https://live.fanmingming.cn/tv/海南卫视.png",海南卫视
-http://iptv.4666888.xyz/iptv2A.php?id=海南卫视
-#EXTINF:-1 tvg-name="广西卫视" tvg-logo="https://live.fanmingming.cn/tv/广西卫视.png",广西卫视
-http://iptv.4666888.xyz/iptv2A.php?id=广西卫视
-#EXTINF:-1 tvg-name="辽宁卫视" tvg-logo="https://live.fanmingming.cn/tv/辽宁卫视.png",辽宁卫视
-http://iptv.4666888.xyz/iptv2A.php?id=辽宁卫视
-#EXTINF:-1 tvg-name="安徽卫视" tvg-logo="https://live.fanmingming.cn/tv/安徽卫视.png",安徽卫视
-http://iptv.4666888.xyz/iptv2A.php?id=安徽卫视
-#EXTINF:-1 tvg-name="吉林卫视" tvg-logo="https://live.fanmingming.cn/tv/吉林卫视.png",吉林卫视
-http://iptv.4666888.xyz/iptv2A.php?id=吉林卫视
-#EXTINF:-1 tvg-name="贵州卫视" tvg-logo="https://live.fanmingming.cn/tv/贵州卫视.png",贵州卫视
-http://iptv.4666888.xyz/iptv2A.php?id=贵州卫视
-#EXTINF:-1 tvg-name="甘肃卫视" tvg-logo="https://live.fanmingming.cn/tv/甘肃卫视.png",甘肃卫视
-http://iptv.4666888.xyz/iptv2A.php?id=甘肃卫视
-#EXTINF:-1 tvg-name="青海卫视" tvg-logo="https://live.fanmingming.cn/tv/青海卫视.png",青海卫视
-http://iptv.4666888.xyz/iptv2A.php?id=青海卫视
-#EXTINF:-1 tvg-name="陕西卫视" tvg-logo="https://live.fanmingming.cn/tv/陕西卫视.png",陕西卫视
-http://iptv.4666888.xyz/iptv2A.php?id=陕西卫视
-#EXTINF:-1 tvg-name="云南卫视" tvg-logo="https://live.fanmingming.cn/tv/云南卫视.png",云南卫视
-http://iptv.4666888.xyz/iptv2A.php?id=云南卫视
-#EXTINF:-1 tvg-name="山西卫视" tvg-logo="https://live.fanmingming.cn/tv/山西卫视.png",山西卫视
-http://iptv.4666888.xyz/iptv2A.php?id=山西卫视
-#EXTINF:-1 tvg-name="黑龙江卫视" tvg-logo="https://live.fanmingming.cn/tv/黑龙江卫视.png",黑龙江卫视
-http://iptv.4666888.xyz/iptv2A.php?id=黑龙江卫视
-#EXTINF:-1 tvg-name="西藏卫视" tvg-logo="https://live.fanmingming.cn/tv/西藏卫视.png",西藏卫视
-http://iptv.4666888.xyz/iptv2A.php?id=西藏卫视
-#EXTINF:-1 tvg-name="内蒙古卫视" tvg-logo="https://live.fanmingming.cn/tv/内蒙古卫视.png",内蒙古卫视
-http://iptv.4666888.xyz/iptv2A.php?id=内蒙古卫视
-#EXTINF:-1 tvg-name="宁夏卫视" tvg-logo="https://live.fanmingming.cn/tv/宁夏卫视.png",宁夏卫视
-http://iptv.4666888.xyz/iptv2A.php?id=宁夏卫视
-#EXTINF:-1 tvg-name="新疆卫视" tvg-logo="https://live.fanmingming.cn/tv/新疆卫视.png",新疆卫视
-http://iptv.4666888.xyz/iptv2A.php?id=新疆卫视
-#EXTINF:-1 tvg-name="兵团卫视" tvg-logo="https://live.fanmingming.cn/tv/兵团卫视.png",兵团卫视
-http://iptv.4666888.xyz/iptv2A.php?id=兵团卫视
-#EXTINF:-1 tvg-name="海峡卫视" tvg-logo="https://live.fanmingming.cn/tv/海峡卫视.png",海峡卫视
-http://iptv.4666888.xyz/iptv2A.php?id=海峡卫视
-#EXTINF:-1 tvg-name="厦门卫视" tvg-logo="https://live.fanmingming.cn/tv/厦门卫视.png",厦门卫视
-http://iptv.4666888.xyz/iptv2A.php?id=厦门卫视
-#EXTINF:-1 tvg-name="三沙卫视" tvg-logo="https://live.fanmingming.cn/tv/三沙卫视.png",三沙卫视
-http://iptv.4666888.xyz/iptv2A.php?id=三沙卫视
-#EXTINF:-1 tvg-name="康巴卫视" tvg-logo="https://live.fanmingming.cn/tv/康巴卫视.png",康巴卫视
-http://iptv.4666888.xyz/iptv2A.php?id=康巴卫视
-#EXTINF:-1 tvg-name="山东教育卫视" tvg-logo="https://live.fanmingming.cn/tv/山东教育卫视.png",山东教育卫视
-http://test1.live.sdetv.com.cn/live/dianshizhibo/playlist.m3u8
-#EXTINF:-1 tvg-name="凤凰中文" tvg-logo="https://live.fanmingming.cn/tv/凤凰中文.png",凤凰中文
-http://iptv.4666888.xyz/iptv2A.php?id=凤凰中文
-#EXTINF:-1 tvg-name="凤凰资讯" tvg-logo="https://live.fanmingming.cn/tv/凤凰资讯.png",凤凰资讯
-http://iptv.4666888.xyz/iptv2A.php?id=凤凰资讯
-#EXTINF:-1 tvg-name="凤凰香港" tvg-logo="https://live.fanmingming.cn/tv/凤凰香港.png",凤凰香港
-http://iptv.4666888.xyz/iptv2A.php?id=凤凰香港
-#EXTINF:-1 tvg-name="TVB翡翠" tvg-logo="https://live.fanmingming.cn/tv/TVB翡翠.png",TVB翡翠
-http://iptv.4666888.xyz/iptv2A.php?id=TVB翡翠
-#EXTINF:-1 tvg-name="TVB明珠" tvg-logo="https://live.fanmingming.cn/tv/TVB明珠.png",TVB明珠
-http://iptv.4666888.xyz/iptv2A.php?id=TVB明珠
-#EXTINF:-1 tvg-name="TVBPLUS" tvg-logo="https://live.fanmingming.cn/tv/TVBPLUS.png",TVBPLUS
-http://iptv.4666888.xyz/iptv2A.php?id=TVBPLUS
-#EXTINF:-1 tvg-name="NOW新闻" tvg-logo="https://live.fanmingming.cn/tv/NOW新闻.png",NOW新闻
-http://iptv.4666888.xyz/iptv2A.php?id=NOW新闻
-#EXTINF:-1 tvg-name="VIUTV" tvg-logo="https://live.fanmingming.cn/tv/VIUTV.png",VIUTV
-http://iptv.4666888.xyz/iptv2A.php?id=VIUTV
-#EXTINF:-1 tvg-name="TVB千禧经典" tvg-logo="https://live.fanmingming.cn/tv/TVB千禧经典.png",TVB千禧经典
-http://iptv.4666888.xyz/iptv2A.php?id=TVB千禧经典
-#EXTINF:-1 tvg-name="TVB1" tvg-logo="https://live.fanmingming.cn/tv/TVB1.png",TVB1
-http://iptv.4666888.xyz/iptv2A.php?id=TVB1
-#EXTINF:-1 tvg-name="TVBJ1" tvg-logo="https://live.fanmingming.cn/tv/TVBJ1.png",TVBJ1
-http://iptv.4666888.xyz/iptv2A.php?id=TVBJ1
-#EXTINF:-1 tvg-name="中天新闻" tvg-logo="https://live.fanmingming.cn/tv/中天新闻.png",中天新闻
-http://iptv.4666888.xyz/iptv2A.php?id=中天新闻
-#EXTINF:-1 tvg-name="星空卫视" tvg-logo="https://live.fanmingming.cn/tv/星空卫视.png",星空卫视
-http://iptv.4666888.xyz/iptv2A.php?id=星空卫视
-#EXTINF:-1 tvg-name="重温经典" tvg-logo="https://live.fanmingming.cn/tv/重温经典.png",重温经典
-http://iptv.4666888.xyz/iptv2A.php?id=重温经典
-#EXTINF:-1 tvg-name="八度空间" tvg-logo="https://live.fanmingming.cn/tv/八度空间.png",八度空间
-http://iptv.4666888.xyz/iptv2A.php?id=八度空间
-#EXTINF:-1 tvg-name="综艺玩很大" tvg-logo="https://live.fanmingming.cn/tv/综艺玩很大.png",综艺玩很大
-http://iptv.4666888.xyz/iptv2A.php?id=综艺玩很大
-#EXTINF:-1 tvg-name="爱奇艺" tvg-logo="https://live.fanmingming.cn/tv/爱奇艺.png",爱奇艺
-http://iptv.4666888.xyz/iptv2A.php?id=爱奇艺
-#EXTINF:-1 tvg-name="TVBS台剧" tvg-logo="https://live.fanmingming.cn/tv/TVBS台剧.png",TVBS台剧
-http://iptv.4666888.xyz/iptv2A.php?id=TVBS台剧
-#EXTINF:-1 tvg-name="紧来成剧" tvg-logo="https://live.fanmingming.cn/tv/紧来成剧.png",紧来成剧
-http://iptv.4666888.xyz/iptv2A.php?id=紧来成剧
+#EXTM3U
+#EXTINF:-1 tvg-id="CCTV1綜合" tvg-name="CCTV1綜合" tvg-logo="" group-title="風雲試看央衛頻道",CCTV1綜合
+http://iptv.4666888.xyz/iptv2A.php?id=7
+#EXTINF:-1 tvg-id="CCTV2財經" tvg-name="CCTV2財經" tvg-logo="" group-title="風雲試看央衛頻道",CCTV2財經
+http://iptv.4666888.xyz/iptv2A.php?id=8
+#EXTINF:-1 tvg-id="CCTV3綜藝" tvg-name="CCTV3綜藝" tvg-logo="" group-title="風雲試看央衛頻道",CCTV3綜藝
+http://iptv.4666888.xyz/iptv2A.php?id=9
+#EXTINF:-1 tvg-id="CCTV4中文國際" tvg-name="CCTV4中文國際" tvg-logo="" group-title="風雲試看央衛頻道",CCTV4中文國際
+http://iptv.4666888.xyz/iptv2A.php?id=10
+#EXTINF:-1 tvg-id="CCTV13新聞" tvg-name="CCTV13新聞" tvg-logo="" group-title="風雲試看央衛頻道",CCTV13新聞
+http://iptv.4666888.xyz/iptv2A.php?id=11
+#EXTINF:-1 tvg-id="CCTV14少兒" tvg-name="CCTV14少兒" tvg-logo="" group-title="風雲試看央衛頻道",CCTV14少兒
+http://iptv.4666888.xyz/iptv2A.php?id=12
+#EXTINF:-1 tvg-id="廣東衛視" tvg-name="廣東衛視" tvg-logo="" group-title="風雲試看央衛頻道",廣東衛視
+http://iptv.4666888.xyz/iptv2A.php?id=18
+#EXTINF:-1 tvg-id="廣東珠江" tvg-name="廣東珠江" tvg-logo="" group-title="風雲試看央衛頻道",廣東珠江
+http://iptv.4666888.xyz/iptv2A.php?id=19
+#EXTINF:-1 tvg-id="廣東體育" tvg-name="廣東體育" tvg-logo="" group-title="風雲試看央衛頻道",廣東體育
+http://iptv.4666888.xyz/iptv2A.php?id=20
+#EXTINF:-1 tvg-id="湖南衛視" tvg-name="湖南衛視" tvg-logo="" group-title="風雲試看央衛頻道",湖南衛視
+http://iptv.4666888.xyz/iptv2A.php?id=13
+#EXTINF:-1 tvg-id="浙江衛視" tvg-name="浙江衛視" tvg-logo="" group-title="風雲試看央衛頻道",浙江衛視
+http://iptv.4666888.xyz/iptv2A.php?id=14
+#EXTINF:-1 tvg-id="江蘇衛視" tvg-name="江蘇衛視" tvg-logo="" group-title="風雲試看央衛頻道",江蘇衛視
+http://iptv.4666888.xyz/iptv2A.php?id=15
+#EXTINF:-1 tvg-id="山西衛視" tvg-name="山西衛視" tvg-logo="" group-title="風雲試看央衛頻道",山西衛視
+http://iptv.4666888.xyz/iptv2A.php?id=16
+#EXTINF:-1 tvg-id="青海衛視" tvg-name="青海衛視" tvg-logo="" group-title="風雲試看央衛頻道",青海衛視
+http://iptv.4666888.xyz/iptv2A.php?id=17
+#EXTINF:-1 tvg-id="SPOTV" tvg-name="SPOTV" tvg-logo="" group-title="風雲試看體育頻道",SPOTV
+http://iptv.4666888.xyz/iptv2A.php?id=2
+#EXTINF:-1 tvg-id="SPOTV2" tvg-name="SPOTV2" tvg-logo="" group-title="風雲試看體育頻道",SPOTV2
+http://iptv.4666888.xyz/iptv2A.php?id=1
+#EXTINF:-1 tvg-id="astroFootball" tvg-name="astroFootball" tvg-logo="" group-title="風雲試看體育頻道",astroFootball
+http://iptv.4666888.xyz/iptv2A.php?id=4
+#EXTINF:-1 tvg-id="TntSports1" tvg-name="TntSports1" tvg-logo="" group-title="風雲試看體育頻道",TntSports1
+http://iptv.4666888.xyz/iptv2A.php?id=3
+#EXTINF:-1 tvg-id="智林體育" tvg-name="智林體育" tvg-logo="" group-title="風雲試看體育頻道",智林體育
+http://iptv.4666888.xyz/iptv2A.php?id=5
+#EXTINF:-1 tvg-id="JSPORTS1" tvg-name="JSPORTS1" tvg-logo="" group-title="風雲試看體育頻道",JSPORTS1
+http://iptv.4666888.xyz/iptv2A.php?id=6
+#EXTINF:-1 tvg-id="SkyTennis+" tvg-name="SkyTennis+" tvg-logo="" group-title="風雲試看體育頻道",SkyTennis+
+http://iptv.4666888.xyz/iptv2A.php?id=62
+#EXTINF:-1 tvg-id="鳳凰中文" tvg-name="鳳凰中文" tvg-logo="" group-title="風雲試看港澳頻道",鳳凰中文
+http://iptv.4666888.xyz/iptv2A.php?id=27
+#EXTINF:-1 tvg-id="TVB黃金華劇" tvg-name="TVB黃金華劇" tvg-logo="" group-title="風雲試看港澳頻道",TVB黃金華劇
+http://iptv.4666888.xyz/iptv2A.php?id=34
+#EXTINF:-1 tvg-id="TVB翡翠(馬來)" tvg-name="TVB翡翠(馬來)" tvg-logo="" group-title="風雲試看港澳頻道",TVB翡翠(馬來)
+http://iptv.4666888.xyz/iptv2A.php?id=28
+#EXTINF:-1 tvg-id="TVB明珠" tvg-name="TVB明珠" tvg-logo="" group-title="風雲試看港澳頻道",TVB明珠
+http://iptv.4666888.xyz/iptv2A.php?id=29
+#EXTINF:-1 tvg-id="TVBJ1" tvg-name="TVBJ1" tvg-logo="" group-title="風雲試看港澳頻道",TVBJ1
+http://iptv.4666888.xyz/iptv2A.php?id=26
+#EXTINF:-1 tvg-id="TVB1" tvg-name="TVB1" tvg-logo="" group-title="風雲試看港澳頻道",TVB1
+http://iptv.4666888.xyz/iptv2A.php?id=25
+#EXTINF:-1 tvg-id="千禧經典" tvg-name="千禧經典" tvg-logo="" group-title="風雲試看港澳頻道",千禧經典
+http://iptv.4666888.xyz/iptv2A.php?id=22
+#EXTINF:-1 tvg-id="HOY77" tvg-name="HOY77" tvg-logo="" group-title="風雲試看港澳頻道",HOY77
+http://iptv.4666888.xyz/iptv2A.php?id=35
+#EXTINF:-1 tvg-id="TVB-獎門人" tvg-name="TVB-獎門人" tvg-logo="" group-title="風雲試看港澳頻道",TVB-獎門人
+http://iptv.4666888.xyz/iptv2A.php?id=31
+#EXTINF:-1 tvg-id="TVB-金曲" tvg-name="TVB-金曲" tvg-logo="" group-title="風雲試看港澳頻道",TVB-金曲
+http://iptv.4666888.xyz/iptv2A.php?id=57
+#EXTINF:-1 tvg-id="RTHK31" tvg-name="RTHK31" tvg-logo="" group-title="風雲試看港澳頻道",RTHK31
+http://iptv.4666888.xyz/iptv2A.php?id=23
+#EXTINF:-1 tvg-id="TVB娛樂新聞" tvg-name="TVB娛樂新聞" tvg-logo="" group-title="風雲試看港澳頻道",TVB娛樂新聞
+http://iptv.4666888.xyz/iptv2A.php?id=36
+#EXTINF:-1 tvg-id="MYTV黃金翡翠" tvg-name="MYTV黃金翡翠" tvg-logo="" group-title="風雲試看港澳頻道",MYTV黃金翡翠
+http://iptv.4666888.xyz/iptv2A.php?id=32
+#EXTINF:-1 tvg-id="TVB翡翠劇集" tvg-name="TVB翡翠劇集" tvg-logo="" group-title="風雲試看港澳頻道",TVB翡翠劇集
+http://iptv.4666888.xyz/iptv2A.php?id=33
+#EXTINF:-1 tvg-id="澳視澳門" tvg-name="澳視澳門" tvg-logo="" group-title="風雲試看港澳頻道",澳視澳門
+http://iptv.4666888.xyz/iptv2A.php?id=41
+#EXTINF:-1 tvg-id="中國電影" tvg-name="中國電影" tvg-logo="" group-title="風雲試看港澳頻道",中國電影
+http://iptv.4666888.xyz/iptv2A.php?id=61
+#EXTINF:-1 tvg-id="TVBS新聞" tvg-name="TVBS新聞" tvg-logo="" group-title="風雲試看臺灣頻道",TVBS新聞
+http://iptv.4666888.xyz/iptv2A.php?id=43
+#EXTINF:-1 tvg-id="非凡新聞" tvg-name="非凡新聞" tvg-logo="" group-title="風雲試看臺灣頻道",非凡新聞
+http://iptv.4666888.xyz/iptv2A.php?id=44
+#EXTINF:-1 tvg-id="民視" tvg-name="民視" tvg-logo="" group-title="風雲試看臺灣頻道",民視
+http://iptv.4666888.xyz/iptv2A.php?id=55
+#EXTINF:-1 tvg-id="華藝中文" tvg-name="華藝中文" tvg-logo="" group-title="風雲試看臺灣頻道",華藝中文
+http://iptv.4666888.xyz/iptv2A.php?id=37
+#EXTINF:-1 tvg-id="愛奇藝" tvg-name="愛奇藝" tvg-logo="" group-title="風雲試看臺灣頻道",愛奇藝
+http://iptv.4666888.xyz/iptv2A.php?id=21
+#EXTINF:-1 tvg-id="靖洋戲劇" tvg-name="靖洋戲劇" tvg-logo="" group-title="風雲試看臺灣頻道",靖洋戲劇
+http://iptv.4666888.xyz/iptv2A.php?id=42
+#EXTINF:-1 tvg-id="靖天電影" tvg-name="靖天電影" tvg-logo="" group-title="風雲試看臺灣頻道",靖天電影
+http://iptv.4666888.xyz/iptv2A.php?id=56
+#EXTINF:-1 tvg-id="東森電影" tvg-name="東森電影" tvg-logo="" group-title="風雲試看臺灣頻道",東森電影
+http://iptv.4666888.xyz/iptv2A.php?id=48
+#EXTINF:-1 tvg-id="FGM_gold电影" tvg-name="FGM_gold电影" tvg-logo="" group-title="風雲試看臺灣頻道",FGM_gold电影
+http://iptv.4666888.xyz/iptv2A.php?id=54
+#EXTINF:-1 tvg-id="龍華電影" tvg-name="龍華電影" tvg-logo="" group-title="風雲試看臺灣頻道",龍華電影
+http://iptv.4666888.xyz/iptv2A.php?id=45
+#EXTINF:-1 tvg-id="龍華洋片" tvg-name="龍華洋片" tvg-logo="" group-title="風雲試看臺灣頻道",龍華洋片
+http://iptv.4666888.xyz/iptv2A.php?id=60
+#EXTINF:-1 tvg-id="風雲恐怖電影" tvg-name="風雲恐怖電影" tvg-logo="" group-title="風雲試看臺灣頻道",風雲恐怖電影
+http://iptv.4666888.xyz/iptv2A.php?id=59
+#EXTINF:-1 tvg-id="ROCK_Action" tvg-name="ROCK_Action" tvg-logo="" group-title="風雲試看臺灣頻道",ROCK_Action
+http://iptv.4666888.xyz/iptv2A.php?id=50
+#EXTINF:-1 tvg-id="梦工场动漫" tvg-name="梦工场动漫" tvg-logo="" group-title="風雲試看臺灣頻道",梦工场动漫
+http://iptv.4666888.xyz/iptv2A.php?id=40
+#EXTINF:-1 tvg-id="Duck TV兒童卡通" tvg-name="Duck TV兒童卡通" tvg-logo="" group-title="風雲試看臺灣頻道",Duck TV兒童卡通
+http://iptv.4666888.xyz/iptv2A.php?id=39
+#EXTINF:-1 tvg-id="MOMO親子" tvg-name="MOMO親子" tvg-logo="" group-title="風雲試看臺灣頻道",MOMO親子
+http://iptv.4666888.xyz/iptv2A.php?id=49
+#EXTINF:-1 tvg-id="金光布袋戲" tvg-name="金光布袋戲" tvg-logo="" group-title="風雲試看臺灣頻道",金光布袋戲
+http://iptv.4666888.xyz/iptv2A.php?id=38
+#EXTINF:-1 tvg-id="民視綜藝" tvg-name="民視綜藝" tvg-logo="" group-title="風雲試看臺灣頻道",民視綜藝
+http://iptv.4666888.xyz/iptv2A.php?id=46
+#EXTINF:-1 tvg-id="民視影劇" tvg-name="民視影劇" tvg-logo="" group-title="風雲試看臺灣頻道",民視影劇
+http://iptv.4666888.xyz/iptv2A.php?id=53
+#EXTINF:-1 tvg-id="TVBS精采" tvg-name="TVBS精采" tvg-logo="" group-title="風雲試看臺灣頻道",TVBS精采
+http://iptv.4666888.xyz/iptv2A.php?id=47
+#EXTINF:-1 tvg-id="臺視綜合" tvg-name="臺視綜合" tvg-logo="" group-title="風雲試看臺灣頻道",臺視綜合
+http://iptv.4666888.xyz/iptv2A.php?id=51
+#EXTINF:-1 tvg-id="TVBS台剧" tvg-name="TVBS台剧" tvg-logo="" group-title="風雲試看臺灣頻道",TVBS台剧
+http://iptv.4666888.xyz/iptv2A.php?id=58
+#EXTINF:-1 tvg-id="八度空間" tvg-name="八度空間" tvg-logo="" group-title="風雲試看臺灣頻道",八度空間
+http://iptv.4666888.xyz/iptv2A.php?id=52
+#EXTINF:-1 tvg-id="韓流美食料理秀" tvg-name="韓流美食料理秀" tvg-logo="" group-title="風雲試看臺灣頻道",韓流美食料理秀
+http://iptv.4666888.xyz/iptv2A.php?id=63
+#EXTINF:-1 tvg-id="娛樂百分百" tvg-name="娛樂百分百" tvg-logo="" group-title="風雲試看臺灣頻道",娛樂百分百
+http://iptv.4666888.xyz/iptv2A.php?id=64
+#EXTINF:-1 tvg-id="綜藝大贏家" tvg-name="綜藝大贏家" tvg-logo="" group-title="風雲試看臺灣頻道",綜藝大贏家
+http://iptv.4666888.xyz/iptv2A.php?id=65
