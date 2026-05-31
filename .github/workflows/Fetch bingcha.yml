@@ -20,5 +20,5 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add rawaddress/bingcha.m3u
-          git commit -m "Update freetv.m3u" || echo "No changes to commit"
+          git commit -m "Update bingcha.m3u" || echo "No changes to commit"
           git push
