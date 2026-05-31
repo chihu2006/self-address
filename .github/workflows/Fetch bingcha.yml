@@ -1,4 +1,4 @@
-name: Fetch bingcha M3U
+name: Fetch feiyang M3U
 
 on:
   workflow_dispatch:
@@ -20,19 +20,19 @@ jobs:
         run: |
           curl -L \
             "https://live.ottiptv.cc/iptv.m3u?userid=1926565337&sign=93e8ed8b1f5fc94db9ab66bcaf5795039c9ccf3430fb56e839e23ce05114cc6491bd9c1c94ba17919b5954c123fb0499d8da3468383e2b8d8728b1d01e00aa0fea8ece036d0ae5&auth_token=1b419ca2389167e00ffb1a7264658820" \
-            -o rawaddress/bingcha.m3u
+            -o rawaddress/feiyang.m3u
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add rawaddress/bingcha.m3u
+          git add rawaddress/feiyang.m3u
 
           if git diff --cached --quiet; then
             echo "No changes"
             exit 0
           fi
 
-          git commit -m "Update bingcha.m3u"
+          git commit -m "Update feiyang.m3u"
           git push
