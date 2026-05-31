@@ -1,4 +1,4 @@
-name: Fetch Gary M3U
+name: Fetch gary M3U
 
 on:
   workflow_dispatch:
@@ -19,29 +19,8 @@ jobs:
       - name: Download M3U file
         run: |
           curl -L \
-            "name: Fetch feiyang M3U
-
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * *"  # every 24 hours
-
-jobs:
-  update:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Create target directory
-        run: mkdir -p rawaddress
-
-      - name: Download M3U file
-        run: |
-          curl -L \
-            "https://live.ottiptv.cc/iptv.m3u?userid=1926565337&sign=93e8ed8b1f5fc94db9ab66bcaf5795039c9ccf3430fb56e839e23ce05114cc6491bd9c1c94ba17919b5954c123fb0499d8da3468383e2b8d8728b1d01e00aa0fea8ece036d0ae5&auth_token=1b419ca2389167e00ffb1a7264658820" \
-            -o rawaddress/Gary.m3u
+            "https://garyshare.sharewithyou.dpdns.org/mylist.m3u" \
+            -o rawaddress/gary.m3u
 
       - name: Commit changes
         run: |
@@ -55,21 +34,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Update Gary.m3u"
-          git push" \
-            -o rawaddress/Gary.m3u
-
-      - name: Commit changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add rawaddress/feiyang.m3u
-
-          if git diff --cached --quiet; then
-            echo "No changes"
-            exit 0
-          fi
-
-          git commit -m "Update Gary.m3u"
+          git commit -m "Update gary.m3u"
           git push
