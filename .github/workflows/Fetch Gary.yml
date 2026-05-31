@@ -37,7 +37,7 @@ jobs:
           CONNECT_URL="https://www.google.com/generate_204"
           OUTPUT_FILE="$OUTPUT"
 
-          mkdir -p $(dirname "$OUTPUT_FILE")
+          mkdir -p "$(dirname "$OUTPUT_FILE")"
 
           BATCH_SIZE=50
           TOTAL_PROXIES=$(wc -l < /tmp/test_proxies.txt)
@@ -91,12 +91,23 @@ jobs:
               PROXY=$(head -n1 "$BATCH_WORKING")
               echo "Trying proxy for fetch: $PROXY"
 
-              if curl --fail --max-time 10 -x "http://$PROXY" -L -A "VLC/3.0.18 LibVLC/3.0.18" -o "${OUTPUT_FILE}.tmp" "$URL"; then
+              if curl --fail --max-time 10 -x "http://$PROXY" -L \
+                -A "VLC/3.0.18 LibVLC/3.0.18" \
+                -o "${OUTPUT_FILE}.tmp" "$URL"; then
+
                 echo "✅ Successfully fetched via $PROXY"
-                mv "${OUTPUT_FILE}.tmp" "$OUTPUT_FILE"
+
+                # Replace first line with custom EXTINF header
+                {
+                  echo '#EXTM3U x-tvg-url="https://raw.githubusercontent.com/chihu2006/iptv-api/refs/heads/master/output/epg/epg.gz"'
+                  tail -n +2 "${OUTPUT_FILE}.tmp"
+                } > "${OUTPUT_FILE}"
+
+                rm -f "${OUTPUT_FILE}.tmp"
+
                 echo "PROXY=$PROXY" >> $GITHUB_ENV
                 FETCH_SUCCESS=true
-                break 2  # exit both fetch loop and batch loop
+                break 2
               else
                 echo "❌ Failed with proxy $PROXY, removing from batch"
                 sed -i '1d' "$BATCH_WORKING"
