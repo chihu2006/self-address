@@ -1,0 +1,24 @@
+name: Fetch FreeTV M3U
+
+on:
+  workflow_dispatch:  # manual trigger
+
+jobs:
+  fetch-m3u:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Fetch M3U file
+        run: |
+          mkdir -p rawaddress
+          curl -L -o rawaddress/bingcha.m3u https://live.ottiptv.cc/iptv.m3u?userid=1926565337&sign=93e8ed8b1f5fc94db9ab66bcaf5795039c9ccf3430fb56e839e23ce05114cc6491bd9c1c94ba17919b5954c123fb0499d8da3468383e2b8d8728b1d01e00aa0fea8ece036d0ae5&auth_token=1b419ca2389167e00ffb1a7264658820
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add rawaddress/freetv.m3u
+          git commit -m "Update freetv.m3u" || echo "No changes to commit"
+          git push
