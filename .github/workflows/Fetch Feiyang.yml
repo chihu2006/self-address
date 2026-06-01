@@ -132,7 +132,11 @@ jobs:
 
           if git diff --staged --quiet; then
             echo "No changes detected"
-          else
-            git commit -m "Update feiyang.m3u"
-            git push
+            exit 0
           fi
+
+          git commit -m "Update feiyang.m3u"
+
+          git pull --rebase origin main
+
+          git push origin HEAD:main
