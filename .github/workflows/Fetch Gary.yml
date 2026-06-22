@@ -2,6 +2,8 @@ name: Fetch Gary M3U via Proxy
 
 on:
   workflow_dispatch:
+  schedule:
+  - cron: "0 3 * * *"  # every 24 hours
 
 permissions:
   contents: write
