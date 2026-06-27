@@ -5,44 +5,36 @@ http://iptv.4666888.xyz/iptv2A.php?id=7
 http://iptv.4666888.xyz/iptv2A.php?id=8
 #EXTINF:-1 tvg-id="CCTV3綜藝" tvg-name="CCTV3綜藝" tvg-logo="" group-title="風雲試看央衛頻道",CCTV3綜藝
 http://iptv.4666888.xyz/iptv2A.php?id=9
-#EXTINF:-1 tvg-id="CCTV4中文國際" tvg-name="CCTV4中文國際" tvg-logo="" group-title="風雲試看央衛頻道",CCTV4中文國際
-http://iptv.4666888.xyz/iptv2A.php?id=10
-#EXTINF:-1 tvg-id="CCTV13新聞" tvg-name="CCTV13新聞" tvg-logo="" group-title="風雲試看央衛頻道",CCTV13新聞
-http://iptv.4666888.xyz/iptv2A.php?id=11
 #EXTINF:-1 tvg-id="CCTV14少兒" tvg-name="CCTV14少兒" tvg-logo="" group-title="風雲試看央衛頻道",CCTV14少兒
 http://iptv.4666888.xyz/iptv2A.php?id=12
 #EXTINF:-1 tvg-id="廣東衛視" tvg-name="廣東衛視" tvg-logo="" group-title="風雲試看央衛頻道",廣東衛視
 http://iptv.4666888.xyz/iptv2A.php?id=18
-#EXTINF:-1 tvg-id="廣東珠江" tvg-name="廣東珠江" tvg-logo="" group-title="風雲試看央衛頻道",廣東珠江
-http://iptv.4666888.xyz/iptv2A.php?id=19
-#EXTINF:-1 tvg-id="廣東體育" tvg-name="廣東體育" tvg-logo="" group-title="風雲試看央衛頻道",廣東體育
-http://iptv.4666888.xyz/iptv2A.php?id=20
 #EXTINF:-1 tvg-id="湖南衛視" tvg-name="湖南衛視" tvg-logo="" group-title="風雲試看央衛頻道",湖南衛視
 http://iptv.4666888.xyz/iptv2A.php?id=13
 #EXTINF:-1 tvg-id="浙江衛視" tvg-name="浙江衛視" tvg-logo="" group-title="風雲試看央衛頻道",浙江衛視
 http://iptv.4666888.xyz/iptv2A.php?id=14
-#EXTINF:-1 tvg-id="江蘇衛視" tvg-name="江蘇衛視" tvg-logo="" group-title="風雲試看央衛頻道",江蘇衛視
+#EXTINF:-1 tvg-id="湖北卫视" tvg-name="湖北卫视" tvg-logo="" group-title="風雲試看央衛頻道",湖北卫视
 http://iptv.4666888.xyz/iptv2A.php?id=15
-#EXTINF:-1 tvg-id="山西衛視" tvg-name="山西衛視" tvg-logo="" group-title="風雲試看央衛頻道",山西衛視
+#EXTINF:-1 tvg-id="贵州卫视" tvg-name="贵州卫视" tvg-logo="" group-title="風雲試看央衛頻道",贵州卫视
 http://iptv.4666888.xyz/iptv2A.php?id=16
-#EXTINF:-1 tvg-id="青海衛視" tvg-name="青海衛視" tvg-logo="" group-title="風雲試看央衛頻道",青海衛視
-http://iptv.4666888.xyz/iptv2A.php?id=17
-#EXTINF:-1 tvg-id="SPOTV" tvg-name="SPOTV" tvg-logo="" group-title="風雲試看體育頻道",SPOTV
-http://iptv.4666888.xyz/iptv2A.php?id=2
-#EXTINF:-1 tvg-id="SPOTV2" tvg-name="SPOTV2" tvg-logo="" group-title="風雲試看體育頻道",SPOTV2
+#EXTINF:-1 tvg-id="FightSports" tvg-name="FightSports" tvg-logo="" group-title="風雲試看體育頻道",FightSports
 http://iptv.4666888.xyz/iptv2A.php?id=1
-#EXTINF:-1 tvg-id="astroFootball" tvg-name="astroFootball" tvg-logo="" group-title="風雲試看體育頻道",astroFootball
-http://iptv.4666888.xyz/iptv2A.php?id=4
 #EXTINF:-1 tvg-id="TntSports1" tvg-name="TntSports1" tvg-logo="" group-title="風雲試看體育頻道",TntSports1
+http://iptv.4666888.xyz/iptv2A.php?id=2
+#EXTINF:-1 tvg-id="beINSports1" tvg-name="beINSports1" tvg-logo="" group-title="風雲試看體育頻道",beINSports1
 http://iptv.4666888.xyz/iptv2A.php?id=3
-#EXTINF:-1 tvg-id="智林體育" tvg-name="智林體育" tvg-logo="" group-title="風雲試看體育頻道",智林體育
+#EXTINF:-1 tvg-id="NowSports1" tvg-name="NowSports1" tvg-logo="" group-title="風雲試看體育頻道",NowSports1
+http://iptv.4666888.xyz/iptv2A.php?id=11
+#EXTINF:-1 tvg-id="SkysportsF1" tvg-name="SkysportsF1" tvg-logo="" group-title="風雲試看體育頻道",SkysportsF1
+http://iptv.4666888.xyz/iptv2A.php?id=4
+#EXTINF:-1 tvg-id="SkySportsFootball" tvg-name="SkySportsFootball" tvg-logo="" group-title="風雲試看體育頻道",SkySportsFootball
 http://iptv.4666888.xyz/iptv2A.php?id=5
-#EXTINF:-1 tvg-id="JSPORTS1" tvg-name="JSPORTS1" tvg-logo="" group-title="風雲試看體育頻道",JSPORTS1
-http://iptv.4666888.xyz/iptv2A.php?id=6
 #EXTINF:-1 tvg-id="SkyTennis+" tvg-name="SkyTennis+" tvg-logo="" group-title="風雲試看體育頻道",SkyTennis+
-http://iptv.4666888.xyz/iptv2A.php?id=62
-#EXTINF:-1 tvg-id="鳳凰中文" tvg-name="鳳凰中文" tvg-logo="" group-title="風雲試看港澳頻道",鳳凰中文
-http://iptv.4666888.xyz/iptv2A.php?id=27
+http://iptv.4666888.xyz/iptv2A.php?id=6
+#EXTINF:-1 tvg-id="博斯高球1" tvg-name="博斯高球1" tvg-logo="" group-title="風雲試看體育頻道",博斯高球1
+http://iptv.4666888.xyz/iptv2A.php?id=10
+#EXTINF:-1 tvg-id="凤凰中文" tvg-name="凤凰中文" tvg-logo="" group-title="風雲試看港澳頻道",凤凰中文
+http://iptv.4666888.xyz/iptv2A.php?id=19
 #EXTINF:-1 tvg-id="TVB黃金華劇" tvg-name="TVB黃金華劇" tvg-logo="" group-title="風雲試看港澳頻道",TVB黃金華劇
 http://iptv.4666888.xyz/iptv2A.php?id=34
 #EXTINF:-1 tvg-id="TVB翡翠(馬來)" tvg-name="TVB翡翠(馬來)" tvg-logo="" group-title="風雲試看港澳頻道",TVB翡翠(馬來)
@@ -60,7 +52,7 @@ http://iptv.4666888.xyz/iptv2A.php?id=35
 #EXTINF:-1 tvg-id="TVB-獎門人" tvg-name="TVB-獎門人" tvg-logo="" group-title="風雲試看港澳頻道",TVB-獎門人
 http://iptv.4666888.xyz/iptv2A.php?id=31
 #EXTINF:-1 tvg-id="TVB-金曲" tvg-name="TVB-金曲" tvg-logo="" group-title="風雲試看港澳頻道",TVB-金曲
-http://iptv.4666888.xyz/iptv2A.php?id=57
+http://iptv.4666888.xyz/iptv2A.php?id=17
 #EXTINF:-1 tvg-id="RTHK31" tvg-name="RTHK31" tvg-logo="" group-title="風雲試看港澳頻道",RTHK31
 http://iptv.4666888.xyz/iptv2A.php?id=23
 #EXTINF:-1 tvg-id="TVB娛樂新聞" tvg-name="TVB娛樂新聞" tvg-logo="" group-title="風雲試看港澳頻道",TVB娛樂新聞
@@ -69,13 +61,17 @@ http://iptv.4666888.xyz/iptv2A.php?id=36
 http://iptv.4666888.xyz/iptv2A.php?id=32
 #EXTINF:-1 tvg-id="TVB翡翠劇集" tvg-name="TVB翡翠劇集" tvg-logo="" group-title="風雲試看港澳頻道",TVB翡翠劇集
 http://iptv.4666888.xyz/iptv2A.php?id=33
+#EXTINF:-1 tvg-id="TVB-金曲" tvg-name="TVB-金曲" tvg-logo="" group-title="風雲試看港澳頻道",TVB-金曲
+http://iptv.4666888.xyz/iptv2A.php?id=17
 #EXTINF:-1 tvg-id="澳視澳門" tvg-name="澳視澳門" tvg-logo="" group-title="風雲試看港澳頻道",澳視澳門
 http://iptv.4666888.xyz/iptv2A.php?id=41
 #EXTINF:-1 tvg-id="中國電影" tvg-name="中國電影" tvg-logo="" group-title="風雲試看港澳頻道",中國電影
 http://iptv.4666888.xyz/iptv2A.php?id=61
+#EXTINF:-1 tvg-id="创世电视" tvg-name="创世电视" tvg-logo="" group-title="風雲試看港澳頻道",创世电视
+http://iptv.4666888.xyz/iptv2A.php?id=20
 #EXTINF:-1 tvg-id="TVBS新聞" tvg-name="TVBS新聞" tvg-logo="" group-title="風雲試看臺灣頻道",TVBS新聞
 http://iptv.4666888.xyz/iptv2A.php?id=43
-#EXTINF:-1 tvg-id="非凡新聞" tvg-name="非凡新聞" tvg-logo="" group-title="風雲試看臺灣頻道",非凡新聞
+#EXTINF:-1 tvg-id="鏡新聞" tvg-name="鏡新聞" tvg-logo="" group-title="風雲試看臺灣頻道",鏡新聞
 http://iptv.4666888.xyz/iptv2A.php?id=44
 #EXTINF:-1 tvg-id="民視" tvg-name="民視" tvg-logo="" group-title="風雲試看臺灣頻道",民視
 http://iptv.4666888.xyz/iptv2A.php?id=55
