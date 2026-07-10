@@ -13,10 +13,8 @@
 
 # === 🇺🇸 US ===
 
-#EXTINF:-1 tvg-id="KTTV-DT.us_locals1" tvg-name="FOX 4K (Not 24/7)" tvg-logo="http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s28719_dark_360w_270h.png" group-title="FIFA World Cup 2026",FOX 4K (Not 24/7)
-https://idabest.danng.me/live/stream-d316229c-0661-48dc-98ee-0b76b30a3151/index.m3u8?u=gar&p=e0744c4f36a51868827d50f338da6b60a421e7ea12778cce6c0c06c0e9afa4e5
-#EXTINF:-1 tvg-id="WNYW-DT.us_locals1" tvg-name="FOX" tvg-logo="http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s28719_dark_360w_270h.png" group-title="FIFA World Cup 2026",FOX
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/109548
+#EXTINF:-1 tvg-id="KTTV-DT.us_locals1" tvg-name="FOX" tvg-logo="http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s28719_dark_360w_270h.png" group-title="FIFA World Cup 2026",FOX
+http://89.187.179.148:826/anto.j/c9yJDcXyPe/109511
 
 # === 🇨🇦 CA ===
 
@@ -27,7 +25,7 @@ http://89.187.179.148:826/anto.j/c9yJDcXyPe/119334
 
 # === 🇬🇧 UK ===
 
-#EXTINF:-1 tvg-id="BBC.One.EastHD.uk" tvg-name="BBC 4K UK (Not 24/7)" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-one-uk.png?raw=true" group-title="FIFA World Cup 2026",BBC 4K UK (Not 24/7)
+#EXTINF:-1 tvg-id="BBC.One.EastHD.uk" tvg-name="BBC UHD UK (Not 24/7)" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/BBC_UHD.svg" group-title="FIFA World Cup 2026",BBC UHD UK (Not 24/7)
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120330
 #EXTINF:-1 tvg-id="BBC.One.EastHD.uk" tvg-name="BBC One UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-one-uk.png?raw=true" group-title="FIFA World Cup 2026",BBC One UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120265
@@ -38,23 +36,23 @@ http://89.187.179.148:826/anto.j/c9yJDcXyPe/120268
 
 #EXTINF:-1 tvg-id="M6.fr" tvg-name="M6 4K FR (Not 24/7)" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/france/m6-fr.png?raw=true" group-title="FIFA World Cup 2026",M6 4K FR (Not 24/7)
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120338
-#EXTINF:-1 tvg-id="beIN.SPORTS.1.fr" tvg-name="beIN SPORTS 1 FR" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/c/c4/BeINSports1.svg" group-title="FIFA World Cup 2026",beIN SPORTS 1 FR
-http://31.43.191.125:8080/VIP014391751994706511/b425720d22ff/128979
 
 # === 🇩🇪 DE ===
 
-#EXTINF:-1 tvg-id="FUSSBALL.TV.1.de" tvg-name="Fussball.TV 1 4K DE" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/6/61/Sportdigital_Fußball_stacked.svg" group-title="FIFA World Cup 2026",Fussball.TV 1 4K DE
+#EXTINF:-1 tvg-id="FUSSBALL.TV.1.de" tvg-name="MagentaTV FUSSBALL.TV 1 4K DE" tvg-logo="https://static.wikia.nocookie.net/logopedia/images/b/b5/Magenta_TV_2024.svg" group-title="FIFA World Cup 2026",MagentaTV FUSSBALL.TV 1 4K DE
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120339
 
-# === 🇪🇸 ES ===
+# === 🇶🇦 QA ===
 
-#EXTINF:-1 tvg-id="" tvg-name="DAZN Mundial ES" tvg-logo="https://docdog.top/logo/countries/new/es/other/DAZN_MUNDIAL.png" group-title="FIFA World Cup 2026",DAZN Mundial ES
-http://31.43.191.125:8080/VIP014391751994706511/b425720d22ff/158460
+#EXTINF:-1 tvg-id="" tvg-name="beIN SPORTS 4K HDR QA" tvg-logo="https://assets.bein.com/mena/sites/3/2026/05/4K-HDR-200x200-1.png" group-title="FIFA World Cup 2026",beIN SPORTS 4K HDR QA
+http://ip365.cx/CBDD6BBD/A58C2D94/1425814
 
 # === 🇭🇰 HK ===
 
 #EXTINF:-1 tvg-id="Now.Sports.4K.616.hk" tvg-name="NOW Sports 616 4K HK (Not 24/7)" tvg-logo="https://images.now-tv.com/shares/channelPreview/img/zh_tw/color/ch616_160_115" group-title="FIFA World Cup 2026",NOW Sports 616 4K HK (Not 24/7)
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120336
+#EXTINF:-1 tvg-id="Now.Sports.4K.618.hk" tvg-name="NOW Sports 618 HK" tvg-logo="https://images.now-tv.com/shares/channelPreview/img/zh_tw/color/ch618_160_115" group-title="FIFA World Cup 2026",NOW Sports 618 HK
+http://10k.lucastv.pro/bMzUj4zG/eR7gYGT/465863
 
 # === 🇯🇵 JP ===
 
@@ -125,6 +123,8 @@ https://amg01444-tennischannel-amg01444c2-lg-us-959.playouts.now.amagi.tv/ts-us-
 
 # === 🇨🇦 CA ===
 
+#EXTINF:-1 tvg-id="TSN.1.ca2" tvg-name="TSN1 CA" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/canada/tsn-1-ca.png?raw=true" group-title="Tennis",TSN1 CA
+http://89.187.179.148:826/anto.j/c9yJDcXyPe/120273
 #EXTINF:-1 tvg-id="TSN.2.HD.ca2" tvg-name="TSN2 CA" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/canada/tsn-2-ca.png?raw=true" group-title="Tennis",TSN2 CA
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120274
 #EXTINF:-1 tvg-id="TSN.5.HD.ca2" tvg-name="TSN5 CA" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/canada/tsn-5-ca.png?raw=true" group-title="Tennis",TSN5 CA
@@ -132,7 +132,7 @@ http://89.187.179.148:826/anto.j/c9yJDcXyPe/120277
 
 # === 🇬🇧 UK ===
 
-#EXTINF:-1 tvg-id="BBC.One.EastHD.uk" tvg-name="BBC 4K UK (Not 24/7)" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-one-uk.png?raw=true" group-title="Tennis",BBC 4K UK (Not 24/7)
+#EXTINF:-1 tvg-id="BBC.One.EastHD.uk" tvg-name="BBC UHD UK (Not 24/7)" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/BBC_UHD.svg" group-title="Tennis",BBC UHD UK (Not 24/7)
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120330
 #EXTINF:-1 tvg-id="BBC.One.EastHD.uk" tvg-name="BBC One UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-one-uk.png?raw=true" group-title="Tennis",BBC One UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120265
@@ -161,69 +161,6 @@ http://iptv.watchhd.to:5050/didi1909/8mMDqRPor23t/310093
 http://31.43.191.125:8080/VIP014391751994706511/b425720d22ff/136494
 #EXTINF:-1 tvg-id="Sky.Sport.Arena.it" tvg-name="Sky Sport Arena IT" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/italy/sky-sport-arena-it.png?raw=true" group-title="Tennis",Sky Sport Arena IT
 http://31.43.191.125:8080/VIP014391751994706511/b425720d22ff/136478
-
-# === 🇦🇺 AU ===
-
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 01" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 01
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119634
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 02" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 02
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119635
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 03" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 03
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119636
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 04" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 04
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119637
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 05" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 05
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119638
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 06" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 06
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119639
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 07" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 07
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119640
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 08" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 08
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119641
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 09" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 09
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119642
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 10" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 10
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119643
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 11" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 11
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119644
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 12" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 12
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119645
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 13" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 13
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119646
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 14" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 14
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119647
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 15" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 15
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119648
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 16" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 16
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119649
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 17" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 17
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119650
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 18" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 18
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119651
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 19" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 19
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119652
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 20" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 20
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119653
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 21" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 21
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119654
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 22" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 22
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119655
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 23" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 23
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119656
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 24" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 24
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119657
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 25" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 25
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119658
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 26" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 26
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119659
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 27" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 27
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119660
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 28" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 28
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119661
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 29" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 29
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119662
-#EXTINF:-1 tvg-id="" tvg-name="Stan Sport AU 30" tvg-logo="https://garyshare.sharewithyou.dpdns.org/logos/Stan_Sport.svg" group-title="Tennis",Stan Sport AU 30
-http://89.187.179.148:826/anto.j/c9yJDcXyPe/119663
 
 
 
@@ -288,7 +225,7 @@ https://aka-live1050.delivery.roku.com/8d1f9fe3-bb9c-490b-84e7-b88c398c0623/t2-o
 #EXTINF:-1 tvg-id="Bloomberg.HD.us2" tvg-name="Bloomberg TV 4K" tvg-logo="http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s71799_dark_360w_270h.png" group-title="News",Bloomberg TV 4K
 https://d2d98ykcmmhgd4.cloudfront.net/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-3jvz2ljlxc2im/ccec394c-a6c5-4cce-bcd5-ce5b2ed7c2ad/0.m3u8
 #EXTINF:-1 tvg-id="USBA370000104" tvg-name="CBS News 24/7" tvg-logo="http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s104846_dark_360w_270h.png" group-title="News",CBS News 24/7
-https://pddl.sharewithyou.dpdns.org/?play=https://dai.google.com/linear/hls/event/Sid4xiTQTkCT1SLu6rjUSQ/master.m3u8?imafw_csid=vcbs_xumo_ctv_allos_live_cbsnews;imafw__fw_h_referer=com.xumo.app&imafw__fw_did=dpid:&imafw__fw_is_lat=&imafw__fw_vcid2=&imafw__fw_app_bundle=web.xumo.com&imafw_is_lat=
+https://dai.google.com/linear/hls/event/Sid4xiTQTkCT1SLu6rjUSQ/master.m3u8?imafw_csid=vcbs_xumo_ctv_allos_live_cbsnews;imafw__fw_h_referer=com.xumo.app&imafw__fw_did=dpid:&imafw__fw_is_lat=&imafw__fw_vcid2=&imafw__fw_app_bundle=web.xumo.com&imafw_is_lat=
 #EXTINF:-1 tvg-id="Cheddar.us2" tvg-name="Cheddar News" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-states/cheddar-news-us.png?raw=true" group-title="News",Cheddar News
 https://dbrb49pjoymg4.cloudfront.net/manifest/3fec3e5cac39a52b2132f9c66c83dae043dc17d4/prod_default_xumo-ams-aws/62d813dd-2543-4429-a344-f88052261cf1/0.m3u8
 #EXTINF:-1 tvg-id="CNBC.HD.us2" tvg-name="CNBC" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-states/cnbc-us.png?raw=true" group-title="News",CNBC
@@ -1277,7 +1214,7 @@ http://89.187.179.148:826/anto.j/c9yJDcXyPe/36747
 #EXTINF:-1 tvg-id="BBC.One.EastHD.uk" tvg-name="BBC One UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-one-uk.png?raw=true" group-title="UK",BBC One UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/120265
 #EXTINF:-1 tvg-id="BBC.Two.HD.uk" tvg-name="BBC Two UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-two-uk.png?raw=true" group-title="UK",BBC Two UK
-http://rocketfx.uk:8080/henry/henry/508265
+http://163.172.64.96:2017/GBa19qrcQYa3/u2c8FLfgkK/235
 #EXTINF:-1 tvg-id="BBC.Three.HD.uk" tvg-name="BBC Three UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-three-uk.png?raw=true" group-title="UK",BBC Three UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/110054
 #EXTINF:-1 tvg-id="BBC.Four.HD.uk" tvg-name="BBC Four UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/bbc-four-uk.png?raw=true" group-title="UK",BBC Four UK
@@ -1307,11 +1244,11 @@ http://89.187.179.148:826/anto.j/c9yJDcXyPe/98831
 #EXTINF:-1 tvg-id="More4.HD.uk" tvg-name="More4 UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/4-more-uk.png?raw=true" group-title="UK",More4 UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/37141
 #EXTINF:-1 tvg-id="4seven.uk" tvg-name="4seven UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/4-seven-uk.png?raw=true" group-title="UK",4seven UK
-http://s.rocketdns.info:8080/monstercable/Dq6jjknxCr/89380
+http://89.187.179.148:826/anto.j/c9yJDcXyPe/98856
 #EXTINF:-1 tvg-id="Channel.5.HD.uk" tvg-name="Channel 5 UK" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Channel_5_2025.svg/250px-Channel_5_2025.svg.png" group-title="UK",Channel 5 UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/98847
 #EXTINF:-1 tvg-id="5ACTION.uk" tvg-name="5ACTION UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/5-action-uk.png?raw=true" group-title="UK",5ACTION UK
-http://rocketfx.uk:8080/henry/henry/508314
+http://redfoxx.vip/FG803300F12D2/ncWUsGr/117736
 #EXTINF:-1 tvg-id="5SELECT.uk" tvg-name="5SELECT UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/5-select-uk.png?raw=true" group-title="UK",5SELECT UK
 http://iptv.watchhd.to:5050/didi1909/8mMDqRPor23t/534722
 #EXTINF:-1 tvg-id="5STAR.uk" tvg-name="5STAR UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/5-star-uk.png?raw=true" group-title="UK",5STAR UK
@@ -1321,7 +1258,7 @@ http://163.172.64.96:2017/GBa19qrcQYa3/u2c8FLfgkK/247
 #EXTINF:-1 tvg-id="QUEST.HD.uk" tvg-name="Quest UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/quest-uk.png?raw=true" group-title="UK",Quest UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/110055
 #EXTINF:-1 tvg-id="S4C.uk" tvg-name="S4C UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/s4c-uk.png?raw=true" group-title="UK",S4C UK
-http://rocketfx.uk:8080/henry/henry/2111
+http://163.172.64.96:2017/GBa19qrcQYa3/u2c8FLfgkK/269
 #EXTINF:-1 tvg-id="Sky.Arts.HD.uk" tvg-name="Sky Arts UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/sky-arts-uk.png?raw=true" group-title="UK",Sky Arts UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/98808
 #EXTINF:-1 tvg-id="Sky.Atlantic.HD.uk" tvg-name="Sky Atlantic UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/sky-atlantic-uk.png?raw=true" group-title="UK",Sky Atlantic UK
@@ -1333,13 +1270,13 @@ http://89.187.179.148:826/anto.j/c9yJDcXyPe/110063
 #EXTINF:-1 tvg-id="Sky.Documentaries.HD.uk" tvg-name="Sky Documentaries UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/sky-documentaries-uk.png?raw=true" group-title="UK",Sky Documentaries UK
 http://163.172.64.96:2017/GBa19qrcQYa3/u2c8FLfgkK/326
 #EXTINF:-1 tvg-id="Sky.HistoryHD.uk" tvg-name="Sky History UK" tvg-logo="https://images.contentstack.io/v3/assets/blt4b099fa9cc3801a6/blt467e51d5beb5a140/Sky_History_Tile_Logo_RGB.png" group-title="UK",Sky History UK
-http://iptv.watchhd.to:5050/didi1909/8mMDqRPor23t/304888
+http://redfoxx.vip/FG803300F12D2/ncWUsGr/275677
 #EXTINF:-1 tvg-id="Sky.History2.uk" tvg-name="Sky History 2 UK" tvg-logo="https://images.contentstack.io/v3/assets/blt4b099fa9cc3801a6/blt3fd0293e4d82a7fd/Sky_History2_Tile_Logo_RGB.png" group-title="UK",Sky History 2 UK
 http://redfoxx.vip/FG803300F12D2/ncWUsGr/275677
 #EXTINF:-1 tvg-id="Sky.Kids.HD.uk" tvg-name="Sky Kids UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/sky-kids-uk.png?raw=true" group-title="UK",Sky Kids UK
 http://redfoxx.vip/FG803300F12D2/ncWUsGr/435574
 #EXTINF:-1 tvg-id="Sky.Mix.HD.uk" tvg-name="Sky Mix UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/sky-mix-uk.png?raw=true" group-title="UK",Sky Mix UK
-http://ahhshitherewegoagain.sytes.net:2096/Shawnda/3741562890/825568
+http://dmtn-tv.com:8080//aminefr22/aYJudnT/533381
 #EXTINF:-1 tvg-id="Sky.Nature.HD.uk" tvg-name="Sky Nature UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/sky-nature-uk.png?raw=true" group-title="UK",Sky Nature UK
 http://163.172.64.96:2017/GBa19qrcQYa3/u2c8FLfgkK/327
 #EXTINF:-1 tvg-id="Sky.One.HD.uk" tvg-name="Sky One UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/sky-one-uk.png?raw=true" group-title="UK",Sky One UK
@@ -1369,7 +1306,7 @@ http://163.172.64.96:2017/GBa19qrcQYa3/u2c8FLfgkK/353
 #EXTINF:-1 tvg-id="Racing.TV.HD.uk" tvg-name="Racing TV UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/racing-tv-uk.png?raw=true" group-title="UK",Racing TV UK
 http://89.187.179.148:826/anto.j/c9yJDcXyPe/37186
 #EXTINF:-1 tvg-id="STV.HD.uk" tvg-name="STV UK" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-kingdom/stv-uk.png?raw=true" group-title="UK",STV UK
-http://rocketfx.uk:8080/henry/henry/609842
+http://s.rocketdns.info:8080/live/monstercable/Dq6jjknxCr/2168.ts
 
 
 
@@ -1389,7 +1326,7 @@ https://dbrb49pjoymg4.cloudfront.net/manifest/3fec3e5cac39a52b2132f9c66c83dae043
 #EXTINF:-1 tvg-id="99951510" tvg-name="Bowling TV" tvg-logo="https://provider-static.plex.tv/epg/cms/production/573ed04e-775e-41c9-a367-81b9597eff00/Channel_Logo_Color_Evann_D___AdamoRDX_WHT_LETTERS.png" group-title="Sports - FAST",Bowling TV
 https://d38d8jwr5u7ckx.cloudfront.net/v1/manifest/2235ea0b65a152869ea53a8429808cfe476767a6/test-xumo-linear-main-hlsv3-ams/e4585438-345e-4df5-969b-267de476a01f/4.m3u8
 #EXTINF:-1 tvg-id="US100000704" tvg-name="CBS Sports Golazo Network" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/countries/united-states/cbs-sports-golazo-network-us.png?raw=true" group-title="Sports - FAST",CBS Sports Golazo Network
-https://pddl.sharewithyou.dpdns.org/?play=https://jmp2.uk/stvp-US100000704
+https://jmp2.uk/stvp-US100000704
 #EXTINF:-1 tvg-id="400000285" tvg-name="Cowboy+ Sports" tvg-logo="https://image-resizer-cloud-cdn.api.cms.amdvids.com/image/4C6109C1-6E34-4433-96E0-C5CC5C1061E0/3-1x1.png" group-title="Sports - FAST",Cowboy+ Sports
 https://s11host2.localnow.api.cms.amdvids.com/v1/manifest/c189661feba961c19bc5fb60b57879ee9b84548a/config13/6734bc78-b4d5-4d7c-95d1-f1c29f5ae1a7/4.m3u8
 #EXTINF:-1 tvg-id="GBBD30000038U" tvg-name="DAZN Ringside" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/dazn_ringside._SL500_FMpng_.png" group-title="Sports - FAST",DAZN Ringside
@@ -1464,7 +1401,7 @@ https://pb-0ix3l1oxmg1fj.akamaized.net/v1/manifest/3722c60a815c199d9c0ef36c5b73d
 #EXTINF:-1 tvg-id="6a1610bebdf296985fd95603-65622ac05dbccec83a87b641" tvg-name="BBC Sci-Fi" tvg-logo="https://provider-static.plex.tv/epg/cms/production/3b627a5e-4c24-4f70-8392-f6d7c5080bee/BBC_SCI-FI_PLEX_BRAND_CHANNEL_Logo_Light_1500X1000_Caitlin_Schiffer.png" group-title="Movies - FAST",BBC Sci-Fi
 https://epg.provider.plex.tv/library/parts/5e20b730f2f8d5003d739db7-65622ac05dbccec83a87b641/variant.m3u8?x-plex-token=zPQn-mNFH5sitpJ_6wKf&x-plex-advertising-identifier=&x-plex-client-identifier=017561b89d3740e79adb8eef5ba88198&x-plex-playback-id=p_14078943-9739-4ceb-9cf5-beedee0ef59a&x-plex-playback-session-id=&x-plex-session-id=&x-plex-device=&x-plex-device-name=Plex+Web&x-plex-advertising-donottrack=0&x-plex-drm=&x-plex-model=&x-plex-platform=Web&x-plex-platform-version=&x-plex-product=Plex+Web&x-plex-device-screen-resolution=&x-plex-device-vendor=&x-plex-version=4.150.0&x-plex-provider-streaming-start=1776701977&url=65381c2e7d520e39c402cb293ef296f8-3d86e8ef26f15bd4928c8926e423cc587d3735742f05ec762c8be9779c46f06620e23acb51c97ede2e597e912ee2217e627a30b48aa9fdf048d033fb5eaf5c1ff39fd97b22559683e73f1da0c4919c19fcf6511ef56eb2e0215cb488d0b54ef927333677143cea62720dbfadc5bdb308eb5724ca03869b38d50ae7f0f99b617e0778e868e311142ee5a720a239cfbbc4bbd6e0b3f628422f019c08db8d7af421df0edeb8755956d03446923fa628b039f344ccb0e4c842b3aa8aa1c044ff4807&X-Plex-Token=zPQn-mNFH5sitpJ_6wKf&redirectedFromV6=1
 #EXTINF:-1 tvg-id="USBC450000130" tvg-name="BET Pluto TV" tvg-logo="https://static.wikia.nocookie.net/pluto-tv/images/3/34/BETPTV.svg/revision/latest/smart/width/386/height/259?cb=20220805120037" group-title="Movies - FAST",BET Pluto TV
-https://pddl.sharewithyou.dpdns.org/?play=https://jmp2.uk/stvp-USBC450000130
+https://jmp2.uk/stvp-USBC450000130
 #EXTINF:-1 tvg-id="US2500009PQ" tvg-name="BET x Tyler Perry Comedy" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/tyler_perry_comedy._SL500_FMpng_.png" group-title="Movies - FAST",BET x Tyler Perry Comedy
 https://d3vmpkkd3o2grv.cloudfront.net/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-0l5146z4a61ea/d781f4e4-9c34-4042-977e-42e40289ad73/0.m3u8
 #EXTINF:-1 tvg-id="US2500008CV" tvg-name="BET x Tyler Perry Drama" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/tyler_perry_drama._SL500_FMpng_.png" group-title="Movies - FAST",BET x Tyler Perry Drama
@@ -1480,7 +1417,7 @@ https://wurlgameshownetwork.global.transmit.live/us-west-2-b/manifest/68d16fc891
 #EXTINF:-1 tvg-id="USAK3508709A" tvg-name="CINEVAULT: Westerns" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/cinevault_westerns._SL170_FMpng_.png" group-title="Movies - FAST",CINEVAULT: Westerns
 https://wurlgameshownetwork.global.transmit.live/us-west-2-b/manifest/68d173430531b397b61a7794/aa75e614-5f0f-4cc5-86c2-b955d6282811/v1/gsn_cinevault_westerns_1/lg_us/latest/main/hls/video-avc1.640029-mp4a.40.2-3.m3u8?appname=%5BAPP_NAME%5D&appstoreurl=%5BAPP_STOREURL%5D&appversion=%5BAPP_VERSION%5D&bundleid=%5BAPP_BUNDLE%5D&coppa=0&country=%5BCOUNTRY%5D&dnt=%5BLMT%5D&donotsell=%5BDNS%5D&dt=%5BDEVICE_TYPE%5D&fck=%5BFCK%5D&gdpr=%5BGDPR_CONSENT%5D&h=720&ifatype=%5BIFA_TYPE%5D&isgdpr=%5BGDPR%5D&make=%5BDEVICE_MAKE%5D&model=%5BDEVICE_MODEL%5D&nonce=%5BNONCE%5D&playlistUri=https%253A%252F%252F9d3b46a9.wurl.com%252Fv1%252Fgsn_cinevault_westerns_1%252Flg_us%252FV00000002%252F0%252FHLS%252Fplaylist_3000k_20260422T150912.m3u8&pr=%5BUS_PRIVACY%5D&rdid=%5BIFA%5D&sessionStart=1778522251275&streamPath=v1%2Fgsn_cinevault_westerns_1%2Flg_us%2Flatest%2Fmain%2Fhls%2Fplaylist.m3u8&targetad=%5BTARGETAD_ALLOWED%5D&uid=%5BDEVICE_ID%5D&viewsize=%5BVIEWSIZE%5D&w=1280&wurl_channel=690&wurl_name=CinevaultWesterns
 #EXTINF:-1 tvg-id="6a1610bebdf296985fd95603-69d93cda8061ebfbca58c326" tvg-name="Classic Cinema" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/Freevee_ClassicCinema_1920x1080._SL500_FMpng_.png" group-title="Movies - FAST",Classic Cinema
-https://pddl.sharewithyou.dpdns.org/?play=https://epg.provider.plex.tv/library/parts/6a1610bebdf296985fd95603-69d93cda8061ebfbca58c326/?X-Plex-Token=dAYoFUSyJjgxzVPGJASM
+https://epg.provider.plex.tv/library/parts/6a1610bebdf296985fd95603-69d93cda8061ebfbca58c326/?X-Plex-Token=dAYoFUSyJjgxzVPGJASM
 #EXTINF:-1 tvg-id="US25000075Y" tvg-name="CW Forever" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/cw_forever._SL500_FMpng_.png" group-title="Movies - FAST",CW Forever
 https://d1sknsnbkyvie.cloudfront.net/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-sbcl5hxexbihh/38ec3205-dcc5-4c0f-a047-917eb2054891/0.m3u8
 #EXTINF:-1 tvg-id="US25000063S" tvg-name="CW Gold" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/cw_fold._SL500_FMpng_.png" group-title="Movies - FAST",CW Gold
@@ -1643,13 +1580,13 @@ https://amg02333-pbs-amg02333c10-lg-gb-3238.playouts.now.amagi.tv/ts-eu-w1-n2/pl
 #EXTINF:-1 tvg-id="USBB3200001MG" tvg-name="REELZ Famous & Infamous" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/ReelzFASTChannel_StationLogoArt_3840x2160_1._SL500_FMpng_.png" group-title="Docs - FAST",REELZ Famous & Infamous
 https://pb-pskpwdav4v1e3.akamaized.net/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/pb-pskpwdav4v1e3/285d2802-77e5-459a-950e-c055bd2ace07/0.m3u8
 #EXTINF:-1 tvg-id="5f21ea08007a49000762d349" tvg-name="Smithsonian Channel Selects" tvg-logo="https://github.com/tv-logo/tv-logos/blob/main/misc/vod/smithsonian-channel-selects-vod.png?raw=true" group-title="Docs - FAST",Smithsonian Channel Selects
-https://pddl.sharewithyou.dpdns.org/?play=https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8
+https://jmp2.uk/plu-5f21ea08007a49000762d349.m3u8
 #EXTINF:-1 tvg-id="6a1610bebdf296985fd95603-69d93c22a5c870fb1e88f871" tvg-name="Space & Beyond" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/Freevee_SpaceBeyond_1920x1080_new._SL500_FMpng_.png" group-title="Docs - FAST",Space & Beyond
 https://amg00136-wbd-amg00136c83-lg-us-9807.playouts.now.amagi.tv/ts-us-w2-n2/playlist/amg00136-warnerbrothersdiscovery-spaceandbeyond-lgus/cb543d1e736c648898d43d62d6ef47a5f9591fde1d6988693eb5518975d1073edce2a59caa08ff16388f1ede7f0a66413a3e951fda77118fd87eb141453c5728cfffe729a2c05616b7db083429b56a062a866a68ac39437ed0e21f48a238b6720a5aa82a66443d80b846ac7250db80148b61299bce8c37683f03409a5e5afba358b1ebe158458e64f4b81f55967945b19f43c8821da6d18509995e8e23a410ce9aa58f8216848f9b729369e3301a1626788f897a96c45cbddfe80653f14a0c63287cc586acd36f17a37a191d9291cabb76b117cb9f2c826523a2109d3deb5ae7508e2c91c86d85928fe6726404feb6310626a4f6ee86fa2141da0c9e99c5f04741c3b27e1446cd7e96362a2a97f8df1580b161fcc418b1955b3a1df4b061a4bc9eafc087a86ea17f8bad9a993951006214129058b08964d427af17c2a328006c7d7b9bbf67f7aff6700d383dece75fd00055b0dd8af1b8645ef1493d7bd53aa731696dc827227ef023fd9639658d5464ef5906da6805bf60c99608d982e6bf7b51d9dfc351b16beaa303d1f30bad1f51336988d609696c6f58efc742306a02a92ee5d7d9af761910e2f6c0fbb23f526d0236623cb4ccc65dbeb39a597770c057352e7d0065f06eb252f630745a5aa376d2a81a3a8202313f94cf553b614bb2f883bcdd95a02bb47bc081fa3d3f295a6cb32000287aa1c6e737c61f6f4e4862a3204a7098296e7fb0e9a38998847d808a6daf2f711d79c0827b2b6369454a2faca341ed7bdfc965d3f6cb58dfa1891d4b8a28b0041c92a2bb069dd6a5e97c32cad83d7e6693c069c37026b570be4eb3f453f38d0f7d7657414cd1c05df95eadc68ac259f646c7742a58cb478fa5d396eb3c158dfe4b37204754076f4162231ebdcfc768720b86d21cc76dd6d4669d6d66160a75f2bf5a21ec8576188f7b6b73b5b2c29dacc91a62a404984efc533c96652418c0ef01d7d9f19995866b474eddb3bd45b8a4858ec8d3c6540e61020bbfe4697c54fd19dda323c48120269ae3e3e4de7dd972eb23b5f6df4483078ee4922d8badc78e9111165a4919e9c0859c7ebf873f648621a12746199899aaf76aeed4a8156198368aec3c4d810b5069fb92c636c841c08eb8817ae5133be04770acd5f12f08cd20e713267ce5c8921c43a5a121b23d56116a6d36e12611f65356218d71ff95b66a6e9bdc596003ab638feb06070d22f819f28cb21fbd198ec9ee1de9e01643c5336fb713b1e5ad9260298d008d00057218c5cd7aa8b805e2ffc5bcfbab6825efc00518f600f018f90dfa99dea876f408219d619f4c36fd9fc4a89ca58796dfcf125f2f9346b000dc39cf95fedf26504a32f5270f6704b05dcf020256d4e350c9ac4225c6fdf511cc0b510a5340628149f0cc5b18051088e07c8fd425373a3b7ebb9574c279de72028a5378aa092f434f75356f96d79c4b9079a634db927e0fea82bba75c978f37cc938be3fa0448f55b284a478ea4cdf6f44426f78085813f0bd0b9365571f1c4e32dbcb962cc3daba967ca869ee17e36b533a0/123/1920x1080_5058864/index.m3u8
 #EXTINF:-1 tvg-id="USBD2700013UK" tvg-name="Swamp People" tvg-logo="https://s9.gifyu.com/images/SaikE.png" group-title="Docs - FAST",Swamp People
 https://pb-fbdfahhani6sz.akamaized.net/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/pb-fbdfahhani6sz/7ca5462c-19e6-411d-ba70-d2eb8fb7eff7/3.m3u8
 #EXTINF:-1 tvg-id="US3900016OI" tvg-name="The Judge Judy Channel" tvg-logo="https://images.pluto.tv/channels/622f498d119b4c000719c0b7/logo.png" group-title="Docs - FAST",The Judge Judy Channel
-https://pddl.sharewithyou.dpdns.org/?play=https://amd-mediator-eolq3tk4la-uk.a.run.app/cbs/map.m3u8?imafw_csid=desktop_web&imafw__fw_did=&imafw__fw_is_lat=&imafw__fw_vcid2=&imafw__fw_app_bundle=&imafw__fw_us_privacy=1YNY&attmas=not_determined&am.originUrl=https%3A%2F%2Fdai.google.com%2Flinear%2Fhls%2Fevent%2FbRE69gQJQm2_cW4qnf6okg%2Fmaster.m3u8&page_url=https%25253A%25252F%25252Flocalnow.com%25252Fchannels%25252Fcbs-news-chicago-hyperlocal&ua=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F122.0.0.0%20Safari%2F537.36&width=1920&app_version=0.0.0&height=1080&ip_addr=185.217.168.164
+https://amd-mediator-eolq3tk4la-uk.a.run.app/cbs/map.m3u8?imafw_csid=desktop_web&imafw__fw_did=&imafw__fw_is_lat=&imafw__fw_vcid2=&imafw__fw_app_bundle=&imafw__fw_us_privacy=1YNY&attmas=not_determined&am.originUrl=https%3A%2F%2Fdai.google.com%2Flinear%2Fhls%2Fevent%2FbRE69gQJQm2_cW4qnf6okg%2Fmaster.m3u8&page_url=https%25253A%25252F%25252Flocalnow.com%25252Fchannels%25252Fcbs-news-chicago-hyperlocal&ua=Mozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F122.0.0.0%20Safari%2F537.36&width=1920&app_version=0.0.0&height=1080&ip_addr=185.217.168.164
 #EXTINF:-1 tvg-id="US4100034UO" tvg-name="The Wicked Tuna Channel" tvg-logo="https://m.media-amazon.com/images/G/01/digital/video/Linear_Clean_Slate/Carbon_Integration_Station_Image_Update/WickedTuna_FreeVee_UK_Logo_1920x1080._SL170_FMpng_.png" group-title="Docs - FAST",The Wicked Tuna Channel
 https://amg00353-amg00353c55-amgplt0023.playout.now3.amagi.tv/ts-us-e2-n1/playlist/amg00353-amg00353c55-amgplt0023/d69b0ec4-5de4-11f1-84eb-debcc0a19a0a/186/1920x1080_6046040/index.m3u8
 #EXTINF:-1 tvg-id="6a1610bebdf296985fd95603-66a1abb19101f360242499aa" tvg-name="Welcome Home" tvg-logo="https://m.media-amazon.com/images/G/01/LCXO_Station_Logos/Freevee_WelcomeHome_1920x1080_wht._SL500_FMpng_.png" group-title="Docs - FAST",Welcome Home
