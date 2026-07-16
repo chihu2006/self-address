@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      URL: "https://garyshare.sharewithyou.dpdns.org/garyshare_rules.m3u"
+      URL: "https://garyshare.sharewithyou.dpdns.org/garyshare_goal.m3u"
       OUTPUT: "rawaddress/gary.m3u"
 
     steps:
